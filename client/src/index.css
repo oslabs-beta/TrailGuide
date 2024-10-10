@@ -1,0 +1,62 @@
+/* index.css */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #282c34;
+  color: white;
+}
+
+.logo {
+  flex-grow: 1;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  position: relative;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  display: none; /* Initially hidden */
+}
+
+.dropdown.open {
+  display: block; /* Show when open */
+}
+
+.dropdown-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-link:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
