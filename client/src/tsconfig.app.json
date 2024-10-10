@@ -14,8 +14,10 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "removeComments": true
   },
-  "include": ["**/*.ts", "**/*.tsx"], 
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"] // Optional, but good practice
 }
