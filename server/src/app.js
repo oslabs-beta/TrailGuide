@@ -3,7 +3,7 @@ import ViteExpress from 'vite-express';
 
 import router from './routes.js';
 
-const PORT = process.env || 8080;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
