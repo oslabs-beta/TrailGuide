@@ -7,10 +7,10 @@
     "dev": "nodemon src/app.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.1691.0",
-    "dotenv": "^16.4.5",
-    "express": "~4.16.1"
-  },
+  "@aws-sdk/client-cloudtrail": "^3.583.0",
+  "dotenv": "^16.4.5",
+  "express": "~4.16.1"
+},
   "devDependencies": {
     "nodemon": "^3.1.7"
   }
