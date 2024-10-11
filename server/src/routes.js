@@ -1,5 +1,6 @@
 import express from 'express';
-import AWS from '../config/awsConfig.js';
+import express from 'express';
+import AWS from './config/awsConfig.js';
 
 const router = express.Router();
 const cloudtrail = new AWS.CloudTrail();
@@ -25,4 +26,4 @@ router.post('/cloudtrail/submit', (req, res) => {
   res.send('POST request to /cloudtrail/submit');
 });
 
-module.exports = router;
+export default router;

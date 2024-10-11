@@ -11,6 +11,11 @@ ENV NODE_ENV=development
 
 # Mostly config files (do them first because they change so infrequently)
 COPY *.json ./
+# have to do it this way because the package-lock was creating errors for npm install, 
+# --exclude flag could be used when available in current docker version
+# TODO: fix bug with package-lock error (should be installing from package-lock for 'integrity')
+# Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+RUN rm -f package-lock.json 
 COPY *.ts ./
 COPY *.js ./
 # this line is creating an issue when we later try to copy server/src to ./server/src
