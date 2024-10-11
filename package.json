@@ -4,14 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development node server/src/app.js",
+    "dev": "NODE_ENV=development nodemon server/src/app.js",
     "build": "tsc -b && vite build",
     "start": "tsc -b && vite build && NODE_ENV=production node server/src/app.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "aws-sdk": "^2.1691.0",
+    "@aws-sdk/client-cloudtrail": "^3.583.0",
     "dotenv": "^16.4.5",
     "express": "~4.16.1",
     "react": "^18.3.1",
