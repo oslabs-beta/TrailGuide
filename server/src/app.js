@@ -15,4 +15,9 @@ ViteExpress.listen(app, PORT, async () => {
   const { root, base } = await ViteExpress.getViteConfig();
   console.log(`Serving app from root ${root}`);
   console.log(`Server is listening at http://localhost:${PORT}${base}`);
+  console.log();
+  console.log(
+    '>>======================================================================<<'
+  );
+  console.log();
 });
