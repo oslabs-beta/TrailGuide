@@ -6,7 +6,6 @@ import TestPieChart from './components/charts/PieChart.tsx';
 //import Profile from './pages/Profile';
 //import EventsDashboard from './pages/EventsDashboard';
 
-
 const App: React.FC = () => {
   return (
     <Router>
@@ -24,6 +23,8 @@ const App: React.FC = () => {
 
 export default App;
 
-{/* <Route path="/" element={<Home />} />
+{
+  /* <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/events" element={<EventsDashboard />} /> */}
+        <Route path="/events" element={<EventsDashboard />} /> */
+}
