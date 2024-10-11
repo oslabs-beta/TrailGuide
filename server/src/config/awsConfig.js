@@ -1,5 +1,5 @@
-const { CloudTrailClient } = require('@aws-sdk/client-cloudtrail');
-require('dotenv').config();
+import { CloudTrailClient } from '@aws-sdk/client-cloudtrail';
+import 'dotenv/config';
 
 // Initialize AWS SDK v3 CloudTrail client
 const cloudtrailClient = new CloudTrailClient({
@@ -10,4 +10,4 @@ const cloudtrailClient = new CloudTrailClient({
   },
 });
 
-module.exports = cloudtrailClient;
+export default cloudtrailClient;

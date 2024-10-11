@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import cloudtrailClient from './config/awsConfig.js';
+import { LookupEventsCommand } from '@aws-sdk/client-cloudtrail';
+
 const router = express.Router();
-const { LookupEventsCommand } = require('@aws-sdk/client-cloudtrail');
-const cloudtrailClient = require('../config/awsConfig');
 
 router.get('/cloudtrail/events', async (req, res) => {
   try {
@@ -18,4 +19,4 @@ router.post('/cloudtrail/submit', (req, res) => {
   res.send('POST request to /cloudtrail.submit');
 });
 
-module.exports = router;
+export default router;

@@ -1,13 +1,18 @@
+import express from 'express';
+import ViteExpress from 'vite-express';
 
-const express = require('express');
+import router from './routes.js';
+
+const PORT = process.env.PORT || 8080;
+
 const app = express();
-const routes = require('./routes/routes');
 
 app.use(express.json());
 
-app.use('/api', routes);
+app.use('/api', router);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+ViteExpress.listen(app, PORT, async () => {
+  const { root, base } = await ViteExpress.getViteConfig();
+  console.log(`Serving app from root ${root}`);
+  console.log(`Server is listening at http://localhost:${PORT}${base}`);
 });
