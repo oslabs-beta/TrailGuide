@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development node server/src/app.js",
+    "dev": "NODE_ENV=development nodemon server/src/app.js",
     "build": "tsc -b && vite build",
     "start": "tsc -b && vite build && NODE_ENV=production node server/src/app.js",
     "lint": "eslint .",
