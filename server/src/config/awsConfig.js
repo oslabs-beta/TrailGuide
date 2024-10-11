@@ -1,11 +1,6 @@
 //It imports the aws-sdk package and loads environment variables (dotenv) for secure access keys.
-
-//imports the aws-sdk package
-const AWS = require('aws-sdk');
-
-require('dotenv').config();
-
-//console.log(process.env.AWS_ACCESS_KEY_ID);
+import AWS from 'aws-sdk';
+import 'dotenv/config';
 
 //The AWS.config.update() method sets up the AWS credentials
 
@@ -15,5 +10,4 @@ AWS.config.update({
   region: process.env.AWS_REGION,
 });
 
-//exports the AWS object from the file (awsconfig.js) so that other files can use it.
-module.exports = AWS;
+export default AWS;
