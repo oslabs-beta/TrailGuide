@@ -16,12 +16,12 @@ const Navbar: React.FC = () => {
 
   return (
     <nav>
+      <Link to="/" className="logo">
+        TrailGuide
+      </Link>
       <button className="nav-button" onClick={toggleDropdown}>
         User Profile
       </button>
-      <Link to="/" className="Logo">
-        TrailGuide
-      </Link>
       <button className="nav-button">Events DashBoard</button>
 
       <div className={`dropdown ${dropdownOpen ? 'open' : ''}`}>

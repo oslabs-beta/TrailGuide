@@ -7,28 +7,29 @@ body {
 
 nav {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-around;
+  align-items:center;
   padding: 1rem;
   background-color: #282c34;
-  color: white;
+  color: rgba(255, 255, 255, 0.879);
 }
 
 .logo {
   flex-grow: 1;
-  text-align: center;
   text-decoration: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.858);
   font-size: 1.5rem;
+  font-family: Helvetica, sans-serif;
+  font-weight: 900;
 }
 
 .nav-button {
   background: none;
   border: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.914);
   cursor: pointer;
   padding: 0.5rem 1rem;
-  position: relative;
+  position:relative;
 }
 
 .nav-button:hover {
@@ -39,7 +40,7 @@ nav {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: white;
+  background-color: rgba(249, 246, 246, 0.917);
   color: black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -59,4 +60,16 @@ nav {
 
 .dropdown-link:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+  min-width: 25rem;
+  width: fit-content;
+  height: 30rem;
+  border-radius: 20px ;
+  box-shadow: 0.1rem -0.1rem 2rem .1rem #282c34;
+  text-align:center;
+  align-content:center;
 }
