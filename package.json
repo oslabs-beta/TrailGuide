@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "start": "ws -p 8080 -d dist --spa",
+    "start": "ws --port 8080 --spa index.html --directory dist --hostname localhost",
     "lint": "eslint .",
     "preview": "vite preview"
   },
