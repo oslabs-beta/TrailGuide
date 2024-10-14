@@ -15,6 +15,9 @@ export interface CardProps {
   children: React.ReactNode;
 }
 
+
+
+
 /**
  * =================================
  * SERVER TYPES

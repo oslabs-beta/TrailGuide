@@ -1,5 +1,3 @@
-/* index.css */
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -8,7 +6,7 @@ body {
 nav {
   display: flex;
   justify-content: space-around;
-  align-items:center;
+  align-items: center;
   padding: 1rem;
   background-color: #282c34;
   color: rgba(255, 255, 255, 0.879);
@@ -29,7 +27,7 @@ nav {
   color: rgba(255, 255, 255, 0.914);
   cursor: pointer;
   padding: 0.5rem 1rem;
-  position:relative;
+  position: relative;
 }
 
 .nav-button:hover {
@@ -62,14 +60,48 @@ nav {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.card{
+.nav-button,
+.dropdown-link {
+  transition: background-color 0.3s ease;
+}
+
+.card {
   display: flex;
   flex-direction: column;
   min-width: 25rem;
   width: fit-content;
-  height: 30rem;
-  border-radius: 20px ;
-  box-shadow: 0.1rem -0.1rem 2rem .1rem #282c34;
-  text-align:center;
-  align-content:center;
+  height: 30rem; /* Ensure sufficient height for the card */
+  border-radius: 20px;
+  box-shadow: 0.1rem -0.1rem 2rem 0.1rem #282c34;
+  text-align: center;
+  align-content: center;
+  overflow: hidden; /* Hide any overflow content */
+}
+
+.heatmap-container {
+  width: 100%;
+  height: 400px; /* Adjust as needed */
+  border: 1px solid #ccc; /* Optional for better visibility */
+}
+
+
+.map {
+  width: 100%; /* Ensure the map takes the full width of the container */
+  height: 100%; /* Ensure the map takes the full height of the container */
+  max-height: 100%; /* Prevent overflow */
+}
+
+.card {
+  overflow: auto;
+}
+
+@media (max-width: 600px) {
+  .card {
+    min-width: 100%;
+    height: auto; /* Allow height to adjust based on content */
+  }
+
+  nav {
+    flex-direction: column; /* Stack nav items on top of each other */
+  }
 }
