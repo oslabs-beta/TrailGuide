@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  background-color: rgb(240, 238, 238); /* Dark mode background */
 }
 
 nav {
@@ -8,7 +9,7 @@ nav {
   justify-content: space-around;
   align-items: center;
   padding: 1rem;
-  background-color: #282c34;
+  background-color: #282c34; /* Dark mode nav background */
   color: rgba(255, 255, 255, 0.879);
   position: relative;
 }
@@ -39,7 +40,7 @@ nav {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: rgba(249, 246, 246, 0.917);
+  background-color: rgba(249, 246, 246, 0.917); /* Light mode background */
   color: black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -101,7 +102,7 @@ nav {
 }
 
 .event-card {
-  background-color: #fff;
+  background-color: #ece9e9; /* Light mode background */
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
@@ -114,6 +115,56 @@ nav {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Dark Mode Styles */
+.dark-mode {
+  background-color: rgb(35, 35, 35); /* Dark mode background */
+}
+
+.dark-mode nav {
+  background-color: #1c1f24; /* Dark mode nav background */
+}
+
+.dark-mode .dropdown {
+  background-color: rgba(30, 30, 30, 0.9); /* Dark mode dropdown background */
+  color: white; /* Dark mode text color */
+}
+
+.dark-mode .dropdown-link {
+  color: white; /* Dark mode link color */
+}
+
+.dark-mode .card {
+  background-color: #474747; /* Dark mode background */
+  color: lightgray; /* Light gray text for readability */
+}
+
+.dark-mode .card-title {
+  background-color: #474747;
+  color: rgb(228, 225, 225); /* Light gray title color in dark mode */
+}
+
+.dark-mode .event-card {
+  background-color: #4a4a4a; /* Dark mode event card background */
+  border: 1px solid #444; /* Dark mode card border */
+  color: rgb(229, 227, 227); /* Light gray font color for better readability */
+}
+
+.dark-mode .modal {
+  background: #2c2c2c; /* Dark mode background */
+  color: lightgray; /* Light gray text for readability */
+}
+
+.dark-mode .modal-header {
+  border-bottom: 1px solid #444; /* Dark mode border */
+}
+
+.dark-mode .raw-json-container {
+  background-color: #3a3a3a; /* Dark mode background */
+  color: lightgray; /* Light gray text */
+}
+
+
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -124,13 +175,46 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999; /* Ensure it is above other content */
+}
+
+.modal {
+  background: #ffffff; /* Light mode modal background */
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  width: 90%; /* Adjust width as needed */
+  max-width: 600px; /* Maximum width for larger screens */
+  overflow: hidden; /* Prevent overflow */
+}
+
+.modal-header {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  width: 300px;
+  padding: 16px;
+  max-height: 400px; /* Set maximum height for scrollable content */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.raw-json-container {
+  max-height: 300px; /* Set a maximum height for the scrollable box */
+  overflow-y: auto; /* Enable vertical scrolling */
+  background-color: #f9f9f9; /* Light background for better contrast */
+  border: 1px solid #ccc; /* Optional border */
+  border-radius: 4px; /* Rounded corners */
+  padding: 10px; /* Padding inside the box */
+  font-family: monospace; /* Use a monospace font for code-like appearance */
+}
+
+.modal-footer {
+  padding: 16px;
+  border-top: 1px solid #e0e0e0;
+  text-align: right;
 }
 
 .close-button {
@@ -150,4 +234,22 @@ nav {
   nav {
     flex-direction: column;
   }
+
+  .modal {
+    width: 95%; /* Full width on small screens */
+  }
+}
+
+/* Additional Dark Mode Styles */
+.dark-mode .modal {
+  background: #2c2c2c; /* Dark mode modal background */
+}
+
+.dark-mode .modal-header {
+  border-bottom: 1px solid #444; /* Dark mode border */
+}
+
+.dark-mode .raw-json-container {
+  background-color: #3a3a3a; /* Dark mode background */
+  color: lightgray; /* Light gray text */
 }

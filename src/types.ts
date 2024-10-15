@@ -10,40 +10,44 @@ import { Event, Resource } from '@aws-sdk/client-cloudtrail';
  * REACT PROPS TYPES
  */
 
+export interface ProfileProps {
+  isDarkMode: boolean;
+}
+
 export interface CardProps {
   title: string;
   children: React.ReactNode;
+  isDarkMode: boolean;
+}
+
+export interface EventsDashboardProps {
+  isDarkMode: boolean;
+}
+
+export interface NavbarProps {
+  toggleDarkMode: () => void;
+  isDarkMode: boolean;
 }
 
 export interface EventCardProps {
-  event: {
-    id: number;
-    eventType: string;
-    timestamp: string;
-    sourceIP: string;
-    userEmail: string;
-    description: string;
-  };
-
-  onViewDetails: (event: {
-    id: number;
-    eventType: string;
-    timestamp: string;
-    sourceIP: string;
-    userEmail: string;
-    description: string;
-  }) => void;
+  event: ParsedAWSEvent; // Update to use the full CloudTrailEvent type
+  onViewDetails: (event: ParsedAWSEvent) => void;
+  isDarkMode: boolean;
 }
 
+// Update ModalProps to include UserIdentity
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  eventDetails: {
-    timestamp: string;
-    sourceIP: string;
-    userEmail: string;
-    description: string;
-  } | null;
+  eventDetails:
+    | (ParsedAWSEvent & {
+        timestamp: string;
+        sourceIP: string; // Keep this as is
+        userType: string; // Change to UserIdentity type
+        rawJson: string; // Include rawJson
+      })
+    | null; // Update to include UserIdentity
+  isDarkMode: boolean;
 }
 
 export interface IPAPIResponse {
