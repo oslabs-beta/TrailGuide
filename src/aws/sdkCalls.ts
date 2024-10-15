@@ -1,6 +1,15 @@
-import cloudtrailClient from './awsClient';
-import { LookupEventsCommand } from '@aws-sdk/client-cloudtrail';
+import { CloudTrailClient, LookupEventsCommand } from '@aws-sdk/client-cloudtrail';
 
+// Initialize the CloudTrail client using Vite's environment variables
+const cloudtrailClient = new CloudTrailClient({
+  region: import.meta.env.VITE_AWS_REGION, // Ensure this is set in your .env file
+  credentials: {
+    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID, // Set this in your .env file
+    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY, // Set this in your .env file
+  },
+});
+
+// Function to get the last five CloudTrail events
 export async function getLastFive() {
   try {
     const command = new LookupEventsCommand({ MaxResults: 5 });
@@ -8,19 +17,18 @@ export async function getLastFive() {
     return data.Events;
   } catch (err) {
     console.error('Error fetching CloudTrail events', err);
+    throw err; // Optional: rethrow to handle in the calling function
   }
 }
 
-// export async function getIps() {
-//   try {
-//     const command = new LookupEventsCommand({});
-//     const data = await cloudtrailClient.send(command);
-//     const ctEvents = data.Events?.map(( event ) =>
-//       JSON.parse(event.CloudTrailEvent || "{}");
-//     );
-//     console.dir(ctEvents[0]);
-//     return;
-//   } catch (err) {
-//     console.error('Error fetching CloudTrail events', err);
-//   }
-// }
+// Function to get a specified number of CloudTrail events
+export async function getEvents(maxResults = 30) {
+  try {
+    const command = new LookupEventsCommand({ MaxResults: maxResults });
+    const data = await cloudtrailClient.send(command);
+    return data.Events;
+  } catch (err) {
+    console.error('Error fetching CloudTrail events', err);
+    throw err; // Optional: rethrow to handle in the calling function
+  }
+}

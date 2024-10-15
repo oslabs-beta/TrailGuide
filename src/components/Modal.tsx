@@ -1,16 +1,5 @@
 import React from 'react';
-import '../index.css'; // Make sure to create a separate CSS file for modal styles
-import { ModalProps } from '../types';
-// interface ModalProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   eventDetails: {
-//     timestamp: string;
-//     sourceIP: string;
-//     userEmail: string;
-//     description: string;
-//   };
-// }
+import { ModalProps } from '../types'; // Adjust the import based on your file structure
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, eventDetails }) => {
   if (!isOpen || !eventDetails) return null;
@@ -20,16 +9,19 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, eventDetails }) => {
       <div className="modal-content">
         <h2>Event Details</h2>
         <p>
-          <strong>Timestamp:</strong> {eventDetails.timestamp}
+          <strong>Event Type:</strong> {eventDetails.EventName || 'N/A'}
         </p>
         <p>
-          <strong>Source IP:</strong> {eventDetails.sourceIP}
+          <strong>Timestamp:</strong> {new Date(eventDetails.EventTime).toLocaleString() || 'Invalid Date'}
         </p>
         <p>
-          <strong>User Email/ID:</strong> {eventDetails.userEmail}
+          <strong>Source IP:</strong> {eventDetails.SourceIPAddress || 'N/A'}
         </p>
         <p>
-          <strong>Description:</strong> {eventDetails.description}
+          <strong>User Email/ID:</strong> {eventDetails.UserIdentity?.userName || 'N/A'}
+        </p>
+        <p>
+          <strong>Description:</strong> {eventDetails.CloudTrailEvent || 'No description available'}
         </p>
         <button onClick={onClose} className="close-button">
           Close
