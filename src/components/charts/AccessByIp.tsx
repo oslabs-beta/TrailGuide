@@ -1,20 +1,27 @@
 import { useEffect, useState } from 'react';
-import { getIpCounts } from '../../aws/sdkCalls.js';
-import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
+import { Cell, Legend, Pie, PieChart } from 'recharts';
+
 import { IpLocCount } from '../../types.js';
+
+import { getIpCounts } from '../../aws/getIpCounts.ts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-export default function AccessByIpChart(): JSX.Element {
-  const [data, setData] = useState<IpLocCount[]>([]);
+export default function AccessPerIpChart({
+  currentIp,
+  setCurrentIp,
+}: {
+  currentIp: string | undefined;
+  setCurrentIp: React.Dispatch<React.SetStateAction<string | undefined>>;
+}): JSX.Element {
+  const [ipLocCounts, setIpLocCounts] = useState<IpLocCount[]>([]);
 
   useEffect(() => {
-    async function formatData(): Promise<void> {
+    async function updateIpLocCounts(): Promise<void> {
       const newData = await getIpCounts();
-      console.log(newData);
-      setData(() => newData);
+      setIpLocCounts(() => newData);
     }
-    void formatData();
+    void updateIpLocCounts();
   }, []);
 
   const RADIAN = Math.PI / 180;
@@ -51,25 +58,31 @@ export default function AccessByIpChart(): JSX.Element {
   };
 
   return (
-    <PieChart width={500} height={400}>
+    <PieChart width={500} height={500}>
       <Pie
-        data={data}
+        data={ipLocCounts}
         label={renderCustomizedLabel}
         dataKey="count"
         labelLine={false}
       >
-        {data.map((_, index) => (
+        {ipLocCounts.map((_, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>
-      <Tooltip />
-      <Legend formatter={(_value, _entry, index) => data[index].ip} />
-
-      {/**
-       * Could use this to make the legend into a bunch of buttons that can change
-       *  the state of a detailed location display, or another chart (access over time)
-       * https://recharts.org/en-US/api/Legend#content
-       */}
+      <Legend
+        layout="vertical"
+        align="right"
+        verticalAlign="middle"
+        formatter={(value: string) => {
+          return value === currentIp ? <strong>{value}</strong> : value;
+        }}
+        onClick={(payload) => {
+          const payloadData = payload.payload as IpLocCount | undefined;
+          return setCurrentIp((current: string | undefined) =>
+            payloadData === current ? undefined : payloadData?.ip
+          );
+        }}
+      />
     </PieChart>
   );
 }

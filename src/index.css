@@ -147,3 +147,7 @@ nav {
     flex-direction: column;
   }
 }
+
+.multichart {
+  display: flex;
+}

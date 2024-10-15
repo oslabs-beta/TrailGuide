@@ -3,10 +3,10 @@ import Card from '../components/Card';
 import UserActivityChart from '../components/charts/LineChart';
 import TestPieChart from '../components/charts/PieChart';
 import HeatMap from '../components/charts/HeatMap';
-import AccessByIpChart from '../components/charts/AccessByIp';
+import AccessPerIpChart from '../components/charts/AccessByIp';
 
 const Home: React.FC = () => (
-  <div>
+  <main>
     <Card title="Important Data. Very Important">
       <TestPieChart />
     </Card>
@@ -17,9 +17,9 @@ const Home: React.FC = () => (
       <HeatMap />
     </Card>
     <Card title="Access by Ip Address">
-      <AccessByIpChart />
+      <AccessPerIpChart />
     </Card>
-  </div>
+  </main>
 );
 
 export default Home;
