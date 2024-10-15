@@ -8,8 +8,8 @@ import { TimeCount } from '../../types';
 export default function IpAccessOverTimeChart({
   currentIp,
 }: {
-  currentIp: string;
-}): JSX.Element {
+  currentIp?: string;
+}): JSX.Element | undefined {
   const [ipTimes, setIpTimes] = useState<TimeCount[]>([]);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function IpAccessOverTimeChart({
     void updateIpTimes();
   }, [currentIp]);
 
+  if (!currentIp) return;
   return (
     <LineChart width={700} height={400} data={ipTimes}>
       <XAxis dataKey="localTime" />

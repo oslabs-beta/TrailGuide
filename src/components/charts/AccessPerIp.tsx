@@ -11,7 +11,7 @@ export default function AccessPerIpChart({
   currentIp,
   setCurrentIp,
 }: {
-  currentIp: string | undefined;
+  currentIp?: string;
   setCurrentIp: React.Dispatch<React.SetStateAction<string | undefined>>;
 }): JSX.Element {
   const [ipLocCounts, setIpLocCounts] = useState<IpLocCount[]>([]);
@@ -58,7 +58,7 @@ export default function AccessPerIpChart({
   };
 
   return (
-    <PieChart width={500} height={500}>
+    <PieChart width={500} height={400}>
       <Pie
         data={ipLocCounts}
         label={renderCustomizedLabel}
@@ -78,9 +78,11 @@ export default function AccessPerIpChart({
         }}
         onClick={(payload) => {
           const payloadData = payload.payload as IpLocCount | undefined;
-          return setCurrentIp((current: string | undefined) =>
-            payloadData === current ? undefined : payloadData?.ip
-          );
+          if (payloadData) {
+            setCurrentIp((current: string | undefined) =>
+              payloadData.ip === current ? undefined : payloadData.ip
+            );
+          }
         }}
       />
     </PieChart>

@@ -74,6 +74,10 @@ nav {
   overflow: hidden;
 }
 
+.card-content {
+  display: flex;
+}
+
 .heatmap-container {
   width: 100%;
   height: 400px;
@@ -146,8 +150,4 @@ nav {
   nav {
     flex-direction: column;
   }
-}
-
-.multichart {
-  display: flex;
 }
