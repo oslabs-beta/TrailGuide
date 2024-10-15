@@ -1,35 +1,67 @@
-import React, { useState } from 'react';
-import EventCard from '../components/EventCard'; // Make sure to create this component
-import Modal from '../components/Modal'; // Import your Modal component
+import React, { useState, useEffect } from 'react';
+import EventCard from '../components/EventCard';
+import Modal from '../components/Modal';
+import { getEvents } from '../../src/aws/sdkCalls';
+import { CloudTrailEvent, CloudTrailData } from '../types';
+import { EventsDashboardProps } from '../types';
 
-const EventDashboard: React.FC = () => {
+
+const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<{
-    id: number;
-    eventType: string;
-    timestamp: string;
-    sourceIP: string;
-    userEmail: string;
-    description: string;
-  } | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<CloudTrailEvent | null>(null);
+  const [events, setEvents] = useState<CloudTrailEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const events = Array.from({ length: 30 }, (_, index) => ({
-    id: index,
-    eventType: `Event Type ${index + 1}`,
-    timestamp: new Date().toISOString(),
-    sourceIP: '192.168.1.1',
-    userEmail: 'user@example.com',
-    description: 'Event description here...',
-  }));
+  useEffect(() => {
+    void fetchEvents();
+  }, []);
 
-  const handleOpenModal = (event: {
-    id: number;
-    eventType: string;
-    timestamp: string;
-    sourceIP: string;
-    userEmail: string;
-    description: string;
-  }): void => {
+  const fetchEvents = async () => {
+    try {
+      const data = await getEvents(30);
+      console.log('Raw event data:', data);
+
+      if (!data || !Array.isArray(data) || data.length === 0) {
+        setError('No events found.');
+        return;
+      }
+
+      const formattedData: CloudTrailEvent[] = data.map(event => {
+        let cloudTrailData: CloudTrailData;
+
+        try {
+          cloudTrailData = JSON.parse(event.CloudTrailEvent!) as CloudTrailData;
+        } catch (error) {
+          console.error('Failed to parse CloudTrailEvent:', error);
+          cloudTrailData = { eventType: 'Unknown Event Type', sourceIPAddress: '', userIdentity: { type: 'Unknown', accountId: '' } };
+        }
+
+        return {
+          EventId: event.EventId ?? 'Unknown Event',
+          EventType: cloudTrailData.eventType ?? 'Unknown Event Type',
+          EventName: event.EventName ?? 'N/A',
+          EventTime: typeof event.EventTime === 'string' ? event.EventTime : new Date().toISOString(),
+          SourceIPAddress: cloudTrailData.sourceIPAddress ?? '',
+          UserIdentity: {
+            type: cloudTrailData.userIdentity?.type ?? 'Unknown',
+            accountId: cloudTrailData.userIdentity?.accountId ?? '',
+          },
+          UserName: event.Username ?? 'Unknown User',
+          CloudTrailEvent: event.CloudTrailEvent ?? 'Unknown Event',
+        };
+      });
+
+      setEvents(formattedData);
+    } catch (err) {
+      setError('Failed to fetch events. Please try again later.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenModal = (event: CloudTrailEvent): void => {
     setSelectedEvent(event);
     setModalOpen(true);
   };
@@ -40,27 +72,39 @@ const EventDashboard: React.FC = () => {
   };
 
   return (
-    <div className="event-dashboard">
+    <div className={`event-dashboard ${isDarkMode ? 'dark-mode' : ''}`}>
       <h1>Event Dashboard</h1>
-      <div className="grid-container">
-        {events.map((event) => (
-          <EventCard
-            key={event.id}
-            event={event}
-            onViewDetails={handleOpenModal}
-          />
-        ))}
-      </div>
+      {loading && <p>Loading events...</p>}
+      {error && <p>{error}</p>}
+      {!loading && !error && (
+        <div className="grid-container">
+          {events.map((event) => (
+            <EventCard
+              key={event.EventId}
+              event={event}
+              onViewDetails={handleOpenModal}
+              isDarkMode={isDarkMode} // Pass the isDarkMode prop
+            />
+          ))}
+        </div>
+      )}
 
       {modalOpen && selectedEvent && (
         <Modal
           isOpen={modalOpen}
           onClose={handleCloseModal}
-          eventDetails={selectedEvent}
+          eventDetails={{
+            ...selectedEvent,
+            timestamp: new Date(selectedEvent.EventTime).toLocaleString(),
+            sourceIP: selectedEvent.SourceIPAddress,
+            userType: selectedEvent.UserIdentity.type || 'N/A',
+            rawJson: selectedEvent.CloudTrailEvent,
+          }}
+          isDarkMode={isDarkMode} // Pass the isDarkMode prop
         />
       )}
     </div>
   );
 };
 
-export default EventDashboard;
+export default EventsDashboard;

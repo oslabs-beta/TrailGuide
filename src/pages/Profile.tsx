@@ -1,4 +1,5 @@
 import React from "react";
+import { ProfileProps } from "../types";
 
 interface User {
     username: string;
@@ -11,13 +12,13 @@ const user: User = {
     username: 'BobTest',
     email: 'BobTest@test.com',
     company: 'Test Guys Inc.',
-    link: 'https.//aws.amazon.com',
-}
+    link: 'https://aws.amazon.com',
+};
 
-const Profile: React.FC = () => {
+const Profile: React.FC<ProfileProps> = ({ isDarkMode }) => {
     return (
-        <div className="profile-container">
-            <div className="profile-header">
+        <div className={`profile-container ${isDarkMode ? 'dark-mode' : ''}`}>
+            <div className={`profile-header ${isDarkMode ? 'dark-mode' : ''}`}>
                 <h1>{user.username}</h1>
                 <p>Email: {user.email}</p>
                 <p>Company: {user.company}</p>
@@ -26,7 +27,7 @@ const Profile: React.FC = () => {
                 </a>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Profile;
