@@ -4,10 +4,9 @@ import { EventCardProps } from '../types'; // Ensure this matches the updated st
 const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
   return (
     <div className="event-card">
-      <h2>{event.eventType}</h2>
-      <p><strong>Timestamp:</strong> {event.timestamp}</p>
-      <p><strong>Source IP:</strong> {event.sourceIP || 'N/A'}</p>
-      <p><strong>User:</strong> {event.userEmail || 'N/A'}</p>
+      <h3>Event: {event.EventType || 'N/A'}</h3>
+      <p><strong>Timestamp:</strong> {new Date(event.EventTime).toLocaleString() || 'Invalid Date'}</p>
+      <p><strong>User:</strong> {event.UserName ?? 'Unknown User'}</p>
       <button onClick={() => onViewDetails(event)}>View Details</button>
     </div>
   );

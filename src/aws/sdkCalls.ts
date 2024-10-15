@@ -2,10 +2,10 @@ import { CloudTrailClient, LookupEventsCommand } from '@aws-sdk/client-cloudtrai
 
 // Initialize the CloudTrail client using Vite's environment variables
 const cloudtrailClient = new CloudTrailClient({
-  region: import.meta.env.VITE_AWS_REGION, // Ensure this is set in your .env file
+  region: import.meta.env.VITE_AWS_REGION as string, // Ensure this is set in your .env file
   credentials: {
-    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID, // Set this in your .env file
-    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY, // Set this in your .env file
+    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID as string, // Set this in your .env file
+    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY as string, // Set this in your .env file
   },
 });
 
