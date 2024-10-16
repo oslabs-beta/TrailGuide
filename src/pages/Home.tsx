@@ -3,9 +3,10 @@ import Card from '../components/Card';
 import UserActivityChart from '../components/charts/LineChart';
 import TestPieChart from '../components/charts/PieChart';
 import HeatMap from '../components/charts/HeatMap';
+import IpAccessCombined from '../components/IpAccessCombined';
 
 const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => (
-  <div>
+  <main>
     <Card title="Important Data. Very Important" isDarkMode={isDarkMode}>
       <TestPieChart />
     </Card>
@@ -15,7 +16,10 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => (
     <Card title="Test Heat Map" isDarkMode={isDarkMode}>
       <HeatMap />
     </Card>
-  </div>
+    <Card isDarkMode={isDarkMode} title="Access by Ip Address">
+      <IpAccessCombined />
+    </Card>
+  </main>
 );
 
 export default Home;

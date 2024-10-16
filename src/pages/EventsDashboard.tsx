@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import EventCard from '../components/EventCard';
 import Modal from '../components/Modal';
-import { getEvents } from '../../src/aws/sdkCalls';
-import { CloudTrailEvent, CloudTrailData } from '../types';
+import { getEvents } from '../../src/aws/getEvents';
+import { CloudTrailEvent, ParsedAWSEvent } from '../types';
 import { EventsDashboardProps } from '../types';
-
 
 const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<CloudTrailEvent | null>(null);
-  const [events, setEvents] = useState<CloudTrailEvent[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<ParsedAWSEvent | null>(
+    null
+  );
+  const [events, setEvents] = useState<ParsedAWSEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,30 +28,41 @@ const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
         return;
       }
 
-      const formattedData: CloudTrailEvent[] = data.map(event => {
-        let cloudTrailData: CloudTrailData;
+      const formattedData: ParsedAWSEvent[] = data
+        .map((event) => {
+          let cloudTrailData: CloudTrailEvent;
 
-        try {
-          cloudTrailData = JSON.parse(event.CloudTrailEvent!) as CloudTrailData;
-        } catch (error) {
-          console.error('Failed to parse CloudTrailEvent:', error);
-          cloudTrailData = { eventType: 'Unknown Event Type', sourceIPAddress: '', userIdentity: { type: 'Unknown', accountId: '' } };
-        }
+          try {
+            cloudTrailData = JSON.parse(
+              event.CloudTrailEvent!
+            ) as CloudTrailEvent;
+            return {
+              ...event,
+              ParsedCloudTrailEvent: cloudTrailData,
+            };
+          } catch (error) {
+            console.error('Failed to parse CloudTrailEvent:', error);
+            return;
+          }
 
-        return {
-          EventId: event.EventId ?? 'Unknown Event',
-          EventType: cloudTrailData.eventType ?? 'Unknown Event Type',
-          EventName: event.EventName ?? 'N/A',
-          EventTime: typeof event.EventTime === 'string' ? event.EventTime : new Date().toISOString(),
-          SourceIPAddress: cloudTrailData.sourceIPAddress ?? '',
-          UserIdentity: {
-            type: cloudTrailData.userIdentity?.type ?? 'Unknown',
-            accountId: cloudTrailData.userIdentity?.accountId ?? '',
-          },
-          UserName: event.Username ?? 'Unknown User',
-          CloudTrailEvent: event.CloudTrailEvent ?? 'Unknown Event',
-        };
-      });
+          // return {
+          //   EventId: event.EventId ?? 'Unknown Event',
+          //   EventType: cloudTrailData.eventType ?? 'Unknown Event Type',
+          //   EventName: event.EventName ?? 'N/A',
+          //   EventTime:
+          //     typeof event.EventTime === 'string'
+          //       ? event.EventTime
+          //       : new Date().toISOString(),
+          //   SourceIPAddress: cloudTrailData.sourceIPAddress ?? '',
+          //   UserIdentity: {
+          //     type: cloudTrailData.userIdentity?.type ?? 'Unknown',
+          //     accountId: cloudTrailData.userIdentity?.accountId ?? '',
+          //   },
+          //   UserName: event.Username ?? 'Unknown User',
+          //   CloudTrailEvent: event.CloudTrailEvent ?? 'Unknown Event',
+          // };
+        })
+        .filter((event) => event !== undefined);
 
       setEvents(formattedData);
     } catch (err) {
@@ -61,7 +73,7 @@ const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
     }
   };
 
-  const handleOpenModal = (event: CloudTrailEvent): void => {
+  const handleOpenModal = (event: ParsedAWSEvent): void => {
     setSelectedEvent(event);
     setModalOpen(true);
   };
@@ -95,10 +107,10 @@ const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
           onClose={handleCloseModal}
           eventDetails={{
             ...selectedEvent,
-            timestamp: new Date(selectedEvent.EventTime).toLocaleString(),
-            sourceIP: selectedEvent.SourceIPAddress,
-            userType: selectedEvent.UserIdentity.type || 'N/A',
-            rawJson: selectedEvent.CloudTrailEvent,
+            timestamp: new Date(selectedEvent.EventTime!).toLocaleString(),
+            sourceIP: selectedEvent.ParsedCloudTrailEvent.sourceIPAddress,
+            userType: selectedEvent.ParsedCloudTrailEvent.userIdentity.type,
+            rawJson: selectedEvent.CloudTrailEvent!,
           }}
           isDarkMode={isDarkMode} // Pass the isDarkMode prop
         />
