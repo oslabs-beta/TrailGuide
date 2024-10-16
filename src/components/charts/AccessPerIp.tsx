@@ -1,29 +1,18 @@
-import { useEffect, useState } from 'react';
 import { Cell, Legend, Pie, PieChart } from 'recharts';
 
 import { IpLocCount } from '../../types.js';
-
-import { getIpCounts } from '../../aws/getIpCounts.ts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function AccessPerIpChart({
   currentIp,
   setCurrentIp,
+  ipLocCounts,
 }: {
   currentIp?: string;
   setCurrentIp: React.Dispatch<React.SetStateAction<string | undefined>>;
+  ipLocCounts: IpLocCount[];
 }): JSX.Element {
-  const [ipLocCounts, setIpLocCounts] = useState<IpLocCount[]>([]);
-
-  useEffect(() => {
-    async function updateIpLocCounts(): Promise<void> {
-      const newData = await getIpCounts();
-      setIpLocCounts(() => newData);
-    }
-    void updateIpLocCounts();
-  }, []);
-
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
     cx,
@@ -58,7 +47,7 @@ export default function AccessPerIpChart({
   };
 
   return (
-    <PieChart width={500} height={400}>
+    <PieChart width={500} height={300}>
       <Pie
         data={ipLocCounts}
         label={renderCustomizedLabel}
@@ -74,7 +63,11 @@ export default function AccessPerIpChart({
         align="right"
         verticalAlign="middle"
         formatter={(value: string) => {
-          return value === currentIp ? <strong>{value}</strong> : value;
+          return value === currentIp ? (
+            <strong style={{ textDecoration: 'underline' }}>{value}</strong>
+          ) : (
+            value
+          );
         }}
         onClick={(payload) => {
           const payloadData = payload.payload as IpLocCount | undefined;
