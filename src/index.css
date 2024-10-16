@@ -111,9 +111,28 @@ nav {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+.event-card button {
+  background-color: #44619a; /* Slate gray */
+  color: white; /* White text */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 12px 20px; /* Increased padding for size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.event-card button:hover {
+  background-color: #3964bb; /* Lighter slate gray on hover */
+}
+
+
 /* Dark Mode Styles */
 .dark-mode {
   background-color: rgb(35, 35, 35); /* Dark mode background */
+}
+
+.dark-mode .event-dashboard h1 {
+  color: lightgray
 }
 
 .dark-mode nav {
