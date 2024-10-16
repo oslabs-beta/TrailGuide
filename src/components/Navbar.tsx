@@ -3,14 +3,17 @@ import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for 
 import '../index.css';
 
 const Navbar: React.FC = () => {
+  // State to manage dropdown visibility
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate(); // Hook for navigation
 
+  // Toggle the dropdown open/close state
   const toggleDropdown = () => {
-    setDropdownOpen(prev => !prev);
+    setDropdownOpen((prev) => !prev);
   };
 
+  // Handle logout logic
   const handleLogout = () => {
     // Logout logic here (e.g., clear tokens, etc.)
     console.log('User logged out');
@@ -39,6 +42,9 @@ const Navbar: React.FC = () => {
       <Link to="/events-dashboard" className="nav-button">
         Events Dashboard
       </Link>
+      <Link to="/login" className="nav-button">
+        Login
+      </Link>
       <div
         className="nav-button"
         onClick={toggleDropdown}
@@ -47,7 +53,6 @@ const Navbar: React.FC = () => {
       >
         User Profile
       </div>
-
       {dropdownOpen && (
         <div className="dropdown" ref={dropdownRef}>
           <Link to="/profile" className="dropdown-link">

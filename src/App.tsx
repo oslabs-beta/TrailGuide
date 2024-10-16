@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import EventsDashboard from './pages/EventsDashboard.tsx';
 //import Profile from './pages/Profile';
 //import EventsDashboard from './pages/EventsDashboard';
+import Login from './pages/Login.tsx';
 
 const App: React.FC = () => {
   return (
@@ -17,10 +18,12 @@ const App: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/events-dashboard" element={<EventsDashboard />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );
 };
+
 
 export default App;
 

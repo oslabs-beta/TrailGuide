@@ -44,6 +44,12 @@ export interface ModalProps {
   } | null;
 }
 
+
+export interface LoginFormData {
+  username: string;
+  password: string;
+}
+
 /**
  * =================================
  * SERVER TYPES
