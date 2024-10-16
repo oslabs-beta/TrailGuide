@@ -238,23 +238,6 @@ nav {
   .modal {
     width: 95%; /* Full width on small screens */
   }
-<<<<<<< HEAD
-=======
-}
-
-/* Additional Dark Mode Styles */
-.dark-mode .modal {
-  background: #2c2c2c; /* Dark mode modal background */
-}
-
-.dark-mode .modal-header {
-  border-bottom: 1px solid #444; /* Dark mode border */
-}
-
-.dark-mode .raw-json-container {
-  background-color: #3a3a3a; /* Dark mode background */
-  color: lightgray; /* Light gray text */
->>>>>>> dev
 }
 
 /* Additional Dark Mode Styles */
