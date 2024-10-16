@@ -40,9 +40,12 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => { // A
       <Link to="/events-dashboard" className="nav-button">
         Events Dashboard
       </Link>
+<<<<<<< HEAD
       <Link to="/login" className="nav-button">
         Login
       </Link>
+=======
+>>>>>>> dev
       <button onClick={toggleDarkMode} className="nav-button">
         {isDarkMode ? 'Light Mode' : 'Dark Mode'} {/* Update button text */}
       </button>

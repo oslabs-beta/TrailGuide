@@ -7,7 +7,6 @@ import EventsDashboard from './pages/EventsDashboard';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 
-
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode state
 
@@ -29,6 +28,5 @@ const App: React.FC = () => {
     </Router>
   );
 };
-
 
 export default App;
