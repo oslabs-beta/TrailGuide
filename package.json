@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server/server.js",
     "build": "tsc -b && vite build",
-    "start": "",
+    "start": "tsc -b && vite build && NODE_ENV=production node server/server.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -14,7 +14,6 @@
     "@aws-sdk/client-cloudtrail": "^3.583.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "local-web-server": "^5.4.0",
     "pg": "^8.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

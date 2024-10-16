@@ -1,7 +1,7 @@
 import express from 'express';
 import ViteExpress from 'vite-express';
 
-const PORT = 3000;
+const PORT = 8080;
 
 const app = express();
 
