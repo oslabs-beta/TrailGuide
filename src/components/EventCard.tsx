@@ -1,11 +1,18 @@
 import React from 'react';
-import { EventCardProps } from '../types';
+import { EventCardProps } from '../types'; // Ensure this matches the updated structure
 
 const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
   return (
     <div className="event-card">
-      <h2>{event.eventType}</h2>
-      <p>Timestamp: {event.timestamp}</p>
+      <h3>Event: {event.ParsedCloudTrailEvent.eventType || 'N/A'}</h3>
+      <p>
+        <strong>Timestamp:</strong>{' '}
+        {new Date(event.ParsedCloudTrailEvent.eventTime).toLocaleString() ||
+          'Invalid Date'}
+      </p>
+      <p>
+        <strong>User:</strong> {event.Username ?? 'Unknown User'}
+      </p>
       <button onClick={() => onViewDetails(event)}>View Details</button>
     </div>
   );

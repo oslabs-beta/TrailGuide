@@ -1,45 +1,76 @@
 import React from 'react';
-import '../index.css'; // Make sure to create a separate CSS file for modal styles
 import { ModalProps } from '../types';
-// interface ModalProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   eventDetails: {
-//     timestamp: string;
-//     sourceIP: string;
-//     userEmail: string;
-//     description: string;
-//   };
-// }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, eventDetails }) => {
-  if (!isOpen) return null;
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  eventDetails,
+  isDarkMode,
+}) => {
+  if (!isOpen || !eventDetails) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        {eventDetails ? (
-          <>
-            <h2>Event Details</h2>
-            <p>
-              <strong>Timestamp:</strong> {eventDetails.timestamp}
-            </p>
-            <p>
-              <strong>Source IP:</strong> {eventDetails.sourceIP}
-            </p>
-            <p>
-              <strong>User Email/ID:</strong> {eventDetails.userEmail}
-            </p>
-            <p>
-              <strong>Description:</strong> {eventDetails.description}
-            </p>
-          </>
-        ) : (
-          children
-        )}
-        <button onClick={onClose} className="close-button">
-          Close
-        </button>
+    <div
+      className={`modal-overlay ${isDarkMode ? 'dark-mode' : ''}`}
+      onClick={onClose}
+    >
+      <div
+        className={`modal ${isDarkMode ? 'dark-mode' : ''}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={`modal-header ${isDarkMode ? 'dark-mode' : ''}`}>
+          <h2>Event Details</h2>
+          <button
+            onClick={onClose}
+            className={`close-button ${isDarkMode ? 'dark-mode' : ''}`}
+          >
+            X
+          </button>
+        </div>
+        <div className={`modal-content ${isDarkMode ? 'dark-mode' : ''}`}>
+          <p>
+            <strong>Event Type:</strong>{' '}
+            {eventDetails.ParsedCloudTrailEvent.eventType ?? 'N/A'}
+          </p>
+          <p>
+            <strong>Event:</strong> {eventDetails.EventName ?? 'N/A'}
+          </p>
+          <p>
+            <strong>Timestamp:</strong>{' '}
+            {new Date(eventDetails.EventTime!).toLocaleString() ??
+              'Invalid Date'}
+          </p>
+          <p>
+            <strong>Source IP:</strong>{' '}
+            {eventDetails.ParsedCloudTrailEvent.sourceIPAddress ?? 'N/A'}
+          </p>
+          <p>
+            <strong>User Type:</strong>{' '}
+            {eventDetails.ParsedCloudTrailEvent.userIdentity.type ?? 'N/A'}
+          </p>
+          <p>
+            <strong>Raw JSON Data:</strong>
+          </p>
+          <div
+            className={`raw-json-container ${isDarkMode ? 'dark-mode' : ''}`}
+          >
+            <pre>
+              {JSON.stringify(
+                JSON.parse(eventDetails.CloudTrailEvent!),
+                null,
+                2
+              )}
+            </pre>
+          </div>
+        </div>
+        <div className={`modal-footer ${isDarkMode ? 'dark-mode' : ''}`}>
+          <button
+            onClick={onClose}
+            className={`close-button ${isDarkMode ? 'dark-mode' : ''}`}
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );
