@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EventCard from '../components/EventCard';
 import Modal from '../components/Modal';
-import { getEvents } from '../../src/aws/getEvents';
+import { getEvents } from '../aws/getEvents';
 import { CloudTrailEvent, ParsedAWSEvent } from '../types';
 import { EventsDashboardProps } from '../types';
 
