@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NavbarProps } from '../types';
+import woodPlankT from '../assets/Untitled design (2).png';
 import '../index.css';
 
-const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => { // Accept isDarkMode prop
+const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  // Toggle the dropdown open/close state
+
   const toggleDropdown = () => {
     setDropdownOpen(prev => !prev);
   };
-  // Handle logout logic
+
   const handleLogout = () => {
     console.log('User logged out');
-    navigate('/'); // Redirect to home or login page after logout
+    navigate('/'); 
   };
 
   useEffect(() => {
@@ -31,26 +32,26 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => { // A
   }, []);
 
   return (
-    <nav className={isDarkMode ? 'dark-mode' : ''}> {/* Apply dark mode class */}
-      <Link to="/" className="logo">
-        TrailGuide
+    <nav className={isDarkMode ? 'dark-mode' : ''}>
+      <Link to="/" className="logo" title="Home">
+      <img src={woodPlankT} alt="Wood Plank T" className="logo-image" />
+      RAILGUIDE
       </Link>
-      <Link to="/events-dashboard" className="nav-button">
-        Events Dashboard
-      </Link>
-      <Link to="/login" className="nav-button">
-        Login
-      </Link>
-      <button onClick={toggleDarkMode} className="nav-button">
-        {isDarkMode ? 'Light Mode' : 'Dark Mode'} {/* Update button text */}
-      </button>
-      <div
-        className="nav-button"
-        onClick={toggleDropdown}
-        aria-haspopup="true"
-        aria-expanded={dropdownOpen}
-      >
-        User Profile
+      <div className="nav-buttons">
+        <Link to="/events-dashboard" className="nav-button">
+          Events Dashboard
+        </Link>
+        <button onClick={toggleDarkMode} className="nav-button">
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
+        <div
+          className="nav-button"
+          onClick={toggleDropdown}
+          aria-haspopup="true"
+          aria-expanded={dropdownOpen}
+        >
+          User
+        </div>
       </div>
 
       {dropdownOpen && (
@@ -58,6 +59,9 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => { // A
           <Link to="/profile" className="dropdown-link">
             Profile
           </Link>
+          <Link to="/login" className="dropdown-link">
+          Login
+        </Link>
           <div className="dropdown-link" onClick={handleLogout}>
             Logout
           </div>
