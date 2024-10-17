@@ -8,6 +8,22 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=root
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    ports:
+      - 5432:5432
   server:
     build:
       context: .
@@ -15,7 +31,12 @@ services:
       NODE_ENV: production
     ports:
       - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
 
+volumes:
+  pgdata:
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
 # start the database before your application. The `db-data` volume persists the
