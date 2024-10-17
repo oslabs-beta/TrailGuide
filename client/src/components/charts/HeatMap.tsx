@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from 'react-simple-maps';
-import { getIpCounts } from '../../aws/getIpCounts'; // Update the import path
-import { GeoJSONFeatureCollection, IpLocCount } from '../../types'; // Import the new type
+import { getIpCounts } from '../../aws/getIpCounts'; 
+import { GeoJSONFeatureCollection, IpLocCount } from '../../types'; 
 
 const HeatMap: React.FC = () => {
     const [geoJSON, setGeoJSON] = useState<GeoJSONFeatureCollection | null>(null);
-    const [ipData, setIpData] = useState<IpLocCount[]>([]); // Store IP data
+    const [ipData, setIpData] = useState<IpLocCount[]>([]); 
 
     useEffect(() => {
         const fetchGeoJSON = async (): Promise<void> => {
@@ -14,7 +14,7 @@ const HeatMap: React.FC = () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const data = await response.json() as GeoJSONFeatureCollection; // Use the defined type
+                const data = await response.json() as GeoJSONFeatureCollection; 
                 setGeoJSON(data);
             } catch (error) {
                 console.error("Error fetching geoJSON:", error);
@@ -22,17 +22,16 @@ const HeatMap: React.FC = () => {
         };
 
         const fetchIpCounts = async (): Promise<void> => {
-            const data = await getIpCounts(); // Fetch the IP counts
-            setIpData(data); // Store the data in state
+            const data = await getIpCounts(); 
+            setIpData(data); 
         };
 
         void fetchGeoJSON();
-        void fetchIpCounts(); // Fetch IP counts
+        void fetchIpCounts(); 
     }, []);
     
     return (
         <div className="heatmap-container" style={{ overflow: 'hidden' }}>
-            <h1>IP Address Heat Map</h1>
             {geoJSON && (
                 <ComposableMap
                     projection="geoMercator"
@@ -56,14 +55,17 @@ const HeatMap: React.FC = () => {
                         {ipData.map(({ ip, lat, long, count }) => (
                             <Marker key={ip} coordinates={[long, lat]}>
                                 <circle r={Math.sqrt(count) * 2} fill="#FF5722" fillOpacity={0.6} />
-                                <text textAnchor="middle" y={-10} style={{ fontSize: '10px', fill: '#FFFFFF' }}>
-                                    {count}
-                                </text>
+                                <title>{`Count: ${count}`}</title>
                             </Marker>
                         ))}
                     </ZoomableGroup>
                 </ComposableMap>
             )}
+            {/* <footer className="heatmap-footer">
+                <p>{ipData.map(({ ip }) => (
+                    <span key={ip}>{[ip]} </span>
+                ))}</p>
+                </footer> */}
         </div>
     );
 };
