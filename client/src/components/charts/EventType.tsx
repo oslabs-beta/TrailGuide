@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getEvents } from '../../aws/getEvents';
-import { Bar, BarChart, Tooltip, YAxis } from 'recharts';
+import { Bar, BarChart, LabelList, YAxis } from 'recharts';
 
 export default function EventTypeChart() {
   const [events, setEvents] = useState<{ EventName: string; count: number }[]>(
@@ -9,7 +9,7 @@ export default function EventTypeChart() {
 
   useEffect(() => {
     async function updateEvents(): Promise<void> {
-      const newEvents = await getEvents();
+      const newEvents = await getEvents(300);
       // count the time of each EventName
       const eventCounts: Record<string, number> = newEvents.reduce(
         (counts: Record<string, number>, { EventName }) => ({
@@ -34,10 +34,11 @@ export default function EventTypeChart() {
 
   return (
     <BarChart width={400} height={340} data={events} layout="vertical">
-      <YAxis dataKey="EventName" type="category" width={100} />
+      <YAxis dataKey="EventName" type="category" width={150} />
       {/* <XAxis /> */}
-      <Bar dataKey="count" fill="#00CC10" />
-      <Tooltip />
+      <Bar dataKey="count" maxBarSize={30} fill="#00C030">
+        <LabelList dataKey="count" position="insideLeft" fill="#F0F0F0" />
+      </Bar>
     </BarChart>
   );
 }
