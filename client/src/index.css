@@ -278,7 +278,7 @@ nav {
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: rgb(234, 212, 144);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -298,7 +298,7 @@ body.dark-mode .signup-container, body.dark-mode .login-container {
 }
 
 .signup-link a {
-  color: orange;
+  color: rgb(255, 132, 0);
   text-decoration: none;
 }
 
@@ -340,6 +340,7 @@ body.dark-mode .signup-container, body.dark-mode .login-container {
 
 .dark-mode .card-title {
   color: rgb(228, 225, 225); /* Light gray title color in dark mode */
+  background: none;
 }
 
 .dark-mode .event-card {
