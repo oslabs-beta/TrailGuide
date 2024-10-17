@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../index.css';
+import '../index.css'; //TODO: Do we need to import this here and main.tsx?
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -30,7 +30,10 @@ const Login: React.FC = () => {
 
     try {
       // Simulate login logic
-      if ((username === 'user' || email === 'user@example.com') && password === 'password') {
+      if (
+        (username === 'user' || email === 'user@example.com') &&
+        password === 'password'
+      ) {
         console.log('Login successful!');
         navigate('/profile');
       } else {
@@ -74,10 +77,12 @@ const Login: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button className="login-button" type="submit">Login</button>
       </form>
       <div className="signup-link">
-        <p>Don&apos;t have an account? <Link to="/signup">Sign up here</Link></p>
+        <p>
+          Don&apos;t have an account? <Link to="/signup">Sign up here</Link>
+        </p>
       </div>
     </div>
   );
