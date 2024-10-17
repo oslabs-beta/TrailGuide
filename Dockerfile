@@ -19,9 +19,9 @@ FROM base AS deps
 # into this layer.
 RUN --mount=type=bind,source=package.json,target=package.json \
     # workaround for npm optional dependencies bug: https://github.com/npm/cli/issues/4828
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \ 
+    # --mount=type=bind,source=package-lock.json,target=package-lock.json \ 
     --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
+    npm i --omit=dev
 
 ################################################################################
 # Create a stage for building the application.
@@ -32,9 +32,9 @@ FROM deps AS build
 # "devDependencies" to be installed to build. If you don't need this, remove this step.
 RUN --mount=type=bind,source=package.json,target=package.json \
     # workaround for npm optional dependencies bug: https://github.com/npm/cli/issues/4828
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
+    # --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci
+    npm i
 
 # Copy the rest of the source files into the image.
 COPY . .
