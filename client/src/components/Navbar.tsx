@@ -7,11 +7,11 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => { // A
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
+  // Toggle the dropdown open/close state
   const toggleDropdown = () => {
     setDropdownOpen(prev => !prev);
   };
-
+  // Handle logout logic
   const handleLogout = () => {
     console.log('User logged out');
     navigate('/'); // Redirect to home or login page after logout
@@ -37,6 +37,9 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => { // A
       </Link>
       <Link to="/events-dashboard" className="nav-button">
         Events Dashboard
+      </Link>
+      <Link to="/login" className="nav-button">
+        Login
       </Link>
       <button onClick={toggleDarkMode} className="nav-button">
         {isDarkMode ? 'Light Mode' : 'Dark Mode'} {/* Update button text */}
