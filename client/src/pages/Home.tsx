@@ -1,7 +1,9 @@
 import React, { lazy } from 'react';
 
 const Card = lazy(() => import('../components/Card'));
-const UserActivityChart = lazy(() => import('../components/charts/LineChart'));
+const UserActivityChart = lazy(
+  () => import('../components/charts/UserActivity')
+);
 const HeatMap = lazy(() => import('../components/charts/HeatMap'));
 const IpAccessCombined = lazy(() => import('../components/IpAccessCombined'));
 const EventTypeChart = lazy(() => import('../components/charts/EventType'));

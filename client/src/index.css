@@ -14,6 +14,10 @@ nav {
   position: relative;
 }
 
+tspan {
+  color: whitesmoke;
+}
+
 .logo {
   flex-grow: 1;
   text-decoration: none;
@@ -70,9 +74,10 @@ nav {
   width: fit-content;
   height: 30rem;
   border-radius: 20px;
-  box-shadow: 0.1rem -0.1rem 2rem 0.1rem #282c34;
+  box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
   text-align: center;
   overflow: hidden;
+  margin: 1rem;
 }
 
 .card-content {
@@ -82,7 +87,6 @@ nav {
 .heatmap-container {
   width: 100%;
   height: 400px;
-  border: 1px solid #ccc;
 }
 
 .map {
@@ -136,6 +140,7 @@ nav {
 .dark-mode .card {
   background-color: #474747; /* Dark mode background */
   color: lightgray; /* Light gray text for readability */
+  box-shadow: 0.2rem 0.2rem 1rem 0.01rem #000;
 }
 
 .dark-mode .card-title {
@@ -295,7 +300,7 @@ input {
 .login-button {
   width: 100%;
   padding: 10px;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -311,7 +316,8 @@ input {
 }
 
 /* Sign up page styles (matching login page styles) */
-.signup-container, .login-container {
+.signup-container,
+.login-container {
   width: 300px;
   margin: 50px auto;
   padding: 20px;
@@ -322,13 +328,15 @@ input {
 }
 
 /* Additional Dark Mode Styles for Sign Up and Login */
-.dark-mode .signup-container, .dark-mode .login-container {
+.dark-mode .signup-container,
+.dark-mode .login-container {
   background-color: #2c2c2c;
   border: 1px solid #444;
   color: lightgray;
 }
 
-.signup-button, .login-button {
+.signup-button,
+.login-button {
   width: 100%;
   padding: 10px;
   background-color: #28a745;
@@ -338,7 +346,8 @@ input {
   cursor: pointer;
 }
 
-.signup-button:hover, .login-button:hover {
+.signup-button:hover,
+.login-button:hover {
   background-color: #218838;
 }
 
@@ -356,7 +365,7 @@ input {
 
 .dark-mode input::placeholder {
   color: #bbb;
-} 
+}
 
 /* Ensure hover effect on close button in dark mode */
 .dark-mode .close-button:hover {
@@ -364,7 +373,8 @@ input {
 }
 
 /* Styles for the signup and login forms */
-.signup-container, .login-container {
+.signup-container,
+.login-container {
   width: 300px;
   margin: 50px auto;
   padding: 20px;
@@ -374,13 +384,15 @@ input {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-body.dark-mode .signup-container, body.dark-mode .login-container {
+body.dark-mode .signup-container,
+body.dark-mode .login-container {
   background-color: #2c2c2c;
   border: 1px solid #444;
   color: lightgray;
 }
 
-.signup-container h2, .login-container h2 {
+.signup-container h2,
+.login-container h2 {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -457,4 +469,9 @@ body.dark-mode button:hover {
 
 body.dark-mode .signup-link a {
   color: orange;
+}
+
+main {
+  display: flex;
+  flex-flow: row wrap;
 }

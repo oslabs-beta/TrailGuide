@@ -9,7 +9,7 @@ export default function EventTypeChart() {
 
   useEffect(() => {
     async function updateEvents(): Promise<void> {
-      const newEvents = await getEvents(300);
+      const newEvents = await getEvents(30);
       // count the time of each EventName
       const eventCounts: Record<string, number> = newEvents.reduce(
         (counts: Record<string, number>, { EventName }) => ({
