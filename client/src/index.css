@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: rgb(240, 238, 238); /* Light mode background */
+  background-color: rgb(245, 233, 196); /* Light mode background */
 }
 
 h2 {
@@ -23,7 +23,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #203046; /* Light mode nav background */
+  background-color: #193d01ea; /* Light mode nav background */
   color: rgba(255, 255, 255, 0.879);
   position: relative;
 }
@@ -31,23 +31,18 @@ nav {
 .logo {
   display: flex;
   align-items: center; /* Center logo image and text vertically */
-  justify-content: flex-start;
-  text-decoration: none; /* Remove underline */
-  color: #017131; /* Adjust color as needed */
-  font-family: 'Fredoka', sans-serif; /* Apply Fredoka font */
-  margin-left: -30px;
-  font-size: 2.5rem; /* Adjust size as needed */
-  font-weight: 800;
-  text-shadow: 1px 1px 0 #015827, -1px -1px 0 #01692e, 
-             1px -1px 0 #01632c, -1px 1px 0 #015626;
 }
 
 .logo-image {
-  width: 100px; /* Adjust size as needed */
-  height: auto; /* Maintain aspect ratio */
-  margin-right: -35px;
-  margin-top: -25px;
-  margin-bottom: -30px;
+  width: auto; /* Adjust size as needed */
+  height: 250px; /* Set height to 100% of the nav bar */ /* Maintain a maximum size for the logo */
+  /* Remove negative margins */
+  margin-top: -50px;
+  margin-bottom: -140px
+}
+
+.logo-image:hover{
+  transform: scale(1.05)
 }
 
 .nav-buttons {
@@ -57,23 +52,23 @@ nav {
 }
 
 .nav-button {
-  background: none;
+  background-color: rgb(238, 208, 114);
   border: none;
-  color: rgba(255, 255, 255, 0.914);
+  color: rgba(71, 90, 46);
   cursor: pointer;
   padding: 0.5rem 1rem;
   margin-left: 5px; /* Space between buttons */
   font-size: 1rem; /* Uniform font size */
-  font-family: 'Arial', sans-serif; /* Uniform font family */
-  font-weight: bold;
+  font-family: 'Fredoka'; /* Uniform font family */
+  font-weight: 950;
   text-align: center;
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; /* Transition effects */
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 15px; /* Rounded corners */
   text-decoration: none; /* Remove underlines */
 }
 
 .nav-button:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Hover effect */
+  background-color: rgb(189, 154, 51); /* Hover effect */
   transform: scale(1.05); /* Scale effect on hover */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
 }
@@ -141,7 +136,7 @@ nav {
 }
 
 .event-card {
-  background-color: #ece9e9; /* Light mode background */
+  background-color: rgba(238, 207, 114, 0.317); /* Light mode background */
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
@@ -155,17 +150,18 @@ nav {
 }
 
 .event-card button {
-  background-color: #44619a; /* Slate gray */
+  background-color: rgba(52, 74, 27, 0.79); /* Slate gray */
   color: white; /* White text */
   border: none; /* Remove default border */
   border-radius: 5px; /* Rounded corners */
   padding: 12px 20px; /* Increased padding for size */
   cursor: pointer; /* Pointer cursor on hover */
   transition: background-color 0.3s; /* Smooth transition for hover effect */
+  font-family: 'Fredoka'; /* Uniform font family */
 }
 
 .event-card button:hover {
-  background-color: #3964bb; /* Lighter slate gray on hover */
+  background-color: rgba(52,74,27); /* Lighter slate gray on hover */
 }
 
 /* Modal Styles */
@@ -183,9 +179,9 @@ nav {
 }
 
 .modal {
-  background: #ffffff; /* Light mode modal background */
+  background: rgb(235, 208, 127); /* Light mode modal background */
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgb(0, 0, 0);
   width: 90%; /* Adjust width as needed */
   max-width: 600px; /* Maximum width for larger screens */
   overflow: hidden; /* Prevent overflow */
@@ -208,7 +204,7 @@ nav {
 .raw-json-container {
   max-height: 300px; /* Set a maximum height for the scrollable box */
   overflow-y: auto; /* Enable vertical scrolling */
-  background-color: #f9f9f9; /* Light background for better contrast */
+  background-color: #f9e9ba; /* Light background for better contrast */
   border: 1px solid #ccc; /* Optional border */
   border-radius: 4px; /* Rounded corners */
   padding: 10px; /* Padding inside the box */
@@ -222,8 +218,8 @@ nav {
 }
 
 .close-button {
-  background: #f44336;
-  color: white;
+  background: #be302e;
+  color: rgba(255, 255, 255, 0.917);
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
@@ -311,7 +307,12 @@ body.dark-mode .signup-container, body.dark-mode .login-container {
 }
 
 .dark-mode nav {
-  background-color: #1c1f24; /* Dark mode nav background */
+  background-color: #202d46; /* Dark mode nav background */
+}
+
+.dark-mode .nav-button {
+  background-color: #44619a; /* Dark mode button background */
+  color: white; /* Dark mode text color */
 }
 
 .dark-mode .dropdown {
@@ -336,6 +337,11 @@ body.dark-mode .signup-container, body.dark-mode .login-container {
   background-color: #4a4a4a; /* Dark mode event card background */
   border: 1px solid #444; /* Dark mode card border */
   color: rgb(229, 227, 227); /* Light gray font color for better readability */
+}
+
+.dark-mode .event-card button {
+  background-color: rgb(35, 45, 68); /* Dark mode button background */
+  color: white; /* White text */
 }
 
 .dark-mode .modal {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NavbarProps } from '../types';
-import woodPlankT from '../assets/Untitled design (2).png';
+import LOGO from '../assets/RAILGUIDE.png';
 import '../index.css';
 
 const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
@@ -34,15 +34,14 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
   return (
     <nav className={isDarkMode ? 'dark-mode' : ''}>
       <Link to="/" className="logo" title="Home">
-      <img src={woodPlankT} alt="Wood Plank T" className="logo-image" />
-      RAILGUIDE
+      <img src={LOGO} alt="Wood Plank T" className="logo-image" />
       </Link>
       <div className="nav-buttons">
         <Link to="/events-dashboard" className="nav-button">
-          Events Dashboard
+          EVENTS DASHBOARD
         </Link>
         <button onClick={toggleDarkMode} className="nav-button">
-          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          {isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}
         </button>
         <div
           className="nav-button"
@@ -50,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
           aria-haspopup="true"
           aria-expanded={dropdownOpen}
         >
-          User
+          USER
         </div>
       </div>
 
