@@ -1,9 +1,10 @@
-import React from 'react';
-import Card from '../components/Card';
-import UserActivityChart from '../components/charts/LineChart';
-import TestPieChart from '../components/charts/PieChart';
-import HeatMap from '../components/charts/HeatMap';
-import IpAccessCombined from '../components/IpAccessCombined';
+import React, { lazy } from 'react';
+
+const Card = lazy(() => import('../components/Card'));
+const UserActivityChart = lazy(() => import('../components/charts/LineChart'));
+const TestPieChart = lazy(() => import('../components/charts/PieChart'));
+const HeatMap = lazy(() => import('../components/charts/HeatMap'));
+const IpAccessCombined = lazy(() => import('../components/IpAccessCombined'));
 
 const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => (
   <main>

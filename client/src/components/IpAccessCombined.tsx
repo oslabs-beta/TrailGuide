@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import AccessPerIpChart from './charts/AccessPerIp';
-import IpAccessOverTimeChart from './charts/IpAccessOverTime';
-// import ObjectDisplay from './ObjDisplay';
+import { useState, useEffect, lazy } from 'react';
+
+const AccessPerIpChart = lazy(() => import('./charts/AccessPerIp'));
+const IpAccessOverTimeChart = lazy(() => import('./charts/IpAccessOverTime'));
+
 import { getIpCounts } from '../aws/getIpCounts';
 import { IpLocCount } from '../types';
 
