@@ -9,9 +9,9 @@ export default function EventSourceChart() {
 
   useEffect(() => {
     async function updateEvents(): Promise<void> {
-      const newEvents = await getEvents(300);
+      const newEvents = await getEvents(30);
       // count the time of each EventName
-      const eventCounts: Record<string, number> = newEvents!.reduce(
+      const eventCounts: Record<string, number> = newEvents.reduce(
         (counts: Record<string, number>, { EventSource }) => ({
           ...counts,
           [EventSource ?? 'noEventName']:
@@ -34,7 +34,7 @@ export default function EventSourceChart() {
 
   return (
     <BarChart width={400} height={340} data={events} layout="vertical">
-      <YAxis dataKey="EventSource" type="category" width={150} />
+      <YAxis dataKey="EventSource" type="category" width={200} />
       {/* <XAxis /> */}
       <Bar dataKey="count" maxBarSize={30} fill="#000090">
         <LabelList dataKey="count" position="insideLeft" fill="#F0F0F0" />
