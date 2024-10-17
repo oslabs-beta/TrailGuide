@@ -88,7 +88,7 @@ const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
 
   return (
     <div className={`event-dashboard ${isDarkMode ? 'dark-mode' : ''}`}>
-      <h1>Event Dashboard</h1>
+      <h1>Events Dashboard</h1>
       {loading && <p>Loading events...</p>}
       {error && <p>{error}</p>}
       {!loading && !error && (
