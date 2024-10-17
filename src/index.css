@@ -163,7 +163,6 @@ nav {
   color: lightgray; /* Light gray text */
 }
 
-
 /* Modal Styles */
 .modal-overlay {
   position: fixed;
@@ -309,4 +308,153 @@ input {
 
 .close-button:hover {
   background: #bbb;
+}
+
+/* Sign up page styles (matching login page styles) */
+.signup-container, .login-container {
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Additional Dark Mode Styles for Sign Up and Login */
+.dark-mode .signup-container, .dark-mode .login-container {
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  color: lightgray;
+}
+
+.signup-button, .login-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup-button:hover, .login-button:hover {
+  background-color: #218838;
+}
+
+/* Ensure input fields, labels, and error messages are adapted for dark mode */
+.dark-mode label,
+.dark-mode .error-message {
+  color: lightgray;
+}
+
+.dark-mode input {
+  background-color: #3a3a3a;
+  color: lightgray;
+  border: 1px solid #555;
+}
+
+.dark-mode input::placeholder {
+  color: #bbb;
+} 
+
+/* Ensure hover effect on close button in dark mode */
+.dark-mode .close-button:hover {
+  background: #666;
+}
+
+/* Styles for the signup and login forms */
+.signup-container, .login-container {
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .signup-container, body.dark-mode .login-container {
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  color: lightgray;
+}
+
+.signup-container h2, .login-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: calc(100% - 16px); /* Adjust width to match the login style */
+  padding: 8px;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+body.dark-mode .form-group input {
+  background-color: #3a3a3a;
+  color: lightgray;
+  border: 1px solid #555;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+body.dark-mode button {
+  background-color: #0056b3;
+}
+
+body.dark-mode button:hover {
+  background-color: #003f7f;
+}
+
+.signup-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.signup-link p {
+  margin: 0;
+}
+
+.signup-link a {
+  color: orange;
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+body.dark-mode .signup-link a {
+  color: orange;
 }
