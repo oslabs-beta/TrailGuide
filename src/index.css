@@ -458,3 +458,63 @@ body.dark-mode button:hover {
 body.dark-mode .signup-link a {
   color: orange;
 }
+
+
+ /* profil page */
+
+ .profile-container {
+  display: flex;
+  position: relative;
+  min-height: 100vh;
+}
+
+.left-container,
+.right-container {
+  flex: 1;
+  margin-right: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #fff;
+}
+
+.right-container {
+  margin-right: 0;
+}
+
+.aws-login {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.logout-button {
+  font-size: 10px;
+  padding: 3px 6px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.profile-picture img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-image: url('https://m.media-amazon.com/images/I/51IdQIkjlBL._AC_UF894,1000_QL80_.jpg');
+  background-size: cover;
+}
+
+.profile-info p {
+  margin: 5px 0;
+}
+
+.settings-section h3 {
+  margin-top: 15px;
+  font-weight: bold;
+}
