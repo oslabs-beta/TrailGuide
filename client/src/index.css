@@ -1,77 +1,102 @@
+/* General Styles */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: rgb(240, 238, 238); /* Dark mode background */
+  background-color: rgb(245, 233, 196); /* Light mode background */
 }
 
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Fredoka', sans-serif; /* Apply Fredoka font */
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Navigation Styles */
 nav {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #282c34; /* Dark mode nav background */
+  background-color: #193d01ea; /* Light mode nav background */
   color: rgba(255, 255, 255, 0.879);
   position: relative;
 }
 
 .logo {
-  flex-grow: 1;
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.858);
-  font-size: 1.5rem;
-  font-family: Helvetica, sans-serif;
-  font-weight: 900;
+  display: flex;
+  align-items: center; /* Center logo image and text vertically */
+}
+
+.logo-image {
+  width: auto; /* Adjust size as needed */
+  height: 250px; /* Set height to 100% of the nav bar */ /* Maintain a maximum size for the logo */
+  /* Remove negative margins */
+  margin-top: -50px;
+  margin-bottom: -140px
+}
+
+.logo-image:hover{
+  transform: scale(1.05)
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Push buttons to the right */
 }
 
 .nav-button {
-  background: none;
+  background-color: rgb(238, 208, 114);
   border: none;
-  color: rgba(255, 255, 255, 0.914);
+  color: rgba(71, 90, 46);
   cursor: pointer;
   padding: 0.5rem 1rem;
-  position: relative;
+  margin-left: 5px; /* Space between buttons */
+  font-size: 1rem; /* Uniform font size */
+  font-family: 'Fredoka'; /* Uniform font family */
+  font-weight: 950;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; /* Transition effects */
+  border-radius: 15px; /* Rounded corners */
+  text-decoration: none; /* Remove underlines */
 }
 
 .nav-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(189, 154, 51); /* Hover effect */
+  transform: scale(1.05); /* Scale effect on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
 }
 
 .dropdown {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: rgba(249, 246, 246, 0.917); /* Light mode background */
+  background-color: rgba(249, 246, 246, 0.917); /* Light dropdown background */
   color: black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  z-index: 1000; /* Ensure it appears on top */
+  z-index: 1000;
 }
 
 .dropdown-link {
   display: block;
   padding: 0.5rem 1rem;
-  text-decoration: none;
+  text-decoration: none; /* Remove underline */
   color: black;
+  transition: background-color 0.3s ease; /* Transition for links */
 }
 
 .dropdown-link:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1); /* Hover effect for dropdown links */
 }
 
-.nav-button,
-.dropdown-link {
-  transition: background-color 0.3s ease;
-}
-
-.main {
-  display: flex; /* Use flexbox for a single line */
-  justify-content: space-evenly;
-  gap: 20px; /* Space between cards */
-  padding: 20px; /* Padding around the container */
-  overflow-x: auto; /* Allow horizontal scrolling if needed */
-  flex-direction: row-reverse;
-}
-
+/* Card and Dashboard Styles */
 .card {
   display: flex;
   flex-direction: column;
@@ -120,7 +145,7 @@ nav {
 }
 
 .event-card {
-  background-color: #ece9e9; /* Light mode background */
+  background-color: rgba(238, 207, 114, 0.317); /* Light mode background */
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
@@ -134,70 +159,18 @@ nav {
 }
 
 .event-card button {
-  background-color: #44619a; /* Slate gray */
+  background-color: rgba(52, 74, 27, 0.79); /* Slate gray */
   color: white; /* White text */
   border: none; /* Remove default border */
   border-radius: 5px; /* Rounded corners */
   padding: 12px 20px; /* Increased padding for size */
   cursor: pointer; /* Pointer cursor on hover */
   transition: background-color 0.3s; /* Smooth transition for hover effect */
+  font-family: 'Fredoka'; /* Uniform font family */
 }
 
 .event-card button:hover {
-  background-color: #3964bb; /* Lighter slate gray on hover */
-}
-
-
-/* Dark Mode Styles */
-.dark-mode {
-  background-color: rgb(35, 35, 35); /* Dark mode background */
-}
-
-.dark-mode .event-dashboard h1 {
-  color: lightgray
-}
-
-.dark-mode nav {
-  background-color: #1c1f24; /* Dark mode nav background */
-}
-
-.dark-mode .dropdown {
-  background-color: rgba(30, 30, 30, 0.9); /* Dark mode dropdown background */
-  color: white; /* Dark mode text color */
-}
-
-.dark-mode .dropdown-link {
-  color: white; /* Dark mode link color */
-}
-
-.dark-mode .card {
-  background-color: #474747; /* Dark mode background */
-  color: lightgray; /* Light gray text for readability */
-}
-
-.dark-mode .card-title {
-  background-color: #474747;
-  color: rgb(228, 225, 225); /* Light gray title color in dark mode */
-}
-
-.dark-mode .event-card {
-  background-color: #4a4a4a; /* Dark mode event card background */
-  border: 1px solid #444; /* Dark mode card border */
-  color: rgb(229, 227, 227); /* Light gray font color for better readability */
-}
-
-.dark-mode .modal {
-  background: #2c2c2c; /* Dark mode background */
-  color: lightgray; /* Light gray text for readability */
-}
-
-.dark-mode .modal-header {
-  border-bottom: 1px solid #444; /* Dark mode border */
-}
-
-.dark-mode .raw-json-container {
-  background-color: #3a3a3a; /* Dark mode background */
-  color: lightgray; /* Light gray text */
+  background-color: rgba(52,74,27); /* Lighter slate gray on hover */
 }
 
 /* Modal Styles */
@@ -215,9 +188,9 @@ nav {
 }
 
 .modal {
-  background: #ffffff; /* Light mode modal background */
+  background: rgb(235, 208, 127); /* Light mode modal background */
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgb(0, 0, 0);
   width: 90%; /* Adjust width as needed */
   max-width: 600px; /* Maximum width for larger screens */
   overflow: hidden; /* Prevent overflow */
@@ -238,13 +211,13 @@ nav {
 }
 
 .raw-json-container {
-  max-height: 300px; 
-  overflow-y: auto; 
-  background-color: #f9f9f9; 
-  border: 1px solid #ccc; 
-  border-radius: 4px; 
-  padding: 10px; 
-  font-family: monospace; 
+  max-height: 300px; /* Set a maximum height for the scrollable box */
+  overflow-y: auto; /* Enable vertical scrolling */
+  background-color: #f9e9ba; /* Light background for better contrast */
+  border: 1px solid #ccc; /* Optional border */
+  border-radius: 4px; /* Rounded corners */
+  padding: 10px; /* Padding inside the box */
+  font-family: monospace; /* Use a monospace font for code-like appearance */
 }
 
 .modal-footer {
@@ -254,13 +227,167 @@ nav {
 }
 
 .close-button {
-  background: #f44336;
-  color: white;
+  background: #be302e;
+  color: rgba(255, 255, 255, 0.917);
   border: none;
+  border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
 }
 
+.close-button:hover {
+  background: #bbb;
+}
+
+/* Input and Form Styles */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-button, .signup-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-button:hover, .signup-button:hover {
+  background-color: #0056b3;
+}
+
+/* Signup and Login Containers */
+.signup-container, .login-container {
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: rgb(234, 212, 144);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .signup-container, body.dark-mode .login-container {
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  color: lightgray;
+}
+
+.signup-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.signup-link p {
+  margin: 0;
+}
+
+.signup-link a {
+  color: rgb(255, 132, 0);
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  background-color: rgb(48, 47, 47); /* Dark mode background */
+}
+
+.dark-mode .event-dashboard h1 {
+  color: lightgray;
+}
+
+.dark-mode nav {
+  background-color: #202d46; /* Dark mode nav background */
+}
+
+.dark-mode .nav-button {
+  background-color: #44619a; /* Dark mode button background */
+  color: white; /* Dark mode text color */
+}
+
+.dark-mode .dropdown {
+  background-color: rgba(30, 30, 30, 0.9); /* Dark mode dropdown background */
+  color: white; /* Dark mode text color */
+}
+
+.dark-mode .dropdown-link {
+  color: white; /* Dark mode link color */
+}
+
+.dark-mode .card {
+  background-color: #474747; /* Dark mode background */
+  color: lightgray; /* Light gray text for readability */
+}
+
+.dark-mode .card-title {
+  color: rgb(228, 225, 225); /* Light gray title color in dark mode */
+  background: none;
+}
+
+.dark-mode .event-card {
+  background-color: #4a4a4a; /* Dark mode event card background */
+  border: 1px solid #444; /* Dark mode card border */
+  color: rgb(229, 227, 227); /* Light gray font color for better readability */
+}
+
+.dark-mode .event-card button {
+  background-color: rgb(35, 45, 68); /* Dark mode button background */
+  color: white; /* White text */
+}
+
+.dark-mode .modal {
+  background: #2c2c2c; /* Dark mode modal background */
+  color: lightgray; /* Light gray text for readability */
+}
+
+.dark-mode .modal-header {
+  border-bottom: 1px solid #444; /* Dark mode border */
+}
+
+.dark-mode .raw-json-container {
+  background-color: #3a3a3a; /* Dark mode background */
+  color: lightgray; /* Light gray text */
+}
+
+.dark-mode input {
+  background-color: #3a3a3a;
+  color: lightgray;
+  border: 1px solid #555;
+}
+
+.dark-mode input::placeholder {
+  color: #bbb;
+}
+
+.dark-mode .close-button {
+  background: #971b1b;
+  color: white;
+}
+
+.dark-mode .close-button:hover {
+  background: #810404;
+}
+
+/* Media Queries */
 @media (max-width: 600px) {
   .card {
     min-width: 100%;
@@ -274,224 +401,4 @@ nav {
   .modal {
     width: 95%; /* Full width on small screens */
   }
-}
-
-/* Additional Dark Mode Styles */
-.dark-mode .modal {
-  background: #2c2c2c; /* Dark mode modal background */
-}
-
-.dark-mode .modal-header {
-  border-bottom: 1px solid #444; /* Dark mode border */
-}
-
-.dark-mode .raw-json-container {
-  background-color: #3a3a3a; /* Dark mode background */
-  color: lightgray; /* Light gray text */
-}
-
-/* Login page styles */
-.login-container {
-  width: 300px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.error-message {
-  color: red;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.login-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.login-button:hover {
-  background-color: #0056b3;
-}
-
-.close-button:hover {
-  background: #bbb;
-}
-
-/* Sign up page styles (matching login page styles) */
-.signup-container, .login-container {
-  width: 300px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Additional Dark Mode Styles for Sign Up and Login */
-.dark-mode .signup-container, .dark-mode .login-container {
-  background-color: #2c2c2c;
-  border: 1px solid #444;
-  color: lightgray;
-}
-
-.signup-button, .login-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.signup-button:hover, .login-button:hover {
-  background-color: #218838;
-}
-
-/* Ensure input fields, labels, and error messages are adapted for dark mode */
-.dark-mode label,
-.dark-mode .error-message {
-  color: lightgray;
-}
-
-.dark-mode input {
-  background-color: #3a3a3a;
-  color: lightgray;
-  border: 1px solid #555;
-}
-
-.dark-mode input::placeholder {
-  color: #bbb;
-} 
-
-/* Ensure hover effect on close button in dark mode */
-.dark-mode .close-button:hover {
-  background: #666;
-}
-
-/* Styles for the signup and login forms */
-.signup-container, .login-container {
-  width: 300px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-body.dark-mode .signup-container, body.dark-mode .login-container {
-  background-color: #2c2c2c;
-  border: 1px solid #444;
-  color: lightgray;
-}
-
-.signup-container h2, .login-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group input {
-  width: calc(100% - 16px); /* Adjust width to match the login style */
-  padding: 8px;
-  box-sizing: border-box;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #ccc;
-}
-
-body.dark-mode .form-group input {
-  background-color: #3a3a3a;
-  color: lightgray;
-  border: 1px solid #555;
-}
-
-.error-message {
-  color: red;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-body.dark-mode button {
-  background-color: #0056b3;
-}
-
-body.dark-mode button:hover {
-  background-color: #003f7f;
-}
-
-.signup-link {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.signup-link p {
-  margin: 0;
-}
-
-.signup-link a {
-  color: orange;
-  text-decoration: none;
-}
-
-.signup-link a:hover {
-  text-decoration: underline;
-}
-
-body.dark-mode .signup-link a {
-  color: orange;
 }

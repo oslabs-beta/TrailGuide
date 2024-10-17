@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NavbarProps } from '../types';
-import '../index.css'; // TODO: Do we need to import this here and main?
+import LOGO from '../assets/RAILGUIDE.png';
+import '../index.css';
 
 const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
-  // Accept isDarkMode prop
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  // Toggle the dropdown open/close state
+
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
   };
-  // Handle logout logic
+
   const handleLogout = () => {
     console.log('User logged out');
-    navigate('/'); // Redirect to home or login page after logout
+    navigate('/'); 
   };
 
   useEffect(() => {
@@ -36,33 +36,33 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
 
   return (
     <nav className={isDarkMode ? 'dark-mode' : ''}>
-      {' '}
-      {/* Apply dark mode class */}
-      <Link to="/" className="logo">
-        TrailGuide
+      <Link to="/" className="logo" title="Home">
+      <img src={LOGO} alt="Wood Plank T" className="logo-image" />
       </Link>
-      <Link to="/events-dashboard" className="nav-button">
-        Events Dashboard
-      </Link>
-      <Link to="/login" className="nav-button">
-        Login
-      </Link>
-      <button onClick={toggleDarkMode} className="nav-button">
-        {isDarkMode ? 'Light Mode' : 'Dark Mode'} {/* Update button text */}
-      </button>
-      <div
-        className="nav-button"
-        onClick={toggleDropdown}
-        aria-haspopup="true"
-        aria-expanded={dropdownOpen}
-      >
-        User Profile
+      <div className="nav-buttons">
+        <Link to="/events-dashboard" className="nav-button">
+          EVENTS DASHBOARD
+        </Link>
+        <button onClick={toggleDarkMode} className="nav-button">
+          {isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}
+        </button>
+        <div
+          className="nav-button"
+          onClick={toggleDropdown}
+          aria-haspopup="true"
+          aria-expanded={dropdownOpen}
+        >
+          USER
+        </div>
       </div>
       {dropdownOpen && (
         <div className="dropdown" ref={dropdownRef}>
           <Link to="/profile" className="dropdown-link">
             Profile
           </Link>
+          <Link to="/login" className="dropdown-link">
+          Login
+        </Link>
           <div className="dropdown-link" onClick={handleLogout}>
             Logout
           </div>
