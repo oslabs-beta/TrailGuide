@@ -1,6 +1,6 @@
 import pool from '../db/db.js';
 
-async function setupDb() {
+export async function setupDb() {
   const client = await pool.connect();
   await client.query(`
       CREATE TABLE IF NOT EXISTS test(
