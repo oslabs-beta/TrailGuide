@@ -7,6 +7,7 @@ const UserActivityChart = lazy(
 const HeatMap = lazy(() => import('../components/charts/HeatMap'));
 const IpAccessCombined = lazy(() => import('../components/IpAccessCombined'));
 const EventTypeChart = lazy(() => import('../components/charts/EventType'));
+const EventSourceChart = lazy(() => import('../components/charts/EventSource'));
 
 const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => (
   <main>
@@ -15,6 +16,10 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => (
     </Card>
     <Card title="Event Types" isDarkMode={isDarkMode}>
       <EventTypeChart />
+    </Card>
+
+    <Card title="Event Sources" isDarkMode={isDarkMode}>
+      <EventSourceChart />
     </Card>
     <Card title="IP Address Heat Map" isDarkMode={isDarkMode}>
       <HeatMap />
