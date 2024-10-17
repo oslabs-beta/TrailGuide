@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import EventCard from '../components/EventCard';
-import Modal from '../components/Modal';
-import { getEvents } from '../aws/getEvents';
+import React, { useState, useEffect, lazy } from 'react';
+
 import { CloudTrailEvent, ParsedAWSEvent } from '../types';
 import { EventsDashboardProps } from '../types';
+
+import { getEvents } from '../aws/getEvents';
+
+const EventCard = lazy(() => import('../components/EventCard'));
+const Modal = lazy(() => import('../components/Modal'));
 
 const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
   const [modalOpen, setModalOpen] = useState(false);
