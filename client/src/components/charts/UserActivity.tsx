@@ -16,24 +16,13 @@ interface UserActivityData {
   count: number;
 }
 
-//TODO: implement auto-update with current data
-// const initialData: UserActivityData[] = [
-//   { timestamp: '2024-10-01', activityCount: 30 },
-//   { timestamp: '2024-10-02', activityCount: 50 },
-//   { timestamp: '2024-10-03', activityCount: 20 },
-//   { timestamp: '2024-10-04', activityCount: 100 },
-//   { timestamp: '2024-10-05', activityCount: 60 },
-//   { timestamp: '2024-10-06', activityCount: 70 },
-//   { timestamp: '2024-10-07', activityCount: 90 },
-// ];
-
 const UserActivityChart: React.FC = () => {
   const [data, setData] = useState<UserActivityData[]>([]);
 
   //effect for simulating updates
   useEffect(() => {
     async function updateEvents(): Promise<void> {
-      const newEvents = await getEvents(30);
+      const newEvents = await getEvents(50);
       // count the time of each EventName
       const eventCounts: Record<string, number> = newEvents.reduce(
         (counts: Record<string, number>, { EventTime }) => {

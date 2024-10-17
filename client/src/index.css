@@ -79,9 +79,10 @@ tspan {
 .card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   min-width: 25rem;
   width: fit-content;
-  height: 36rem;
+  height: fit-content;
   border-radius: 15px;
   box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
   background-color: #ece9e9; /* Light mode background */
@@ -510,4 +511,5 @@ body.dark-mode .signup-link a {
 main {
   display: flex;
   flex-flow: row wrap;
+  align-items: flex-start;
 }

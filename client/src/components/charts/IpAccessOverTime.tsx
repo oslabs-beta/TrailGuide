@@ -28,7 +28,7 @@ export default function IpAccessOverTimeChart({
     <LineChart width={700} height={400} data={ipTimes}>
       <XAxis dataKey="localTime" />
       <YAxis />
-      <Line dataKey="count" dot={false} />
+      <Line type="monotoneX" dataKey="count" dot={false} />
     </LineChart>
   );
 }

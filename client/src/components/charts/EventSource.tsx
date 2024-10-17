@@ -9,7 +9,7 @@ export default function EventSourceChart() {
 
   useEffect(() => {
     async function updateEvents(): Promise<void> {
-      const newEvents = await getEvents(30);
+      const newEvents = await getEvents(50);
       // count the time of each EventName
       const eventCounts: Record<string, number> = newEvents.reduce(
         (counts: Record<string, number>, { EventSource }) => ({
