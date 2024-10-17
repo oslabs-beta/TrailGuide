@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import AccessPerIpChart from './charts/AccessPerIp';
-import IpAccessOverTimeChart from './charts/IpAccessOverTime';
+import { useState, lazy } from 'react';
+
+const AccessPerIpChart = lazy(() => import('./charts/AccessPerIp'));
+const IpAccessOverTimeChart = lazy(() => import('./charts/IpAccessOverTime'));
 
 export default function IpAccessCombined(): JSX.Element {
   const [currentIp, setCurrentIp] = useState<string | undefined>();
