@@ -10,7 +10,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
-    setDropdownOpen(prev => !prev);
+    setDropdownOpen((prev) => !prev);
   };
 
   const handleLogout = () => {
@@ -20,7 +20,10 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     };
@@ -52,7 +55,6 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
           USER
         </div>
       </div>
-
       {dropdownOpen && (
         <div className="dropdown" ref={dropdownRef}>
           <Link to="/profile" className="dropdown-link">
