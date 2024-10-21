@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../index.css'; //TODO: Do we need to import this here and main.tsx?
+//
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');

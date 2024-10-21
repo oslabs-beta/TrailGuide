@@ -1,11 +1,24 @@
 // Variables for colors and fonts
-$background-light: rgb(245, 233, 196);
-$background-dark: rgb(35, 35, 35);
-$primary-color: rgb(238, 208, 114);
-$primary-hover: rgb(189, 154, 51);
-$error-color: red;
+$background-light: #f5e9c4;
+$background-dark: #2c2c2c;
+$primary-color: #eed074;
+$primary-hover: #bd9a33;
+$error-color: #ff0000; // red
 $border-radius: 15px;
 $font-family: 'Fredoka', sans-serif;
+$success-color: #28a745;
+$success-hover: #218838;
+$dark-button-color: #44619a;
+$dark-button-color-hover: #172e55;
+$dark-background: #2c2c2c;
+$dark-border: #444444;
+$dark-input-background: #3a3a3a;
+$dark-input-border: #555555;
+$light-text: #d3d3d3; // lightgray
+$event-button-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
+$event-button-hover: #4b603e;
+$light-card: #e9d9a8;
+$light-mode-font-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
 
 // General Styles
 body {
@@ -32,16 +45,16 @@ h2 {
 
 // Navigation Styles
 nav {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #193d01ea;
-  color: rgba(255, 255, 255, 0.879);
-  position: relative;
+  background-color: $event-button-color; // adjusted from rgba(25, 61, 1, 0.92)
+  color: #ffffff; // adjusted from rgba(255, 255, 255, 0.879)
 
   tspan {
-    color: whitesmoke;
+    color: #f5f5f5; // whitesmoke
   }
 
   .logo {
@@ -68,7 +81,7 @@ nav {
     .nav-button {
       background-color: $primary-color;
       border: none;
-      color: rgba(71, 90, 46);
+      color: #475a2e; // adjusted from rgba(71, 90, 46, 1)
       cursor: pointer;
       padding: 0.5rem 1rem;
       margin-left: 5px;
@@ -92,11 +105,12 @@ nav {
     position: absolute;
     top: 100%;
     right: 0;
-    background-color: rgba(249, 246, 246, 0.917);
+    background-color: $light-card;
     color: black;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    z-index: 1000;
+    z-index: 1000; // This is generally sufficient
+  
 
     .dropdown-link {
       display: block;
@@ -106,7 +120,7 @@ nav {
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: $primary-hover; // adjusted from rgba(0, 0, 0, 0.1)
       }
     }
   }
@@ -122,7 +136,7 @@ nav {
   height: fit-content;
   border-radius: $border-radius;
   box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
-  background-color: #ece9e9;
+  background-color: $light-card;
   color: black;
   transition: transform 0.2s;
   padding: 1rem;
@@ -161,8 +175,8 @@ nav {
   }
 
   .event-card {
-    background-color: rgba(238, 207, 114, 0.317);
-    border: 1px solid #ccc;
+    background-color: $light-card;
+    border: 1px solid #cccccc; // adjusted from #ccc
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -174,8 +188,8 @@ nav {
     }
 
     button {
-      background-color: rgba(52, 74, 27, 0.79);
-      color: white;
+      background-color: $event-button-color;
+      color: #ffffff; // white
       border: none;
       border-radius: 5px;
       padding: 12px 20px;
@@ -184,66 +198,8 @@ nav {
       font-family: $font-family;
 
       &:hover {
-        background-color: #3964bb;
+        background-color: $event-button-hover;
       }
-    }
-  }
-}
-
-// Dark Mode Styles
-.dark-mode {
-  background-color: $background-dark;
-
-  .event-dashboard h1 {
-    color: lightgray;
-  }
-
-  nav {
-    background-color: #1c1f24;
-
-    .nav-button {
-      background-color: #44619a;
-      color: white;
-    }
-  }
-
-  .dropdown {
-    background-color: rgba(30, 30, 30, 0.9);
-    color: white;
-
-    .dropdown-link {
-      color: white;
-    }
-  }
-
-  .card {
-    background-color: #474747;
-    color: lightgray;
-    box-shadow: 0.2rem 0.2rem 1rem 0.01rem #000;
-
-    .card-title {
-      color: rgb(228, 225, 225);
-      background: none;
-    }
-  }
-
-  .event-card {
-    background-color: #4a4a4a;
-    border: 1px solid #444;
-    color: rgb(229, 227, 227);
-  }
-
-  .modal {
-    background: #2c2c2c;
-    color: lightgray;
-
-    .modal-header {
-      border-bottom: 1px solid #444;
-    }
-
-    .raw-json-container {
-      background-color: #3a3a3a;
-      color: lightgray;
     }
   }
 }
@@ -255,7 +211,7 @@ nav {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: #0000059d; // adjusted from rgba(0, 0, 0, 0.5)
   display: flex;
   justify-content: center;
   align-items: center;
@@ -263,9 +219,9 @@ nav {
 }
 
 .modal {
-  background: rgb(235, 208, 127);
+  background: $light-card;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgb(0, 0, 0);
+  box-shadow: 0 4px 20px #000000; // adjusted from rgb(0, 0, 0)
   width: 90%;
   max-width: 600px;
   overflow: hidden;
@@ -288,7 +244,7 @@ nav {
     max-height: 300px;
     overflow-y: auto;
     background-color: #f9e9ba;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc; // adjusted from #ccc
     border-radius: 4px;
     padding: 10px;
     font-family: monospace;
@@ -302,52 +258,282 @@ nav {
 
   .close-button {
     background: #be302e;
-    color: rgba(255, 255, 255, 0.917);
+    color: #ffffff; // adjusted from rgba(255, 255, 255, 0.917)
     border: none;
     border-radius: 8px;
     padding: 8px 16px;
     cursor: pointer;
 
     &:hover {
-      background: #bbb;
+      background: #b34d4d;
     }
   }
 }
 
-// Input and Form Styles
-.form-group {
-  margin-bottom: 15px;
+// Login and Signup Containers
+.login-container,
+.signup-container {
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #cccccc; // adjusted from #ccc
+  border-radius: 10px;
+  background-color: #efe3c6;
+  box-shadow: 0 0 10px #000000; // adjusted from rgba(0, 0, 0, 0.1)
 
-  label {
-    display: block;
-    margin-bottom: 5px;
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
   }
 
-  input {
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: calc(100% - 16px);
+      padding: 8px;
+      box-sizing: border-box;
+      background-color: #ffffff; // white
+      color: #000000; // black
+      border: 1px solid #cccccc; // adjusted from #ccc
+
+      &::placeholder {
+        color: #bbbbbb; // adjusted from #bbb
+      }
+    }
+  }
+
+  .error-message {
+    color: $error-color;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  button {
     width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: $primary-color;
+    color: $light-mode-font-color;
+    font-size: medium;
+    font-weight: bold;
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
 
-    &::placeholder {
-      color: #bbb;
+    &:hover {
+      background-color: $primary-hover;
     }
   }
 }
 
-.login-button,
-.signup-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.signup-link {
+  margin-top: 20px;
+  text-align: center;
 
-  &:hover {
-    background-color: #0056b3;
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: orange;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
+
+// Dark mode styles
+.dark-mode {
+  background-color: $background-dark;
+
+  // Login and Signup Containers
+  .login-container,
+  .signup-container {
+    background-color: $dark-background;
+    border: 1px solid $dark-border;
+    color: $light-text;
+
+    .form-group {
+      input {
+        background-color: $dark-input-background;
+        color: $light-text;
+        border: 1px solid $dark-input-border;
+
+        &::placeholder {
+          color: #bbbbbb; // adjusted from #bbb
+        }
+      }
+    }
+
+    button {
+      background-color: $dark-button-color;
+      color: #ffffff; // white
+
+      &:hover {
+        background-color: $dark-button-color-hover;
+      }
+    }
+
+    .error-message {
+      color: $light-text;
+    }
+  }
+
+  // Navigation
+  nav {
+    background-color: #192945;
+
+    .nav-button {
+      background-color: $dark-button-color;
+      color: #ffffff; // white
+
+      &:hover {
+        background-color: $dark-button-color-hover;
+      }
+    }
+  }
+
+  // Dropdown
+  .dropdown {
+    background-color: $dark-input-background;
+    color: #ffffff; // white
+
+    
+
+    .dropdown-link {
+      color: #ffffff; // white
+
+      &:hover {
+        background-color: $dark-button-color-hover;
+      }
+    }
+  }
+
+  // Card Styles
+  .card {
+    background-color: #474747;
+    color: #d3d3d3; // lightgray
+    box-shadow: 0.2rem 0.2rem 1rem 0.01rem #000000; // adjusted from #000
+
+    .card-title {
+      color: #e4e1e1; // adjusted from rgb(228, 225, 225)
+      background: none;
+    }
+  }
+
+  .event-dashboard h1 {
+    color: #e4e1e1; // adjusted from rgb(228, 225, 225)
+  }
+
+  // Event Card Styles
+  .event-card {
+    background-color: #4a4a4a;
+    border: 1px solid #444444; // adjusted from #444
+    color: #e5e3e3; // adjusted from rgb(229, 227, 227)
+
+    button {
+      background-color: $dark-button-color;
+
+      &:hover {
+        background-color: $dark-button-color-hover;
+      }
+    }
+  }
+
+  // Modal Styles
+  .modal-overlay {
+    background: #0000059d; // adjusted from rgba(0, 0, 0, 0.5)
+  }
+  .modal {
+    background: #2c2c2c;
+    color: #d3d3d3; // lightgray
+
+    .modal-header {
+      border-bottom: 1px solid #444444; // adjusted from #444
+    }
+
+    .raw-json-container {
+      background-color: #3a3a3a;
+      color: #d3d3d3; // lightgray
+    }
+  }
+
+  // Signup Link
+  .signup-link a {
+    color: orange;
+  }
+}
+
+// Media Queries
+
+// For tablets and larger devices
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column; // Stack items vertically on smaller screens
+    align-items: flex-start; // Align items to the start
+
+    .nav-buttons {
+      margin-left: 0; // Reset margin for buttons
+      margin-top: 1rem; // Add space above buttons
+    }
+  }
+
+  .card {
+    min-width: 100%; // Make cards full width
+  }
+
+  .login-container,
+  .signup-container {
+    width: 90%; // Make forms more responsive
+  }
+
+  .event-dashboard {
+    padding: 10px; // Reduce padding for smaller screens
+  }
+}
+
+// For mobile devices
+@media (max-width: 480px) {
+  body {
+    font-size: 14px; // Adjust base font size for readability
+  }
+
+  h2 {
+    font-size: 1.5rem; // Adjust header size
+  }
+
+  .nav-button {
+    padding: 0.5rem; // Adjust button padding
+    font-size: 0.9rem; // Smaller font size
+  }
+
+  .card {
+    margin: 0.5rem; // Reduce margins for cards
+  }
+
+  .modal {
+    width: 95%; // Make modals wider on smaller screens
+  }
+
+  .event-card {
+    padding: 12px; // Adjust padding
+  }
+
+  .login-container,
+  .signup-container {
+    width: 100%; // Full width for mobile
+  }
+
+  .dropdown {
+    right: auto; // Adjust dropdown position
+    left: 0; // Align to the left
+  }
+}
+
