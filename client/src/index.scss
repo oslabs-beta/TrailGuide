@@ -24,7 +24,7 @@ $light-mode-font-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: $background-light;
+  background: $background-light;
 
   &.dark-mode {
     background-color: $background-dark;
@@ -50,7 +50,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: $event-button-color; // adjusted from rgba(25, 61, 1, 0.92)
+  background: linear-gradient(to right,#245901, #24361a); // adjusted from rgba(25, 61, 1, 0.92)
   color: #ffffff; // adjusted from rgba(255, 255, 255, 0.879)
 
   tspan {
@@ -65,7 +65,7 @@ nav {
       width: auto;
       height: 250px;
       margin-top: -50px;
-      margin-bottom: -140px;
+      margin-bottom: -140px; 
 
       &:hover {
         transform: scale(1.05);
@@ -388,7 +388,13 @@ nav {
 
   // Navigation
   nav {
-    background-color: #192945;
+    background:linear-gradient(to right,$dark-button-color,#0f1a2c);
+
+    .logo {
+      .logo-image {
+        filter: invert(100%) saturate(10%) brightness(85%);
+      }
+    }
 
     .nav-button {
       background-color: $dark-button-color;
