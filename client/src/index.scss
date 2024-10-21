@@ -1,0 +1,353 @@
+// Variables for colors and fonts
+$background-light: rgb(245, 233, 196);
+$background-dark: rgb(35, 35, 35);
+$primary-color: rgb(238, 208, 114);
+$primary-hover: rgb(189, 154, 51);
+$error-color: red;
+$border-radius: 15px;
+$font-family: 'Fredoka', sans-serif;
+
+// General Styles
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: $background-light;
+
+  &.dark-mode {
+    background-color: $background-dark;
+  }
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: $font-family;
+}
+
+.error-message {
+  color: $error-color;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+// Navigation Styles
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #193d01ea;
+  color: rgba(255, 255, 255, 0.879);
+  position: relative;
+
+  tspan {
+    color: whitesmoke;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+
+    .logo-image {
+      width: auto;
+      height: 250px;
+      margin-top: -50px;
+      margin-bottom: -140px;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .nav-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+
+    .nav-button {
+      background-color: $primary-color;
+      border: none;
+      color: rgba(71, 90, 46);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      margin-left: 5px;
+      font-size: 1rem;
+      font-family: $font-family;
+      font-weight: 950;
+      text-align: center;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      border-radius: $border-radius;
+      text-decoration: none;
+
+      &:hover {
+        background-color: $primary-hover;
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(249, 246, 246, 0.917);
+    color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1000;
+
+    .dropdown-link {
+      display: block;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      color: black;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+// Card and Dashboard Styles
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 25rem;
+  width: fit-content;
+  height: fit-content;
+  border-radius: $border-radius;
+  box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
+  background-color: #ece9e9;
+  color: black;
+  transition: transform 0.2s;
+  padding: 1rem;
+  text-align: center;
+  overflow: hidden;
+  margin: 1rem;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .card-content {
+    display: flex;
+  }
+}
+
+.heatmap-container {
+  width: 100%;
+  height: 80%;
+  max-height: 100%;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+.event-dashboard {
+  padding: 20px;
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .event-card {
+    background-color: rgba(238, 207, 114, 0.317);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    button {
+      background-color: rgba(52, 74, 27, 0.79);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-family: $font-family;
+
+      &:hover {
+        background-color: #3964bb;
+      }
+    }
+  }
+}
+
+// Dark Mode Styles
+.dark-mode {
+  background-color: $background-dark;
+
+  .event-dashboard h1 {
+    color: lightgray;
+  }
+
+  nav {
+    background-color: #1c1f24;
+
+    .nav-button {
+      background-color: #44619a;
+      color: white;
+    }
+  }
+
+  .dropdown {
+    background-color: rgba(30, 30, 30, 0.9);
+    color: white;
+
+    .dropdown-link {
+      color: white;
+    }
+  }
+
+  .card {
+    background-color: #474747;
+    color: lightgray;
+    box-shadow: 0.2rem 0.2rem 1rem 0.01rem #000;
+
+    .card-title {
+      color: rgb(228, 225, 225);
+      background: none;
+    }
+  }
+
+  .event-card {
+    background-color: #4a4a4a;
+    border: 1px solid #444;
+    color: rgb(229, 227, 227);
+  }
+
+  .modal {
+    background: #2c2c2c;
+    color: lightgray;
+
+    .modal-header {
+      border-bottom: 1px solid #444;
+    }
+
+    .raw-json-container {
+      background-color: #3a3a3a;
+      color: lightgray;
+    }
+  }
+}
+
+// Modal Styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: rgb(235, 208, 127);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgb(0, 0, 0);
+  width: 90%;
+  max-width: 600px;
+  overflow: hidden;
+
+  .modal-header {
+    padding: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-content {
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .raw-json-container {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #f9e9ba;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: monospace;
+  }
+
+  .modal-footer {
+    padding: 16px;
+    border-top: 1px solid #e0e0e0;
+    text-align: right;
+  }
+
+  .close-button {
+    background: #be302e;
+    color: rgba(255, 255, 255, 0.917);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &:hover {
+      background: #bbb;
+    }
+  }
+}
+
+// Input and Form Styles
+.form-group {
+  margin-bottom: 15px;
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    &::placeholder {
+      color: #bbb;
+    }
+  }
+}
+
+.login-button,
+.signup-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
