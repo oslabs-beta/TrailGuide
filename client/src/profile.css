@@ -1,0 +1,93 @@
+.profile-container {
+    display: flex;
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  .left-container,
+  .right-container {
+    flex: 1;
+    margin-right: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .right-container {
+    margin-right: 0;
+  }
+  
+  .aws-login {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  .logout-button {
+    font-size: 10px;
+    padding: 3px 6px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: #be302e;
+    color: rgba(255, 255, 255, 0.917);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background: #810404;
+  }
+  
+  .profile-picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-image: url('https://m.media-amazon.com/images/I/51IdQIkjlBL._AC_UF894,1000_QL80_.jpg');
+    background-size: cover;
+  }
+  
+  .profile-info p {
+    margin: 5px 0;
+    color: #444;
+  }
+  
+  .settings-section h3 {
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  
+  .dark-mode .profile-container {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .dark-mode .left-container,
+  .dark-mode .right-container {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    color: lightgray;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  }
+  
+  .dark-mode .profile-picture img {
+    background-color: #3a3a3a;
+    filter: brightness(0.8);
+  }
+  
+  .dark-mode .logout-button {
+    background: #971b1b;
+    color: white;
+  }
+  
+  .dark-mode .profile-info p {
+    color: lightgray;
+  }
+  
+  .dark-mode .settings-section h3 {
+    color: lightgray;
+  }
+  
