@@ -19,9 +19,12 @@ $event-button-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
 $event-button-hover: #4b603e;
 $light-card: #e9d9a8;
 $light-mode-font-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
+$draggable-border-color: #cccccc; // Border color for draggable cards
+$draggable-hover-bg: #f5f5f5; // Background color when dragging
 
 // General Styles
-body {
+html, body {
+  height:100%;
   margin: 0;
   font-family: Arial, sans-serif;
   background: $background-light;
@@ -109,8 +112,7 @@ nav {
     color: black;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    z-index: 1000; // This is generally sufficient
-  
+    z-index: 1000;
 
     .dropdown-link {
       display: block;
@@ -120,20 +122,45 @@ nav {
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: $primary-hover; // adjusted from rgba(0, 0, 0, 0.1)
+        background-color: $primary-hover;
       }
     }
   }
 }
 
-// Card and Dashboard Styles
+// Draggable Styles
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; // Full height of the viewport
+  overflow-y: auto; // Allow scrolling if necessary for the entire view
+  padding: 10px; // Optional padding around the container
+}
+
+.draggable-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); // Adjust min-width as needed
+  gap: 40px; // Space between cards
+  width: 100%; // Full width of the container
+  padding-top: 10px; // Adjust as needed
+}
+
+.draggable-card {
+  width: 100%; // Full width of the grid cell
+  box-sizing: border-box;
+  transition: all 0.3s ease; // Smooth transition
+  display: flex;
+  height: auto;
+}
+
 .card {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 25rem;
-  width: fit-content;
-  height: fit-content;
+  align-items: center; // Center align content
+  width: 95%; // Full width of grid cell
+  height: auto; // Fixed height for uniformity
   border-radius: $border-radius;
   box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
   background-color: $light-card;
@@ -142,7 +169,6 @@ nav {
   padding: 1rem;
   text-align: center;
   overflow: hidden;
-  margin: 1rem;
 
   &:hover {
     transform: scale(1.02);
@@ -150,19 +176,26 @@ nav {
 
   .card-content {
     display: flex;
+    justify-content: center;
+    align-items: center; // Center align vertically
+    width: 100%;
+    height: auto; // Make sure it takes the full heigh
+    }
   }
-}
+
 
 .heatmap-container {
-  width: 100%;
-  height: 80%;
-  max-height: 100%;
+  display: flex; // Use flexbox for centering
+  align-items: center;
+  justify-content: center;
+  width: 100%; // Adjust as needed
+  height: 90%; // Adjust to fit within your layout
+  margin-bottom: 2em;
 }
 
 .map {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
+  width: 100%; // Make it responsive
+  height: auto; // Adjust height automatically
 }
 
 .event-dashboard {
@@ -411,8 +444,6 @@ nav {
     background-color: $dark-input-background;
     color: #ffffff; // white
 
-    
-
     .dropdown-link {
       color: #ffffff; // white
 
@@ -457,6 +488,7 @@ nav {
   .modal-overlay {
     background: #0000059d; // adjusted from rgba(0, 0, 0, 0.5)
   }
+
   .modal {
     background: #2c2c2c;
     color: #d3d3d3; // lightgray
@@ -489,6 +521,11 @@ nav {
       margin-left: 0; // Reset margin for buttons
       margin-top: 1rem; // Add space above buttons
     }
+  }
+
+  .draggable-grid {
+    grid-template-columns: 1fr; // Switch to single column
+    padding: 20px; // Adjust padding as needed
   }
 
   .card {
@@ -542,4 +579,3 @@ nav {
     left: 0; // Align to the left
   }
 }
-

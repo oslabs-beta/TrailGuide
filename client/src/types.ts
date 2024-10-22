@@ -20,6 +20,13 @@ export interface CardProps {
   isDarkMode: boolean;
 }
 
+export interface CardState {
+  id: string;
+  title: string;
+  component: React.ReactNode;
+}
+
+
 export interface EventsDashboardProps {
   isDarkMode: boolean;
 }
