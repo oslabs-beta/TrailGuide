@@ -1,78 +1,94 @@
 .profile-container {
     display: flex;
+    flex-wrap: wrap;
     position: relative;
     min-height: 100vh;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 15px;
+    padding: 40px;
+    background-color: #f3f4f6;
+    gap: 20px;
+    justify-content: center;
   }
   
   .left-container,
   .right-container {
-    flex: 1;
-    margin-right: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 15px;
+    flex: 1 1 45%;
+    min-width: 300px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
     transition: transform 0.2s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
   
   .right-container {
-    margin-right: 0;
+    align-items: flex-start;
   }
   
   .left-container:hover,
   .right-container:hover {
     transform: scale(1.02);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
   
-  .aws-login {
-    position: fixed;
-    bottom: 70px;
-    left: 20px;
-    background: orange;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    padding: 0.5rem 1rem;
+  .aws-login-button,
+  .logout-button,
+  .submit-button {
+    width: 100%;
     font-size: 1rem;
-    font-family: 'Fredoka';
-    font-weight: 950;
+    padding: 0.75rem 1.5rem;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
   }
   
-  .aws-login:hover {
-    background: darkorange;
+  .submit-button {
+    background: #ff9900;
+    color: white;
+    border: none;
+  }
+  
+  .submit-button:hover {
+    background-color: #e68a00;
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
   
   .logout-button {
-    font-size: 0.875rem;
-    padding: 0.4rem 0.8rem;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #be302e;
+    background: #d13212;
     color: rgba(255, 255, 255, 0.917);
     border: none;
-    border-radius: 10px;
-    font-family: 'Fredoka';
-    font-weight: 950;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
   }
   
   .logout-button:hover {
-    background: #810404;
+    background: #a4260b;
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .aws-login-button {
+    background: #ff9900;
+    color: white;
+    border: none;
+    text-align: center;
+  }
+  
+  .aws-login-button:hover {
+    background-color: #e68a00;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .aws-login-button a {
+    color: white;
+    text-decoration: none;
   }
   
   .profile-picture img {
@@ -87,32 +103,91 @@
     transform: scale(1.05);
   }
   
+  .aws-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .profile-info {
+    width: 100%;
+  }
+  
   .profile-info p {
-    margin: 5px 0;
-    color: #444;
+    margin: 10px 0;
+    color: #333;
+    font-size: 1rem;
   }
   
   .profile-info .info-container {
     padding: 15px;
     margin-bottom: 15px;
-    border: 2px solid #000;
-    border-radius: 15px;
-    background-color: #fff;
-    font-family: 'Fredoka';
-    font-size: 1.2rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    background-color: #fafbfc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: left;
+  }
+  
+  .input-container {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .input-container label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  .input-container input,
+  .input-container select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bordered {
+    border: 2px solid #0073bb;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .settings-section {
+    width: 100%;
   }
   
   .settings-section h3 {
-    margin-top: 15px;
+    margin-top: 20px;
     font-weight: bold;
+    text-align: left;
+    width: 100%;
+    color: #232f3e;
+  }
+  
+  .settings-section .info-container {
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    background-color: #fafbfc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: left;
   }
   
   .dark-mode .profile-container,
   .dark-mode .left-container,
   .dark-mode .right-container {
-    background-color: #2c2c2c;
+    background-color: #232f3e;
     border: 1px solid #444;
     color: lightgray;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
@@ -124,21 +199,21 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
   
-  .dark-mode .aws-login {
-    background: orange;
+  .dark-mode .aws-login-button {
+    background: #ff9900;
   }
   
-  .dark-mode .aws-login:hover {
-    background: darkorange;
+  .dark-mode .aws-login-button:hover {
+    background-color: #e68a00;
   }
   
   .dark-mode .logout-button {
-    background: #971b1b;
+    background: #a4260b;
     color: white;
   }
   
   .dark-mode .logout-button:hover {
-    background: #810404;
+    background: #7b1e06;
   }
   
   .dark-mode .profile-info p {
@@ -153,5 +228,26 @@
   
   .dark-mode .settings-section h3 {
     color: lightgray;
+  }
+  
+  .dark-mode .settings-section .info-container {
+    background-color: #3a3a3a;
+    border: 1px solid #555;
+    color: lightgray;
+  }
+  
+  .dark-mode .input-container label {
+    color: lightgray;
+  }
+  
+  .dark-mode .input-container input,
+  .dark-mode .input-container select {
+    background-color: #3a3a3a;
+    border: 1px solid #555;
+    color: lightgray;
+  }
+  
+  .dark-mode .bordered {
+    border: 2px solid #ff9900;
   }
   
