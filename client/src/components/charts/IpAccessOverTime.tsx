@@ -9,21 +9,25 @@ export default function IpAccessOverTimeChart({
   currentIp,
 }: {
   currentIp?: string;
-}): JSX.Element | undefined {
+}): JSX.Element | null { // Update to return null instead of undefined
   const [ipTimes, setIpTimes] = useState<TimeCount[]>([]);
 
   useEffect(() => {
     async function updateIpTimes() {
-      if (!currentIp) setIpTimes(() => []);
-      else {
+      if (!currentIp) {
+        setIpTimes([]);
+      } else {
         const newData = await getIpTimes(currentIp, bucketByMinute);
-        setIpTimes(() => newData);
+        setIpTimes(newData);
       }
     }
-    void updateIpTimes();
+    updateIpTimes().catch((error) => {
+      console.error('Failed to update IP times:', error);
+    });
   }, [currentIp]);
 
-  if (!currentIp) return;
+  if (!currentIp) return null; // Return null instead of undefined
+
   return (
     <LineChart width={700} height={400} data={ipTimes}>
       <XAxis dataKey="localTime" />

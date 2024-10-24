@@ -10,12 +10,24 @@ const EventTypeChart = lazy(() => import('../components/charts/EventType'));
 const EventSourceChart = lazy(() => import('../components/charts/EventSource'));
 
 const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
+  // State to track the current IP (null means no IP selected)
+  const [currentIp, setCurrentIp] = useState<string | undefined>();
+
   const [cards, setCards] = useState<CardState[]>([
     { id: 'userActivity', title: 'User Activity', component: <UserActivityChart /> },
     { id: 'eventTypes', title: 'Event Types', component: <EventTypeChart /> },
     { id: 'eventSources', title: 'Event Sources', component: <EventSourceChart /> },
     { id: 'heatMap', title: 'IP Address Heat Map', component: <HeatMap /> },
-    { id: 'ipAccess', title: 'Access by IP Address', component: <IpAccessCombined /> },
+    {
+      id: 'ipAccess',
+      title: 'Access by IP Address',
+      component: (
+        <IpAccessCombined
+          currentIp={currentIp}
+          setCurrentIp={setCurrentIp} // Pass the setter for updating the selected IP
+        />
+      ),
+    },
   ]);
 
   const handleDragEnd = (result: DropResult) => {
@@ -37,13 +49,14 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {/* Wrap card elements in a fragment or div */}
               <>
                 {cards.map((card, index) => (
                   <Draggable key={card.id} draggableId={card.id} index={index}>
                     {(provided, snapshot) => (
                       <div
-                        className={`draggable-card ${snapshot.isDragging ? 'dragging' : ''}`}
+                        className={`draggable-card ${
+                          card.id === 'ipAccess' && currentIp ? 'expanded' : ''
+                        } ${snapshot.isDragging ? 'dragging' : ''}`}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}

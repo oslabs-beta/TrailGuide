@@ -130,58 +130,58 @@ nav {
 
 // Draggable Styles
 
-.home-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; // Full height of the viewport
-  overflow-y: auto; // Allow scrolling if necessary for the entire view
-  padding: 10px; // Optional padding around the container
-}
-
 .draggable-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); // Adjust min-width as needed
+  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr)); // Base columns setup
   gap: 40px; // Space between cards
-  width: 100%; // Full width of the container
-  padding-top: 10px; // Adjust as needed
+  width: 100%;
+  padding-top: 10px;
 }
 
 .draggable-card {
-  width: 100%; // Full width of the grid cell
+  width: 100%;
   box-sizing: border-box;
-  transition: all 0.3s ease; // Smooth transition
+  transition: all 0.3s ease;
   display: flex;
   height: auto;
-}
 
-.card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; // Center align content
-  width: 95%; // Full width of grid cell
-  height: auto; // Fixed height for uniformity
-  border-radius: $border-radius;
-  box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
-  background-color: $light-card;
-  color: black;
-  transition: transform 0.2s;
-  padding: 1rem;
-  text-align: center;
-  overflow: hidden;
+  // When the card is expanded, make it span two columns and rows
+  &.expanded {
+    grid-column: span 2; // Span across 2 columns when expanded
+     // Optional: span across 2 rows for additional height
+    transition: all 0.3s ease; // Smooth transition effect
+  }
 
+  // Card hover effect (unchanged)
   &:hover {
     transform: scale(1.02);
   }
-
-  .card-content {
+  
+  .card {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center; // Center align vertically
+    align-items: center;
     width: 100%;
-    height: auto; // Make sure it takes the full heigh
+    height: auto;
+    border-radius: $border-radius;
+    box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
+    background-color: $light-card;
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    overflow: hidden;
+    
+    // Card content styling
+    .card-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: auto;
     }
   }
+}
 
 
 .heatmap-container {
@@ -514,6 +514,7 @@ nav {
 // For tablets and larger devices
 @media (max-width: 768px) {
   nav {
+    width: 100%; // Full width for navigation
     flex-direction: column; // Stack items vertically on smaller screens
     align-items: flex-start; // Align items to the start
 
@@ -525,11 +526,13 @@ nav {
 
   .draggable-grid {
     grid-template-columns: 1fr; // Switch to single column
-    padding: 20px; // Adjust padding as needed
+    padding: 40px; // Adjust padding as needed
+    margin-left: 10px;
   }
 
   .card {
-    min-width: 100%; // Make cards full width
+    min-width: 70%; // Make cards full width
+    max-width: 225px;
   }
 
   .login-container,
@@ -552,13 +555,18 @@ nav {
     font-size: 1.5rem; // Adjust header size
   }
 
+  nav {
+    width: 100%; // Full width for navigation
+  }
+
   .nav-button {
     padding: 0.5rem; // Adjust button padding
     font-size: 0.9rem; // Smaller font size
   }
 
   .card {
-    margin: 0.5rem; // Reduce margins for cards
+    max-width: 250px;
+    margin-left: -2px; // Reduce margins for cards
   }
 
   .modal {

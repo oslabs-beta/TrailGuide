@@ -26,6 +26,11 @@ export interface CardState {
   component: React.ReactNode;
 }
 
+export interface IpAccessCombinedProps {
+  currentIp?: string;
+  setCurrentIp: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
 
 export interface EventsDashboardProps {
   isDarkMode: boolean;
