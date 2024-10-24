@@ -9,7 +9,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleLogin = (event: React.FormEvent) => {
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(null);
 
@@ -29,55 +29,68 @@ const Login: React.FC = () => {
     }
 
     try {
-      // Simulate login logic
-      if ((username === 'user' || email === 'user@example.com') && password === 'password') {
-        console.log('Login successful!');
+      //Send resgiter request to the backend
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username || null,
+          work_email: email || null,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        console.log('Sign-up successful!');
         navigate('/profile');
-      } else {
-        setError('Invalid username/email or password');
       }
-    } catch {
+    } catch (err) {
       setError('Error logging in. Please try again.');
+      console.error(err, 'Error in login at Login.tsx;');
     }
   };
 
   return (
-    <div className="login-container">
+    <div className='login-container'>
       <h2>Login</h2>
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className='error-message'>{error}</div>}
       <form onSubmit={handleLogin}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
+        <div className='form-group'>
+          <label htmlFor='username'>Username:</label>
           <input
-            type="text"
-            id="username"
+            type='text'
+            id='username'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
+        <div className='form-group'>
+          <label htmlFor='email'>Email:</label>
           <input
-            type="email"
-            id="email"
+            type='email'
+            id='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
+        <div className='form-group'>
+          <label htmlFor='password'>Password:</label>
           <input
-            type="password"
-            id="password"
+            type='password'
+            id='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type='submit'>Login</button>
       </form>
-      <div className="signup-link">
-        <p>Don&apos;t have an account? <Link to="/signup">Sign up here</Link></p>
+      <div className='signup-link'>
+        <p>
+          Don&apos;t have an account? <Link to='/signup'>Sign up here</Link>
+        </p>
       </div>
     </div>
   );
