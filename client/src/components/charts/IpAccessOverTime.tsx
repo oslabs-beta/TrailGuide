@@ -1,41 +1,52 @@
 import { useState, useEffect } from 'react';
-import { LineChart, XAxis, YAxis, Line } from 'recharts';
-
+import { AreaChart, XAxis, YAxis, Area } from 'recharts';
 import getIpTimes, { bucketByMinute } from '../../aws/getIpTimes';
-
 import { TimeCount } from '../../types';
 
 export default function IpAccessOverTimeChart({
   currentIp,
 }: {
   currentIp?: string;
-}): JSX.Element | null { // Update to return null instead of undefined
+}): JSX.Element | null {
   const [ipTimes, setIpTimes] = useState<TimeCount[]>([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     async function updateIpTimes() {
+      setLoading(true); // Set loading to true before fetching data
       if (!currentIp) {
         setIpTimes([]);
+        setLoading(false); // Set loading to false if no IP is selected
       } else {
         const newData = await getIpTimes(currentIp, bucketByMinute);
         setIpTimes(newData);
+        setLoading(false); // Set loading to false after data is ready
       }
     }
     updateIpTimes().catch((error) => {
       console.error('Failed to update IP times:', error);
+      setLoading(false); // Handle errors by stopping loading
     });
-
 
     console.log('currentIp:', currentIp);
   }, [currentIp]);
 
-  if (!currentIp) return null; // Return null instead of undefined
-//reversed the times to show the most recent first
+  if (!currentIp) return null;
+
+  // Show loading message while data is being fetched
+  if (loading) return <p>Loading chart...</p>;
+
   return (
-    <LineChart width={700} height={400} data={ipTimes}>
+    <AreaChart width={300} height={300} data={ipTimes}>
       <XAxis dataKey="localTime" reversed={true} />
       <YAxis />
-      <Line type="monotoneX" dataKey="count" dot={false} />
-    </LineChart>
+      <Area
+        type="monotone"
+        dataKey="count"
+        stroke="#8884d8" // Line color
+        fill="#8884d8" // Area fill color
+        dot={false}
+      />
+    </AreaChart>
   );
 }
