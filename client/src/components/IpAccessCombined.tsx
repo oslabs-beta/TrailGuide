@@ -1,12 +1,12 @@
-import { useState, useEffect, lazy } from 'react';
+import { useState, useEffect } from 'react';
+import AccessPerIpChart from './charts/AccessPerIp';
+import IpAccessOverTimeChart from './charts/IpAccessOverTime';
+import { CountedEvent, IPLocation, IpAccessCombinedProps } from '../types'; // Import the interface from types.ts
 
-import { CountedEvent, IPLocation } from '../types';
-
-const AccessPerIpChart = lazy(() => import('./charts/AccessPerIp'));
-const IpAccessOverTimeChart = lazy(() => import('./charts/IpAccessOverTime'));
-
-export default function IpAccessCombined(): JSX.Element {
-  const [currentIp, setCurrentIp] = useState<string | undefined>();
+export default function IpAccessCombined({
+  currentIp,
+  setCurrentIp,
+}: IpAccessCombinedProps): JSX.Element {
   const [ipLocCounts, setIpLocCounts] = useState<(IPLocation & CountedEvent)[]>(
     []
   );
@@ -42,10 +42,11 @@ export default function IpAccessCombined(): JSX.Element {
               {currentIpLoc?.city}, {currentIpLoc?.region},{' '}
               {currentIpLoc?.country}
             </p>
+            {/* Make sure the chart renders only when IP is selected */}
+            <IpAccessOverTimeChart currentIp={currentIp} />
           </>
         )}
       </div>
-      <IpAccessOverTimeChart currentIp={currentIp} />
     </>
   );
 }

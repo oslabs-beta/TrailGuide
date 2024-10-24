@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NavbarProps } from '../types';
 import LOGO from '../assets/RAILGUIDE.png';
-import '../index.css';
+//import '../index.scss';
 
 const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

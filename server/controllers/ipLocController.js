@@ -20,12 +20,17 @@ export default {
             'https://ipapi.co/' + event.source_ip + '/json'
           );
           const location = await response.json();
+          console.log(
+            'ipLocController.injectLocs: location from ipapi: ',
+            location
+          );
           event = { ...event, ...location };
 
           //overwrite the result with the returned row from the insert
           result = await query(
             `
-              INSERT INTO ips 
+              INSERT INTO ips
+              (ip, country, region, city, lat, long)
               VALUES(
                 $1,
                 $2,
@@ -34,6 +39,7 @@ export default {
                 $5,
                 $6
               )
+              ON CONFLICT (ip) DO NOTHING
               RETURNING country, region, city, lat, long;
             `,
             [
@@ -46,14 +52,19 @@ export default {
             ]
           );
         }
+        const { country, region, city, lat, long } = result.rows[0];
 
         // update the event, then continue the loop
-        event = { ...event, ...result.rows[0] };
+        event.country = country;
+        event.region = region;
+        event.city = city;
+        event.lat = Number(lat);
+        event.long = Number(long);
       }
       return next();
     } catch (error) {
       return next({
-        log: 'ipLocController.injectLocs: Error',
+        log: 'ipLocController.injectLocs: Error: ' + error,
         status: 500,
         message: {
           err: 'A server error occured',

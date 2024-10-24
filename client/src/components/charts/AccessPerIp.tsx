@@ -33,7 +33,7 @@ export default function AccessPerIpChart({
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text
+      <text className='pie-label'
         x={x}
         y={y}
         fill="white"
@@ -46,7 +46,7 @@ export default function AccessPerIpChart({
   };
 
   return (
-    <PieChart width={400} height={300}>
+    <PieChart width={450} height={300}>
       <Pie
         data={ipLocCounts}
         label={renderCustomizedLabel}

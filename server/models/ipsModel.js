@@ -5,7 +5,7 @@ import 'dotenv/config';
 const pool = new pg.Pool({
   user: 'tgadmin',
   password: 'secret',
-  host: 'db',
+  host: 'localhost',
   port: 5432,
   database: 'tgdb',
 });
@@ -22,7 +22,7 @@ pool.on('error', function (err, client) {
 
 //export the query method for passing queries to the pool
 export async function query(text, values) {
-  console.log('query:', text.split('\n')[1], values);
+  // console.log('ipsModel.query:', text.split('\n')[1], values);
   return pool.query(text, values);
 }
 

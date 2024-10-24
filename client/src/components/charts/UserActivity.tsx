@@ -5,7 +5,6 @@ import {
   YAxis,
   AreaChart,
   Area,
-  Legend,
   Tooltip,
 } from 'recharts';
 import { CountedEvent } from '../../types';
@@ -18,20 +17,24 @@ const UserActivityChart: React.FC = () => {
       .then((response) => response.json())
       .then((data: CountedEvent[] | { err: string }) => {
         if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
-          setData(() => data as CountedEvent[]);
+          setData(
+            (data as CountedEvent[]).map((countedEvent) => ({
+              ...countedEvent,
+              localTime: new Date(countedEvent.time).toLocaleString(),
+            }))
+          );
       })
       .catch((error) =>
         console.warn('Could not fetch event time counts: ', error)
       );
   }, []);
-
+  //reversed the times to show the most recent first
   return (
     <AreaChart width={600} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="localTime" scale="time" />
+      <XAxis dataKey="localTime" reversed angle={-45} textAnchor="end" />
       <YAxis />
       <Tooltip />
-      <Legend />
       <Area
         type="monotone"
         dataKey="count"

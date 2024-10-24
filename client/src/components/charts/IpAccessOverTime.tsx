@@ -6,7 +6,7 @@ export default function IpAccessOverTimeChart({
   currentIp,
 }: {
   currentIp?: string;
-}): JSX.Element | undefined {
+}): JSX.Element | null {
   const [ipTimes, setIpTimes] = useState<CountedEvent[]>([]);
 
   useEffect(() => {
@@ -21,10 +21,11 @@ export default function IpAccessOverTimeChart({
       );
   }, [currentIp]);
 
-  if (!currentIp) return;
+  if (!currentIp) return null; // Return null instead of undefined
+  //reversed the times to show the most recent first
   return (
     <LineChart width={700} height={400} data={ipTimes}>
-      <XAxis dataKey="localTime" />
+      <XAxis dataKey="localTime" reversed={true} />
       <YAxis />
       <Line type="monotoneX" dataKey="count" dot={false} />
     </LineChart>
