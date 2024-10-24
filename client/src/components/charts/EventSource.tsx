@@ -1,49 +1,80 @@
 import { useEffect, useState } from 'react';
 import { getEvents } from '../../aws/getEvents';
-import { Bar, BarChart, LabelList, YAxis, Cell } from 'recharts';
+import { Bar, BarChart, LabelList, XAxis, Cell } from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6666', '#FF99CC', '#FFCC99'];
 
 export default function EventSourceChart() {
-  const [events, setEvents] = useState<
-    { EventSource: string; count: number }[]
-  >([]);
+  const [events, setEvents] = useState<{ EventSource: string; count: number }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedEventSource, setSelectedEventSource] = useState<string | null>(null); // State for clicked event source
 
   useEffect(() => {
     async function updateEvents(): Promise<void> {
+      setLoading(true);
       const newEvents = await getEvents(50);
-      // count the time of each EventSource
       const eventCounts: Record<string, number> = newEvents.reduce(
         (counts: Record<string, number>, { EventSource }) => ({
           ...counts,
-          [EventSource ?? 'noEventName']:
-            (counts[EventSource ?? 'noEventName'] || 0) + 1,
+          [EventSource ?? 'noEventName']: (counts[EventSource ?? 'noEventName'] || 0) + 1,
         }),
-        {} // initial value of counts (for reduce)
+        {}
       );
-      // remove bad data
       delete eventCounts.noEventName;
-      // reshape data for recharts
-      setEvents(() =>
+      setEvents(
         Object.entries(eventCounts).map(([EventSource, count]) => ({
           EventSource: EventSource.replace(/([A-Z])/g, ' $1'),
           count,
         }))
       );
+      setLoading(false);
     }
     void updateEvents();
   }, []);
 
+  if (loading) return <p>Loading chart...</p>;
+
+  const handleClick = (data: { EventSource: string }) => {
+    setSelectedEventSource((prevSelected) =>
+      prevSelected === data.EventSource ? null : data.EventSource
+    );
+  };
+
   return (
-    <BarChart width={400} height={340} data={events} layout="vertical">
-      <YAxis dataKey="EventSource" type="category" width={250} />
-      <Bar dataKey="count" maxBarSize={25} minPointSize={5} fill="#000090">
-        {/* Map through events and assign different colors to each bar */}
-        {events.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-        <LabelList dataKey="count" position="insideLeft" fill="#F0F0F0" />
-      </Bar>
-    </BarChart>
+    <div style={{ width: '100%', overflowX: 'auto' }}>
+      <BarChart
+        width={events.length * 120}
+        height={300}
+        data={events}
+        layout="horizontal"
+        barCategoryGap="1%"
+        barGap={1}
+      >
+        <XAxis dataKey="count" type="category" interval={0} angle={-30} textAnchor="end" />
+        <Bar dataKey="count" maxBarSize={35} minPointSize={5}>
+          {events.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[index % COLORS.length]}
+              onClick={() => handleClick(entry)} // Attach the click handler to each Cell
+              style={{ cursor: 'pointer' }} // Add a pointer cursor to indicate clickability
+            />
+          ))}
+          <LabelList className='chartlabel'
+            dataKey="EventSource"
+            position="insideBottom"
+            angle={90}
+            fill="#000000"
+          />
+        </Bar>
+      </BarChart>
+
+      {/* Display selected event source under the chart title */}
+      {selectedEventSource && (
+        <p className='underchart'>
+          Event Source: {selectedEventSource}
+        </p>
+      )}
+    </div>
   );
 }
