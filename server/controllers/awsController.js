@@ -74,6 +74,7 @@ export default {
       res.locals.events = Object.entries(countsPerField).map(
         ([group, count]) => ({
           count,
+          name: group,
           [req.query.countOn]: group,
         })
       );
