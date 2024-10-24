@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Cell, Legend, Pie, PieChart } from 'recharts';
 import { CountedEvent, IPLocation } from '../../types';
 
@@ -12,6 +13,16 @@ export default function AccessPerIpChart({
   setCurrentIp: React.Dispatch<React.SetStateAction<string | undefined>>;
   ipLocCounts: (IPLocation & CountedEvent)[];
 }): JSX.Element {
+  const [loading, setLoading] = useState(true); // Add loading state
+
+  useEffect(() => {
+    // Simulate loading delay for data
+    setLoading(true);
+    if (ipLocCounts && ipLocCounts.length > 0) {
+      setLoading(false); // Once data is available, set loading to false
+    }
+  }, [ipLocCounts]);
+
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
     cx,
@@ -33,7 +44,8 @@ export default function AccessPerIpChart({
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text className='pie-label'
+      <text
+        className="pie-label"
         x={x}
         y={y}
         fill="white"
@@ -45,8 +57,11 @@ export default function AccessPerIpChart({
     );
   };
 
+  // Show loading message while data is being fetched
+  if (loading) return <p>Loading chart...</p>;
+
   return (
-    <PieChart width={450} height={300}>
+    <PieChart width={350} height={300}>
       <Pie
         data={ipLocCounts}
         label={renderCustomizedLabel}
