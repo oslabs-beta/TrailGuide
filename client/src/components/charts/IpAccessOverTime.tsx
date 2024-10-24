@@ -24,13 +24,16 @@ export default function IpAccessOverTimeChart({
     updateIpTimes().catch((error) => {
       console.error('Failed to update IP times:', error);
     });
+
+
+    console.log('currentIp:', currentIp);
   }, [currentIp]);
 
   if (!currentIp) return null; // Return null instead of undefined
-
+//reversed the times to show the most recent first
   return (
     <LineChart width={700} height={400} data={ipTimes}>
-      <XAxis dataKey="localTime" />
+      <XAxis dataKey="localTime" reversed={true} />
       <YAxis />
       <Line type="monotoneX" dataKey="count" dot={false} />
     </LineChart>

@@ -128,14 +128,18 @@ nav {
   }
 }
 
-// Draggable Styles
+//Homepage Styles
+.home-container {
+  padding: 1em;
+}
 
 .draggable-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr)); // Base columns setup
-  gap: 40px; // Space between cards
+  gap: 40px; 
   width: 100%;
   padding-top: 10px;
+  background-color: $background-light;
 }
 
 .draggable-card {
@@ -145,14 +149,14 @@ nav {
   display: flex;
   height: auto;
 
-  // When the card is expanded, make it span two columns and rows
+  
   &.expanded {
-    grid-column: span 2; // Span across 2 columns when expanded
-     // Optional: span across 2 rows for additional height
-    transition: all 0.3s ease; // Smooth transition effect
+    grid-column: span 2; 
+     
+    transition: all 0.3s ease; 
   }
 
-  // Card hover effect (unchanged)
+  
   &:hover {
     transform: scale(1.02);
   }
@@ -183,21 +187,27 @@ nav {
   }
 }
 
+.pie-label {
+  font-size: 1em;
+  font-weight: bold;
+  color: #475a2e; // adjusted from rgba(71, 90, 46, 1)
+}
 
 .heatmap-container {
-  display: flex; // Use flexbox for centering
+  display: flex; 
   align-items: center;
   justify-content: center;
-  width: 100%; // Adjust as needed
-  height: 90%; // Adjust to fit within your layout
+  width: 100%; 
+  height: 90%; 
   margin-bottom: 2em;
 }
 
 .map {
-  width: 100%; // Make it responsive
-  height: auto; // Adjust height automatically
+  width: 100%; 
+  height: auto; 
 }
 
+//Event Dashboard Styles
 .event-dashboard {
   padding: 20px;
 
@@ -237,7 +247,7 @@ nav {
   }
 }
 
-// Modal Styles
+// Modal Styles//Dashboard
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -451,6 +461,14 @@ nav {
         background-color: $dark-button-color-hover;
       }
     }
+  }
+
+  .draggable-grid {
+    background-color: $dark-background;
+  }
+
+  .home-container {
+    background-color: $dark-background;
   }
 
   // Card Styles
