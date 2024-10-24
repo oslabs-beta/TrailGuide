@@ -35,18 +35,18 @@ export interface EventCardProps {
   isDarkMode: boolean;
 }
 
-// Update ModalProps to include UserIdentity
+
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   eventDetails:
     | (ParsedAWSEvent & {
         timestamp: string;
-        sourceIP: string; // Keep this as is
-        userType: string; // Change to UserIdentity type
-        rawJson: string; // Include rawJson
+        sourceIP: string; 
+        userType: string; 
+        rawJson: string; 
       })
-    | null; // Update to include UserIdentity
+    | null; 
   isDarkMode: boolean;
 }
 
@@ -99,6 +99,21 @@ export interface TimeCount {
 export interface LoginFormData {
   username: string;
   password: string;
+}
+
+/**
+ * GeoJSON Types
+ */
+export interface GeoJSONFeatureCollection {
+  type: string;
+  features: {
+      type: string;
+      properties: Record<string, unknown>;
+      geometry: {
+          type: string;
+          coordinates: number[][] | number[][][];
+      };
+  }[];
 }
 
 /**

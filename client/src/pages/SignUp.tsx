@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../index.css';
+//import '../index.scss'; //TODO: do we need to import this here and main.tsx
 
 const SignUp: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -126,7 +126,7 @@ const SignUp: React.FC = () => {
             required
           />
         </div>
-        <button type='submit'>Sign Up</button>
+        <button className="signup-button" type="submit">Sign Up</button>
       </form>
     </div>
   );

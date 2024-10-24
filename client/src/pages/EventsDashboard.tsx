@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import EventCard from '../components/EventCard';
 import Modal from '../components/Modal';
-import { getEvents } from '../aws/getEvents';
 import { CloudTrailEvent, ParsedAWSEvent } from '../types';
 import { EventsDashboardProps } from '../types';
+import EventCard from '../components/EventCard';
+import { getEvents } from '../aws/getEvents';
+
+// const EventCard = lazy(() => import('../components/EventCard'));
+// const Modal = lazy(() => import('../components/Modal'));
 
 const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -85,7 +88,7 @@ const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
 
   return (
     <div className={`event-dashboard ${isDarkMode ? 'dark-mode' : ''}`}>
-      <h1>Event Dashboard</h1>
+      <h1>Recent Events</h1>
       {loading && <p>Loading events...</p>}
       {error && <p>{error}</p>}
       {!loading && !error && (
