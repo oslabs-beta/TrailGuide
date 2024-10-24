@@ -1,32 +1,31 @@
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Docker Compose reference guide at
-# https://docs.docker.com/go/compose-spec-reference/
-
-# Here the instructions define your application as a service called "server".
-# This service is built from the Dockerfile in the current directory.
-# You can add other services your application may depend on here, such as a
-# database or a cache. For examples, see the Awesome Compose repository:
-# https://github.com/docker/awesome-compose
 services:
   db:
-    image: postgres
-    restart: always
-    environment:
-      - POSTGRES_DB=root
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=secret
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready']
-      interval: 1s
-      timeout: 5s
-      retries: 10
-    ports:
-      - 5432:5432
-  server:
+    image: trailguide/trailguide-db-prod
     build:
       context: .
+      dockerfile: Dockerfile-postgres
+    container_name: trailguide-db
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U tgadmin -d tgdb']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=tgadmin
+      - POSTGRES_DB=tgdb
+    volumes:
+      - trailguide-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  server:
+    image: trailguide/trailguide-prod
+    build:
+      context: .
+    container_name: trailguide-server
+    env_file: .env
     environment:
       NODE_ENV: production
     ports:
@@ -36,37 +35,4 @@ services:
         condition: service_healthy
 
 volumes:
-  pgdata:
-# The commented out section below is an example of how to define a PostgreSQL
-# database that your application can use. `depends_on` tells Docker Compose to
-# start the database before your application. The `db-data` volume persists the
-# database data between container restarts. The `db-password` secret is used
-# to set the database password. You must create `db/password.txt` and add
-# a password of your choosing to it before running `docker-compose up`.
-#     depends_on:
-#       db:
-#         condition: service_healthy
-#   db:
-#     image: postgres
-#     restart: always
-#     user: postgres
-#     secrets:
-#       - db-password
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
-#     environment:
-#       - POSTGRES_DB=example
-#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-#     expose:
-#       - 5432
-#     healthcheck:
-#       test: [ "CMD", "pg_isready" ]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 5
-# volumes:
-#   db-data:
-# secrets:
-#   db-password:
-#     file: db/password.txt
-
+  trailguide-db:

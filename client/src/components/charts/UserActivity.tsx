@@ -8,44 +8,22 @@ import {
   Legend,
   Tooltip,
 } from 'recharts';
-import { getEvents } from '../../aws/getEvents';
-import { bucketByMinute } from '../../aws/getIpTimes';
-
-interface UserActivityData {
-  EventTime: string; // can change to date? depending on the data
-  count: number;
-}
+import { CountedEvent } from '../../types';
 
 const UserActivityChart: React.FC = () => {
-  const [data, setData] = useState<UserActivityData[]>([]);
+  const [data, setData] = useState<CountedEvent[]>([]);
 
   //effect for simulating updates
   useEffect(() => {
-    async function updateEvents(): Promise<void> {
-      const newEvents = await getEvents(50);
-      // count the time of each EventName
-      const eventCounts: Record<string, number> = newEvents.reduce(
-        (counts: Record<string, number>, { EventTime }) => {
-          if (!EventTime) return { noEventTime: 0 };
-          const time = bucketByMinute(EventTime).toLocaleTimeString();
-          return {
-            ...counts,
-            [time]: (counts[time] || 0) + 1,
-          };
-        },
-        {} // initial value of counts (for reduce)
+    fetch('/events?countOn=time&groupTimeBy=minute')
+      .then((response) => response.json())
+      .then((data: CountedEvent[] | { err: string }) => {
+        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
+          setData(() => data as CountedEvent[]);
+      })
+      .catch((error) =>
+        console.warn('Could not fetch event time counts: ', error)
       );
-      // remove bad data
-      delete eventCounts.noEventTime;
-      // reshape data for recharts
-      setData(() =>
-        Object.entries(eventCounts).map(([EventTime, count]) => ({
-          EventTime: EventTime.replace(/([A-Z])/g, ' $1'),
-          count,
-        }))
-      );
-    }
-    void updateEvents();
   }, []);
 
   return (

@@ -1,35 +1,20 @@
 import { useEffect, useState } from 'react';
-import { getEvents } from '../../aws/getEvents';
 import { Bar, BarChart, LabelList, YAxis } from 'recharts';
+import { CountedEvent } from '../../types';
 
 export default function EventTypeChart() {
-  const [events, setEvents] = useState<{ EventName: string; count: number }[]>(
-    []
-  );
+  const [events, setEvents] = useState<CountedEvent[]>([]);
 
   useEffect(() => {
-    async function updateEvents(): Promise<void> {
-      const newEvents = await getEvents(50);
-      // count the time of each EventName
-      const eventCounts: Record<string, number> = newEvents.reduce(
-        (counts: Record<string, number>, { EventName }) => ({
-          ...counts,
-          [EventName ?? 'noEventName']:
-            (counts[EventName ?? 'noEventName'] || 0) + 1,
-        }),
-        {} // initial value of counts (for reduce)
+    fetch('/events?countOn=type')
+      .then((response) => response.json())
+      .then((data: CountedEvent[] | { err: string }) => {
+        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
+          setEvents(() => data as CountedEvent[]);
+      })
+      .catch((error) =>
+        console.warn('Could not fetch event type counts: ', error)
       );
-      // remove bad data
-      delete eventCounts.noEventName;
-      // reshape data for recharts
-      setEvents(() =>
-        Object.entries(eventCounts).map(([EventName, count]) => ({
-          EventName: EventName.replace(/([A-Z])/g, ' $1'),
-          count,
-        }))
-      );
-    }
-    void updateEvents();
   }, []);
 
   return (

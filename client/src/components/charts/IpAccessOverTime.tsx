@@ -1,26 +1,24 @@
 import { useState, useEffect } from 'react';
 import { LineChart, XAxis, YAxis, Line } from 'recharts';
-
-import getIpTimes, { bucketByMinute } from '../../aws/getIpTimes';
-
-import { TimeCount } from '../../types';
+import { CountedEvent } from '../../types';
 
 export default function IpAccessOverTimeChart({
   currentIp,
 }: {
   currentIp?: string;
 }): JSX.Element | undefined {
-  const [ipTimes, setIpTimes] = useState<TimeCount[]>([]);
+  const [ipTimes, setIpTimes] = useState<CountedEvent[]>([]);
 
   useEffect(() => {
-    async function updateIpTimes() {
-      if (!currentIp) setIpTimes(() => []);
-      else {
-        const newData = await getIpTimes(currentIp, bucketByMinute);
-        setIpTimes(() => newData);
-      }
-    }
-    void updateIpTimes();
+    fetch('/events?countOn=time&groupTimeBy=minute')
+      .then((response) => response.json())
+      .then((data: CountedEvent[] | { err: string }) => {
+        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
+          setIpTimes(() => data as CountedEvent[]);
+      })
+      .catch((error) =>
+        console.warn('IpAccessOverTime: fetch error: ' + error)
+      );
   }, [currentIp]);
 
   if (!currentIp) return;

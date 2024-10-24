@@ -1,24 +1,31 @@
 import { useState, useEffect, lazy } from 'react';
 
+import { CountedEvent, IPLocation } from '../types';
+
 const AccessPerIpChart = lazy(() => import('./charts/AccessPerIp'));
 const IpAccessOverTimeChart = lazy(() => import('./charts/IpAccessOverTime'));
 
-import { getIpCounts } from '../aws/getIpCounts';
-import { IpLocCount } from '../types';
-
 export default function IpAccessCombined(): JSX.Element {
   const [currentIp, setCurrentIp] = useState<string | undefined>();
-  const [ipLocCounts, setIpLocCounts] = useState<IpLocCount[]>([]);
+  const [ipLocCounts, setIpLocCounts] = useState<(IPLocation & CountedEvent)[]>(
+    []
+  );
 
   useEffect(() => {
-    async function updateIpLocCounts(): Promise<void> {
-      const newData = await getIpCounts();
-      setIpLocCounts(() => newData);
-    }
-    void updateIpLocCounts();
+    fetch('/events?countOn=source_ip&includeLocation=true')
+      .then((response) => response.json())
+      .then((data: (IPLocation & CountedEvent)[] | { err: string }) => {
+        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
+          setIpLocCounts(() => data as (IPLocation & CountedEvent)[]);
+      })
+      .catch((error) =>
+        console.warn('IpAccessCombined: fetch error: ' + error)
+      );
   }, []);
 
-  const currentIpLoc = ipLocCounts.find(({ ip }) => ip === currentIp);
+  const currentIpLoc = ipLocCounts.find(
+    ({ source_ip }) => source_ip === currentIp
+  );
 
   return (
     <>

@@ -1,6 +1,5 @@
 import { Cell, Legend, Pie, PieChart } from 'recharts';
-
-import { IpLocCount } from '../../types.js';
+import { CountedEvent, IPLocation } from '../../types';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -11,7 +10,7 @@ export default function AccessPerIpChart({
 }: {
   currentIp?: string;
   setCurrentIp: React.Dispatch<React.SetStateAction<string | undefined>>;
-  ipLocCounts: IpLocCount[];
+  ipLocCounts: (IPLocation & CountedEvent)[];
 }): JSX.Element {
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -70,10 +69,14 @@ export default function AccessPerIpChart({
           );
         }}
         onClick={(payload) => {
-          const payloadData = payload.payload as IpLocCount | undefined;
+          const payloadData = payload.payload as
+            | (IPLocation & CountedEvent)
+            | undefined;
           if (payloadData) {
             setCurrentIp((current: string | undefined) =>
-              payloadData.ip === current ? undefined : payloadData.ip
+              payloadData.source_ip === current
+                ? undefined
+                : payloadData.source_ip
             );
           }
         }}
