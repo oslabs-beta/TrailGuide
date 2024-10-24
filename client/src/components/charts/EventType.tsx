@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getEvents } from '../../aws/getEvents';
-import { Bar, BarChart, LabelList, YAxis } from 'recharts';
+import { Bar, BarChart, LabelList, YAxis, Cell } from 'recharts';
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6666', '#FF99CC', '#FFCC99'];
 
 export default function EventTypeChart() {
   const [events, setEvents] = useState<{ EventName: string; count: number }[]>(
@@ -35,8 +37,11 @@ export default function EventTypeChart() {
   return (
     <BarChart width={400} height={340} data={events} layout="vertical">
       <YAxis dataKey="EventName" type="category" width={150} />
-      {/* <XAxis /> */}
-      <Bar dataKey="count" maxBarSize={30} fill="#00C030">
+      <Bar dataKey="count" maxBarSize={25} minPointSize={5} fill="#00C030">
+        {/* Map through events and assign different colors to each bar */}
+        {events.map((_, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
         <LabelList dataKey="count" position="insideLeft" fill="#F0F0F0" />
       </Bar>
     </BarChart>

@@ -47,7 +47,7 @@ export default function AccessPerIpChart({
   };
 
   return (
-    <PieChart width={450} height={300}>
+    <PieChart width={350} height={300}>
       <Pie
         data={ipLocCounts}
         label={renderCustomizedLabel}
