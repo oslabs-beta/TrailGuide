@@ -47,11 +47,11 @@ const UserActivityChart: React.FC = () => {
     }
     void updateEvents();
   }, []);
-
+//reversed the times to show the most recent first
   return (
     <AreaChart width={600} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="EventTime" />
+      <XAxis dataKey="EventTime" reversed={true} />
       <YAxis />
       <Tooltip />
       <Legend />

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudtrail": "^3.583.0",
+    "@hello-pangea/dnd": "^17.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "pg": "^8.13.0",
