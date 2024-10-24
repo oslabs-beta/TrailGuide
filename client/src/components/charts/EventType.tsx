@@ -19,7 +19,7 @@ export default function EventTypeChart() {
 
   return (
     <BarChart width={400} height={340} data={events} layout="vertical">
-      <YAxis dataKey="EventName" type="category" width={150} />
+      <YAxis dataKey="name" type="category" width={150} />
       {/* <XAxis /> */}
       <Bar dataKey="count" maxBarSize={30} fill="#00C030">
         <LabelList dataKey="count" position="insideLeft" fill="#F0F0F0" />

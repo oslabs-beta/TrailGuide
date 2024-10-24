@@ -13,10 +13,17 @@ import {
 } from '../../types';
 
 const HeatMap: React.FC = () => {
-  const [geoJSON] = useState<GeoJSONFeatureCollection | null>(null);
+  const [geoJSON, setGeoJSON] = useState<GeoJSONFeatureCollection | null>(null);
   const [ipData, setIpData] = useState<(IPLocation & CountedEvent)[]>([]);
 
   useEffect(() => {
+    fetch(
+      'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson'
+    )
+      .then((response) => response.json())
+      .then((data: GeoJSONFeatureCollection) => setGeoJSON(data))
+      .catch((error) => console.error('Error fetching geoJSON:', error));
+
     fetch('/events?countOn=source_ip&includeLocation=true')
       .then((response) => response.json())
       .then((data: (IPLocation & CountedEvent)[] | { err: string }) => {

@@ -6,7 +6,7 @@ export default function EventSourceChart() {
   const [events, setEvents] = useState<CountedEvent[]>([]);
 
   useEffect(() => {
-    fetch('/events?countOn=name')
+    fetch('/events?countOn=source')
       .then((response) => response.json())
       .then((data: CountedEvent[] | { err: string }) => {
         if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
@@ -19,7 +19,7 @@ export default function EventSourceChart() {
 
   return (
     <BarChart width={400} height={340} data={events} layout="vertical">
-      <YAxis dataKey="EventSource" type="category" width={200} />
+      <YAxis dataKey="source" type="category" width={200} />
       {/* <XAxis /> */}
       <Bar dataKey="count" maxBarSize={30} fill="#000090">
         <LabelList dataKey="count" position="insideLeft" fill="#F0F0F0" />

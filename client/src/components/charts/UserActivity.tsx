@@ -13,7 +13,6 @@ import { CountedEvent } from '../../types';
 const UserActivityChart: React.FC = () => {
   const [data, setData] = useState<CountedEvent[]>([]);
 
-  //effect for simulating updates
   useEffect(() => {
     fetch('/events?countOn=time&groupTimeBy=minute')
       .then((response) => response.json())
@@ -29,7 +28,7 @@ const UserActivityChart: React.FC = () => {
   return (
     <AreaChart width={600} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="EventTime" />
+      <XAxis dataKey="localTime" scale="time" />
       <YAxis />
       <Tooltip />
       <Legend />
