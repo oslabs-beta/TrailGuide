@@ -1,0 +1,41 @@
+services:
+  db:
+    image: trailguide/trailguide-db-prod
+    build:
+      context: .
+      dockerfile: Dockerfile-postgres
+    container_name: trailguide-db-prod
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U tgadmin -d tgdb']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=tgadmin
+      - POSTGRES_DB=tgdb
+    volumes:
+      - trailguide-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  server:
+    image: trailguide/trailguide-prod
+    build:
+      context: .
+    container_name: trailguide-server
+    env_file: .env
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=tgadmin
+      - POSTGRES_DB=tgdb
+      - NODE_ENV=production
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  trailguide-db:

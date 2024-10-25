@@ -1,41 +1,43 @@
 import { useState, useEffect } from 'react';
-import { LineChart, XAxis, YAxis, Line } from 'recharts';
-
-import getIpTimes, { bucketByMinute } from '../../aws/getIpTimes';
-
-import { TimeCount } from '../../types';
+import { AreaChart, XAxis, YAxis, Area } from 'recharts';
+import { CountedEvent } from '../../types';
 
 export default function IpAccessOverTimeChart({
   currentIp,
 }: {
   currentIp?: string;
-}): JSX.Element | null { // Update to return null instead of undefined
-  const [ipTimes, setIpTimes] = useState<TimeCount[]>([]);
+}): JSX.Element | null {
+  const [ipTimes, setIpTimes] = useState<CountedEvent[]>([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    async function updateIpTimes() {
-      if (!currentIp) {
-        setIpTimes([]);
-      } else {
-        const newData = await getIpTimes(currentIp, bucketByMinute);
-        setIpTimes(newData);
-      }
-    }
-    updateIpTimes().catch((error) => {
-      console.error('Failed to update IP times:', error);
-    });
-
-
-    console.log('currentIp:', currentIp);
+    setLoading(true); // Set loading to true before fetching data
+    fetch('/events?countOn=time&groupTimeBy=minute')
+      .then((response) => response.json())
+      .then((data: CountedEvent[] | { err: string }) => {
+        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
+          setIpTimes(() => data as CountedEvent[]);
+        setLoading(false); // Set loading to true before fetching data
+      })
+      .catch((error) =>
+        console.warn('IpAccessOverTime: fetch error: ' + error)
+      );
   }, [currentIp]);
 
   if (!currentIp) return null; // Return null instead of undefined
-//reversed the times to show the most recent first
+  if (loading) return <p>Loading chart...</p>;
+  //reversed the times to show the most recent first
   return (
-    <LineChart width={700} height={400} data={ipTimes}>
+    <AreaChart width={300} height={300} data={ipTimes}>
       <XAxis dataKey="localTime" reversed={true} />
       <YAxis />
-      <Line type="monotoneX" dataKey="count" dot={false} />
-    </LineChart>
+      <Area
+        type="monotone"
+        dataKey="count"
+        stroke="#8884d8" // Line color
+        fill="#8884d8" // Area fill color
+        dot={false}
+      />
+    </AreaChart>
   );
 }

@@ -178,13 +178,30 @@ nav {
     
     // Card content styling
     .card-content {
-      display: flex;
+      display: flex;;
       justify-content: center;
       align-items: center;
       width: 100%;
       height: auto;
     }
   }
+}
+
+.chartlabel {
+  text-anchor: end;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: $light-mode-font-color; 
+  font-family: $font-family;
+  cursor: pointer;// adjusted from rgba(71, 90, 46, 1)
+}
+
+.underchart {
+  font-size: 1.2rem;
+  font-family: 'Fredoka';  
+  font-weight: bold; 
+  text-align: center; 
+  margin-top: 10px;
 }
 
 .pie-label {

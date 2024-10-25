@@ -4,10 +4,10 @@ import { ModalProps } from '../types';
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
-  eventDetails,
+  event,
   isDarkMode,
 }) => {
-  if (!isOpen || !eventDetails) return null;
+  if (!isOpen || !event) return null;
 
   return (
     <div
@@ -29,24 +29,20 @@ const Modal: React.FC<ModalProps> = ({
         </div>
         <div className={`modal-content ${isDarkMode ? 'dark-mode' : ''}`}>
           <p>
-            <strong>Event Type:</strong>{' '}
-            {eventDetails.ParsedCloudTrailEvent.eventType ?? 'N/A'}
+            <strong>Event Type:</strong> {event.type ?? 'N/A'}
           </p>
           <p>
-            <strong>Event:</strong> {eventDetails.EventName ?? 'N/A'}
+            <strong>Event:</strong> {event.name ?? 'N/A'}
           </p>
           <p>
             <strong>Timestamp:</strong>{' '}
-            {new Date(eventDetails.EventTime!).toLocaleString() ??
-              'Invalid Date'}
+            {event.time.toLocaleString() ?? 'Invalid Date'}
           </p>
           <p>
-            <strong>Source IP:</strong>{' '}
-            {eventDetails.ParsedCloudTrailEvent.sourceIPAddress ?? 'N/A'}
+            <strong>Source IP:</strong> {event.source_ip ?? 'N/A'}
           </p>
           <p>
-            <strong>User Type:</strong>{' '}
-            {eventDetails.ParsedCloudTrailEvent.userIdentity.type ?? 'N/A'}
+            <strong>User Type:</strong> {event.user_identity_type ?? 'N/A'}
           </p>
           <p>
             <strong>Raw JSON Data:</strong>
@@ -54,13 +50,7 @@ const Modal: React.FC<ModalProps> = ({
           <div
             className={`raw-json-container ${isDarkMode ? 'dark-mode' : ''}`}
           >
-            <pre>
-              {JSON.stringify(
-                JSON.parse(eventDetails.CloudTrailEvent!),
-                null,
-                2
-              )}
-            </pre>
+            <pre>{JSON.stringify(event, null, 2)}</pre>
           </div>
         </div>
         <div className={`modal-footer ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -76,4 +66,4 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export default Modal
+export default Modal;
