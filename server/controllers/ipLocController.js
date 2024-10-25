@@ -20,10 +20,6 @@ export default {
             'https://ipapi.co/' + event.source_ip + '/json'
           );
           const location = await response.json();
-          console.log(
-            'ipLocController.injectLocs: location from ipapi: ',
-            location
-          );
           event = { ...event, ...location };
 
           //overwrite the result with the returned row from the insert

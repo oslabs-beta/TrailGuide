@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-postgres
-    container_name: trailguide-db
+    container_name: trailguide-db-prod
     restart: always
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U tgadmin -d tgdb']
@@ -27,7 +27,10 @@ services:
     container_name: trailguide-server
     env_file: .env
     environment:
-      NODE_ENV: production
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=tgadmin
+      - POSTGRES_DB=tgdb
+      - NODE_ENV=production
     ports:
       - 8080:8080
     depends_on:

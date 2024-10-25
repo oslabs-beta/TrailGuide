@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "nodemon server/server.js",
     "build": "tsc -b && vite build",
-    "start": "tsc -b && vite build && NODE_ENV=production node server/server.js",
+    "start": "docker compose up",
     "lint": "eslint .",
     "preview": "vite preview",
+    "docker:install": "docker compose -f compose-node_modules.yml run --rm --service-ports bash npm i --",
+    "docker:dev": "docker compose -f compose-dev.yml up --remove-orphans --build",
     "docker-remove-all": "docker rm $(docker ps -q -a -f 'name=trailguide-') --force && docker image rm $(docker images trailguide/trailguide-* -q) --force && docker volume rm $(docker volume ls -q -f 'name=trailguide*') --force"
   },
   "dependencies": {
@@ -46,9 +48,16 @@
     "typescript-eslint": "^8.7.0",
     "vite": "^5.4.8"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+  "nodemonConfig": {
+    "watch": [
+      "server/server.js",
+      "server/**/**/*"
+    ],
+    "ignore": [
+      "client/*",
+      "dist/*",
+      "vite.config.ts"
+    ],
+    "ext": "js,json"
   }
 }
