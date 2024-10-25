@@ -4,14 +4,13 @@ import { EventCardProps } from '../types'; // Ensure this matches the updated st
 const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
   return (
     <div className="event-card">
-      <h3>Event: {event.ParsedCloudTrailEvent.eventType || 'N/A'}</h3>
+      <h3>Event: {event.type || 'N/A'}</h3>
       <p>
         <strong>Timestamp:</strong>{' '}
-        {new Date(event.ParsedCloudTrailEvent.eventTime).toLocaleString() ||
-          'Invalid Date'}
+        {event.time.toLocaleString() || 'Invalid Date'}
       </p>
       <p>
-        <strong>User:</strong> {event.Username ?? 'Unknown User'}
+        <strong>User:</strong> {event.username ?? 'Unknown User'}
       </p>
       <button onClick={() => onViewDetails(event)}>View Details</button>
     </div>
