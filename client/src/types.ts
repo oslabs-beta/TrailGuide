@@ -4,8 +4,6 @@
  * =================================
  */
 
-import { Event, Resource } from '@aws-sdk/client-cloudtrail';
-
 /**
  * REACT PROPS TYPES
  */
@@ -20,6 +18,17 @@ export interface CardProps {
   isDarkMode: boolean;
 }
 
+export interface CardState {
+  id: string;
+  title: string;
+  component: React.ReactNode;
+}
+
+export interface IpAccessCombinedProps {
+  currentIp?: string;
+  setCurrentIp: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
 export interface EventsDashboardProps {
   isDarkMode: boolean;
 }
@@ -30,23 +39,15 @@ export interface NavbarProps {
 }
 
 export interface EventCardProps {
-  event: ParsedAWSEvent; // Update to use the full CloudTrailEvent type
-  onViewDetails: (event: ParsedAWSEvent) => void;
+  event: LocationTGEvent | TGEvent | CountedEvent;
+  onViewDetails: (event: LocationTGEvent | TGEvent | CountedEvent) => void;
   isDarkMode: boolean;
 }
-
 
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  eventDetails:
-    | (ParsedAWSEvent & {
-        timestamp: string;
-        sourceIP: string; 
-        userType: string; 
-        rawJson: string; 
-      })
-    | null; 
+  event: TGEvent | null;
   isDarkMode: boolean;
 }
 
@@ -79,22 +80,45 @@ export interface IPAPIResponse {
   hostname: string;
 }
 
-export interface IpLocCount {
+export interface TGEvent {
+  _id: string;
   name: string;
-  ip: string;
-  lat: number;
-  long: number;
+  source: string;
+  read_only: boolean;
+  username: string;
+  accesskey_id: string;
+  account_id: string;
+  arn: string;
+  aws_region: string;
+  cipher_suite: string;
+  client_provided_host_header: string;
+  category: string;
+  time: Date;
+  type: string;
+  version: string;
+  is_management: boolean;
+  pricipal_id: string;
+  recipient_account_id: string;
+  request_id: string;
+  source_ip: string;
+  tls_version: string;
+  user_identity_type: string;
+  user_agent: string;
+}
+
+export interface IPLocation {
   country: string;
   region: string;
   city: string;
+  lat: number;
+  long: number;
+}
+
+export interface CountedEvent extends TGEvent {
   count: number;
 }
 
-export interface TimeCount {
-  time: Date;
-  localTime: string;
-  count: number;
-}
+export type LocationTGEvent = IPLocation & (TGEvent | CountedEvent);
 
 export interface LoginFormData {
   username: string;
@@ -107,127 +131,11 @@ export interface LoginFormData {
 export interface GeoJSONFeatureCollection {
   type: string;
   features: {
+    type: string;
+    properties: Record<string, unknown>;
+    geometry: {
       type: string;
-      properties: Record<string, unknown>;
-      geometry: {
-          type: string;
-          coordinates: number[][] | number[][][];
-      };
+      coordinates: number[][] | number[][][];
+    };
   }[];
-}
-
-/**
- * AWS SDK custom types
- *
- */
-
-type JSONParsableString = string;
-export interface UnparsedAWSEvent extends Event {
-  CloudTrailEvent?: JSONParsableString;
-}
-
-export interface ParsedAWSEvent extends Event {
-  ParsedCloudTrailEvent: CloudTrailEvent;
-}
-
-export interface CloudTrailEvent {
-  eventVersion: string;
-  userIdentity: UserIdentity;
-  eventTime: string;
-  eventSource: string;
-  eventName: string;
-  awsRegion: string;
-  sourceIPAddress: string;
-  userAgent: string;
-  requestParameters: RequestParameters;
-  responseElements: null;
-  requestID: string;
-  eventID: string;
-  readOnly: boolean;
-  eventType: string;
-  managementEvent: boolean;
-  recipientAccountId: string;
-  eventCategory: string;
-  tlsDetails: TLSDetails;
-  sessionCredentialFromConsole: string;
-}
-
-export interface RequestParameters {
-  maxItems: number;
-}
-
-export interface TLSDetails {
-  tlsVersion: string;
-  cipherSuite: string;
-  clientProvidedHostHeader: string;
-}
-
-export interface UserIdentity {
-  type: string;
-  principalId: string;
-  arn: string;
-  accountId: string;
-  accessKeyId: string;
-  sessionContext: SessionContext;
-}
-
-export interface SessionContext {
-  sessionIssuer: SessionIssuer;
-  attributes: Attributes;
-}
-
-export interface Attributes {
-  creationDate: Date;
-  mfaAuthenticated: string;
-}
-
-export interface SessionIssuer {
-  type: string;
-  principalId: string;
-  arn: string;
-  accountId: string;
-  userName: string;
-}
-
-export interface FlattenedEvent {
-  AccessKeyId?: string;
-  EventId?: string;
-  EventName?: string;
-  EventSource?: string;
-  EventTime?: Date;
-  ReadOnly?: string;
-  Resources?: Resource[];
-  Username?: string;
-  type?: string;
-  principalId?: string;
-  arn?: string;
-  accountId?: string;
-  accessKeyId?: string;
-  sessionContentsType?: string;
-  SessionContentsPrincipalId?: string;
-  SessionContentsArn?: string;
-  SessionContentsAccountId?: string;
-  creationDate?: Date;
-  mfaAuthenticated?: string;
-  userName?: string;
-  eventVersion?: string;
-  eventTime?: Date;
-  eventSource?: string;
-  eventName?: string;
-  awsRegion?: string;
-  sourceIPAddress?: string;
-  userAgent?: string;
-  maxItems?: number;
-  responseElements?: null;
-  requestID?: string;
-  eventID?: string;
-  readOnly?: boolean;
-  eventType?: string;
-  managementEvent?: boolean;
-  recipientAccountId?: string;
-  eventCategory?: string;
-  tlsVersion?: string;
-  cipherSuite?: string;
-  clientProvidedHostHeader?: string;
-  sessionCredentialFromConsole?: string;
 }

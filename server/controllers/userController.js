@@ -1,24 +1,6 @@
-import pool from '../db/db.js';
 import bcrypt from 'bcryptjs';
 //bcrypt can both verify and hash the user passwords
-
-export async function setupDb() {
-  try {
-    await pool.query(`
-    CREATE TABLE IF NOT EXISTS users(
-      id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-      username VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL,
-      display_name VARCHAR(100),
-      work_email VARCHAR(255) UNIQUE NOT NULL,
-      work_phone VARCHAR(25),
-      created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-  );
-  `);
-  } catch (err) {
-    console.error('Error setting up the database:', err);
-  }
-}
+import { query } from '../models/usersModel.js';
 
 // signup user
 export default {
@@ -27,7 +9,13 @@ export default {
 
     //format validation
     if (!username || !password || !displayName || !work_email || !workPhone) {
-      return res.status(400).json({ error: 'Please fill all fields required' });
+      return next({
+        log: 'userController.createUser: malformat request',
+        status: 400,
+        message: {
+          err: 'Malformat request',
+        },
+      });
     }
 
     try {
@@ -45,23 +33,37 @@ export default {
         work_email,
         workPhone,
       ];
-      const result = await pool.query(queryText, values);
-      res.status(201).json(result.rows[0]); //created users, parsed the result to json
+      const result = await query(queryText, values);
+      res.locals.createdUser = result.rows[0];
+      return next();
     } catch (err) {
-      next(err);
+      next({
+        log: 'userController.createUser: ' + err,
+        status: 500,
+        message: {
+          err: 'Error during user creation',
+        },
+      });
     }
   },
 
   //login user
   loginUser: async (req, res, next) => {
-    const { work_email, password } = req.body;
+    const { username, work_email, password } = req.body;
     try {
-      const queryText = 'select * from users where work_email = $1';
-      const result = await pool.query(queryText, [work_email]);
+      const queryText =
+        'select * from users where work_email = $1 OR username = $2';
+      const result = await query(queryText, [work_email, username]);
 
       //edge case 1: when the user does not exist
       if (result.rows.length === 0) {
-        return res.status(400).json({ error: 'user does not exist' }); //bad request
+        return next({
+          log: 'userController.loginUser: User Does Not Exist in the database',
+          status: 400,
+          message: {
+            err: 'Login Unseccessful',
+          },
+        });
       }
 
       const user = result.rows[0];
@@ -69,39 +71,53 @@ export default {
       //edge case 2: when the password is wrong
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ error: 'login unsuccessful' }); //bad request
+        return next({
+          log: 'userController.loginUser: user does not exist',
+          status: 400,
+          message: {
+            err: 'Error during Login',
+          },
+        });
       }
       //return a response when login successfully
-      res.status(200).json({ message: 'Login successful', user });
+      res.locals.loggedinuser = user;
+      return next();
     } catch (err) {
-      next(err);
+      next({
+        log: 'userController.loginUser: ' + err,
+        status: 500,
+        message: {
+          err: 'Error during Login',
+        },
+      });
     }
   },
-
-  // getAllUsers: async (req, res, next) => {
-  //   try {
-  //     const queryText = 'SELECT * FROM users;';
-  //     const result = await pool.query(queryText);
-  //     if (result.rows.length === 0) {
-  //       return res.status(404).json({ error: `No User found` });
-  //     }
-  //     res.status(200).json(result.rows);
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // },
-
-  // getUserByField: async (req, res, next) => {
-  //   const { field, value } = req.query; //used to be req.params
-  //   try {
-  //     const queryText = `SELECT * FROM users WHERE ${field} = $1;`;
-  //     const result = await pool.query(queryText, [value]);
-  //     return res.status(200).json(result.rows[0]);
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // },
 };
+
+// getAllUsers: async (req, res, next) => {
+//   try {
+//     const queryText = 'SELECT * FROM users;';
+//     const result = await pool.query(queryText);
+//     if (result.rows.length === 0) {
+//       return res.status(404).json({ error: `No User found` });
+//     }
+//     res.status(200).json(result.rows);
+//   } catch (err) {
+//     next(err);
+//   }
+// },
+
+// getUserByField: async (req, res, next) => {
+//   const { field, value } = req.query; //used to be req.params
+//   try {
+//     const queryText = `SELECT * FROM users WHERE ${field} = $1;`;
+//     const result = await pool.query(queryText, [value]);
+//     return res.status(200).json(result.rows[0]);
+//   } catch (err) {
+//     next(err);
+//   }
+// },
+// };
 
 //example
 //getUserByField('username', 'someUsername');

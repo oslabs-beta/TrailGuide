@@ -1,47 +1,52 @@
 import express from 'express';
 import ViteExpress from 'vite-express';
-import userController, { setupDb } from './controllers/userController.js';
-import pool from './db/db.js';
+import userController from './controllers/userController.js';
+import awsController from './controllers/awsController.js';
+import ipLocController from './controllers/ipLocController.js';
 
 const PORT = 8080;
 
 const app = express();
 
-setupDb();
-
-//test the connection with database
-pool
-  .connect()
-  .then((client) => {
-    console.log('Successfully connected with database.');
-    client.release();
-  })
-  .catch((err) => {
-    console.error('Connection Error in Connecting with database', err.stack); //a property of the Error object that contains a string representing the error message and the stack trace.
-  });
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //signup router
-app.post('/api/signup', userController.createUser);
+app.post('/api/signup', userController.createUser, (req, res) => {
+  res.status(201).json(res.locals.createdUser);
+});
 
 //login router
-app.post('/api/login', userController.loginUser);
+app.post('/api/login', userController.loginUser, (req, res) => {
+  res.status(200).json(res.locals.loggedinuser);
+});
 
 // route to get all users
 // app.get('/api/users', userController.getAllUsers);
 
 // app.get('/api/user', userController.getUserByField);
 
-//Global Error Handler Middleware
-app.use((err, req, res, next) => {
-  //The error.stack property is a string describing the point in the code at which the Error was instantiated.
-  console.error(err.stack);
+app.get(
+  '/events',
+  awsController.getEvents,
+  awsController.countOn,
+  ipLocController.injectLocs,
+  (_req, res) => {
+    return res.status(200).json(res.locals.events);
+  }
+);
 
-  res.status(err.status || 500).json({
-    error: err.message || 'Internal Server Error',
-  });
+app.use((error, _req, res, _next) => {
+  const DEFAULT_ERROR = {
+    log: 'An Unkown middleware error occurred',
+    status: 500,
+    message: {
+      err: 'A server error has occurred',
+    },
+  };
+  const specificError = { ...DEFAULT_ERROR, ...error };
+  console.error(specificError.log);
+  return res.status(specificError.status).json(specificError.message);
 });
 
 ViteExpress.listen(app, PORT, async () => {

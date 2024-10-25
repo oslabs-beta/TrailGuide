@@ -19,12 +19,15 @@ $event-button-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
 $event-button-hover: #4b603e;
 $light-card: #e9d9a8;
 $light-mode-font-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
+$draggable-border-color: #cccccc; // Border color for draggable cards
+$draggable-hover-bg: #f5f5f5; // Background color when dragging
 
 // General Styles
-body {
+html, body {
+  height:100%;
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: $background-light;
+  background: $background-light;
 
   &.dark-mode {
     background-color: $background-dark;
@@ -50,7 +53,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: $event-button-color; // adjusted from rgba(25, 61, 1, 0.92)
+  background: linear-gradient(to right,#245901, #24361a); // adjusted from rgba(25, 61, 1, 0.92)
   color: #ffffff; // adjusted from rgba(255, 255, 255, 0.879)
 
   tspan {
@@ -65,7 +68,7 @@ nav {
       width: auto;
       height: 250px;
       margin-top: -50px;
-      margin-bottom: -140px;
+      margin-bottom: -140px; 
 
       &:hover {
         transform: scale(1.05);
@@ -109,8 +112,7 @@ nav {
     color: black;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    z-index: 1000; // This is generally sufficient
-  
+    z-index: 1000;
 
     .dropdown-link {
       display: block;
@@ -120,51 +122,109 @@ nav {
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: $primary-hover; // adjusted from rgba(0, 0, 0, 0.1)
+        background-color: $primary-hover;
       }
     }
   }
 }
 
-// Card and Dashboard Styles
-.card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 25rem;
-  width: fit-content;
-  height: fit-content;
-  border-radius: $border-radius;
-  box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
-  background-color: $light-card;
-  color: black;
-  transition: transform 0.2s;
-  padding: 1rem;
-  text-align: center;
-  overflow: hidden;
-  margin: 1rem;
+//Homepage Styles
+.home-container {
+  padding: 1em;
+}
 
+.draggable-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr)); // Base columns setup
+  gap: 40px; 
+  width: 100%;
+  padding-top: 10px;
+  background-color: $background-light;
+}
+
+.draggable-card {
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  display: flex;
+  height: auto;
+
+  
+  &.expanded {
+    grid-column: span 2; 
+     
+    transition: all 0.3s ease; 
+  }
+
+  
   &:hover {
     transform: scale(1.02);
   }
-
-  .card-content {
+  
+  .card {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    border-radius: $border-radius;
+    box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
+    background-color: $light-card;
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    overflow: hidden;
+    
+    // Card content styling
+    .card-content {
+      display: flex;;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: auto;
+    }
   }
 }
 
+.chartlabel {
+  text-anchor: end;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: $light-mode-font-color; 
+  font-family: $font-family;
+  cursor: pointer;// adjusted from rgba(71, 90, 46, 1)
+}
+
+.underchart {
+  font-size: 1.2rem;
+  font-family: 'Fredoka';  
+  font-weight: bold; 
+  text-align: center; 
+  margin-top: 10px;
+}
+
+.pie-label {
+  font-size: 1em;
+  font-weight: bold;
+  color: #475a2e; // adjusted from rgba(71, 90, 46, 1)
+}
+
 .heatmap-container {
-  width: 100%;
-  height: 80%;
-  max-height: 100%;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  width: 100%; 
+  height: 90%; 
+  margin-bottom: 2em;
 }
 
 .map {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
+  width: 100%; 
+  height: auto; 
 }
 
+//Event Dashboard Styles
 .event-dashboard {
   padding: 20px;
 
@@ -204,7 +264,7 @@ nav {
   }
 }
 
-// Modal Styles
+// Modal Styles//Dashboard
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -388,7 +448,13 @@ nav {
 
   // Navigation
   nav {
-    background-color: #192945;
+    background:linear-gradient(to right,$dark-button-color,#0f1a2c);
+
+    .logo {
+      .logo-image {
+        filter: invert(100%) saturate(10%) brightness(85%);
+      }
+    }
 
     .nav-button {
       background-color: $dark-button-color;
@@ -405,8 +471,6 @@ nav {
     background-color: $dark-input-background;
     color: #ffffff; // white
 
-    
-
     .dropdown-link {
       color: #ffffff; // white
 
@@ -414,6 +478,14 @@ nav {
         background-color: $dark-button-color-hover;
       }
     }
+  }
+
+  .draggable-grid {
+    background-color: $dark-background;
+  }
+
+  .home-container {
+    background-color: $dark-background;
   }
 
   // Card Styles
@@ -451,6 +523,7 @@ nav {
   .modal-overlay {
     background: #0000059d; // adjusted from rgba(0, 0, 0, 0.5)
   }
+
   .modal {
     background: #2c2c2c;
     color: #d3d3d3; // lightgray
@@ -476,6 +549,7 @@ nav {
 // For tablets and larger devices
 @media (max-width: 768px) {
   nav {
+    width: 100%; // Full width for navigation
     flex-direction: column; // Stack items vertically on smaller screens
     align-items: flex-start; // Align items to the start
 
@@ -485,8 +559,15 @@ nav {
     }
   }
 
+  .draggable-grid {
+    grid-template-columns: 1fr; // Switch to single column
+    padding: 40px; // Adjust padding as needed
+    margin-left: 10px;
+  }
+
   .card {
-    min-width: 100%; // Make cards full width
+    min-width: 70%; // Make cards full width
+    max-width: 225px;
   }
 
   .login-container,
@@ -509,13 +590,18 @@ nav {
     font-size: 1.5rem; // Adjust header size
   }
 
+  nav {
+    width: 100%; // Full width for navigation
+  }
+
   .nav-button {
     padding: 0.5rem; // Adjust button padding
     font-size: 0.9rem; // Smaller font size
   }
 
   .card {
-    margin: 0.5rem; // Reduce margins for cards
+    max-width: 250px;
+    margin-left: -2px; // Reduce margins for cards
   }
 
   .modal {
@@ -536,4 +622,3 @@ nav {
     left: 0; // Align to the left
   }
 }
-

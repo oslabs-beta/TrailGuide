@@ -1,24 +1,31 @@
-import { useState, useEffect, lazy } from 'react';
+import { useState, useEffect } from 'react';
+import AccessPerIpChart from './charts/AccessPerIp';
+import IpAccessOverTimeChart from './charts/IpAccessOverTime';
+import { CountedEvent, IPLocation, IpAccessCombinedProps } from '../types'; // Import the interface from types.ts
 
-const AccessPerIpChart = lazy(() => import('./charts/AccessPerIp'));
-const IpAccessOverTimeChart = lazy(() => import('./charts/IpAccessOverTime'));
-
-import { getIpCounts } from '../aws/getIpCounts';
-import { IpLocCount } from '../types';
-
-export default function IpAccessCombined(): JSX.Element {
-  const [currentIp, setCurrentIp] = useState<string | undefined>();
-  const [ipLocCounts, setIpLocCounts] = useState<IpLocCount[]>([]);
+export default function IpAccessCombined({
+  currentIp,
+  setCurrentIp,
+}: IpAccessCombinedProps): JSX.Element {
+  const [ipLocCounts, setIpLocCounts] = useState<(IPLocation & CountedEvent)[]>(
+    []
+  );
 
   useEffect(() => {
-    async function updateIpLocCounts(): Promise<void> {
-      const newData = await getIpCounts();
-      setIpLocCounts(() => newData);
-    }
-    void updateIpLocCounts();
+    fetch('/events?countOn=source_ip&includeLocation=true')
+      .then((response) => response.json())
+      .then((data: (IPLocation & CountedEvent)[] | { err: string }) => {
+        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
+          setIpLocCounts(() => data as (IPLocation & CountedEvent)[]);
+      })
+      .catch((error) =>
+        console.warn('IpAccessCombined: fetch error: ' + error)
+      );
   }, []);
 
-  const currentIpLoc = ipLocCounts.find(({ ip }) => ip === currentIp);
+  const currentIpLoc = ipLocCounts.find(
+    ({ source_ip }) => source_ip === currentIp
+  );
 
   return (
     <>
@@ -35,10 +42,11 @@ export default function IpAccessCombined(): JSX.Element {
               {currentIpLoc?.city}, {currentIpLoc?.region},{' '}
               {currentIpLoc?.country}
             </p>
+            {/* Make sure the chart renders only when IP is selected */}
+            <IpAccessOverTimeChart currentIp={currentIp} />
           </>
         )}
       </div>
-      <IpAccessOverTimeChart currentIp={currentIp} />
     </>
   );
 }
