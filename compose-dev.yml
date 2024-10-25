@@ -16,7 +16,7 @@ services:
       - POSTGRES_USER=tgadmin
       - POSTGRES_DB=tgdb-dev
     volumes:
-      - trailguide-db:/var/lib/postgresql/data
+      - trailguide-db-dev:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
@@ -29,7 +29,10 @@ services:
     container_name: trailguide-server-dev
     env_file: .env
     environment:
-      NODE_ENV: development
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=tgadmin
+      - POSTGRES_DB=tgdb-dev
+      - NODE_ENV=development
     ports:
       - 8080:8080
     volumes:
@@ -41,4 +44,5 @@ services:
         condition: service_healthy
 
 volumes:
-  trailguide-db:
+  trailguide-db-dev:
+  node_modules:
