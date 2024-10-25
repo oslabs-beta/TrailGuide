@@ -35,3 +35,13 @@ CREATE TABLE IF NOT EXISTS ips (
   lat NUMERIC(9, 6),
   long NUMERIC(9, 6)
 );
+
+CREATE TABLE IF NOT EXISTS users(
+      id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+      username VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      display_name VARCHAR(100),
+      work_email VARCHAR(255) UNIQUE NOT NULL,
+      work_phone VARCHAR(25),
+      created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+  );
