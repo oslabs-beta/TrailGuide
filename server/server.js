@@ -27,9 +27,22 @@ app.use(express.urlencoded({ extended: true }));
 app.post('/api/signup', userController.createUser);
 
 //login router
-app.post('api/login', userController.loginUser);
+app.post('/api/login', userController.loginUser);
 
-app.get('/users/');
+// route to get all users
+// app.get('/api/users', userController.getAllUsers);
+
+// app.get('/api/user', userController.getUserByField);
+
+//Global Error Handler Middleware
+app.use((err, req, res, next) => {
+  //The error.stack property is a string describing the point in the code at which the Error was instantiated.
+  console.error(err.stack);
+
+  res.status(err.status || 500).json({
+    error: err.message || 'Internal Server Error',
+  });
+});
 
 ViteExpress.listen(app, PORT, async () => {
   const { root, base } = await ViteExpress.getViteConfig();

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-//
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -85,11 +84,13 @@ const Login: React.FC = () => {
             required
           />
         </div>
-        <button className="login-button" type="submit">Login</button>
+        <button className='login-button' type='submit'>
+          Login
+        </button>
       </form>
-      <div className="signup-link">
+      <div className='signup-link'>
         <p>
-          Don&apos;t have an account? <Link to="/signup">Sign up here</Link>
+          Don&apos;t have an account? <Link to='/signup'>Sign up here</Link>
         </p>
       </div>
     </div>
