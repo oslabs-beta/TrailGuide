@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { ProfileProps } from "../types";
 import "../profile.css";
 

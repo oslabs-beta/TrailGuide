@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-//
 
-const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
+const Login: React.FC<{ setUsername: React.Dispatch<React.SetStateAction<string | null>> }> = ({ setUsername }) => {
+  const [username, setLocalUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -31,10 +30,19 @@ const Login: React.FC = () => {
     try {
       // Simulate login logic
       if (
-        (username === 'user' || email === 'user@example.com') &&
+        (username === 'realuser' || email === 'user@example.com') &&
         password === 'password'
       ) {
         console.log('Login successful!');
+
+        // Save the username to localStorage so that it can be displayed in the Navbar
+        const userToStore = username || email;
+        localStorage.setItem('username', userToStore);
+
+        // Update global username state
+        setUsername(userToStore);
+
+        // Redirect to profile page
         navigate('/profile');
       } else {
         setError('Invalid username/email or password');
@@ -47,7 +55,7 @@ const Login: React.FC = () => {
   return (
     <div className="login-container">
       <h2>Login</h2>
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className="error-message" role="alert">{error}</div>}
       <form onSubmit={handleLogin}>
         <div className="form-group">
           <label htmlFor="username">Username:</label>
@@ -55,7 +63,8 @@ const Login: React.FC = () => {
             type="text"
             id="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setLocalUsername(e.target.value)}
+            autoComplete="username"
           />
         </div>
         <div className="form-group">
@@ -65,6 +74,7 @@ const Login: React.FC = () => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
           />
         </div>
         <div className="form-group">
@@ -75,6 +85,7 @@ const Login: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            autoComplete="current-password"
           />
         </div>
         <button className="login-button" type="submit">Login</button>

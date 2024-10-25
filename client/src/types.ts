@@ -12,6 +12,8 @@ import { Event, Resource } from '@aws-sdk/client-cloudtrail';
 
 export interface ProfileProps {
   isDarkMode: boolean;
+  username: string | null
+
 }
 
 export interface CardProps {
@@ -243,3 +245,11 @@ export interface FlattenedEvent {
   clientProvidedHostHeader?: string;
   sessionCredentialFromConsole?: string;
 }
+
+export interface NavbarProps {
+  toggleDarkMode: () => void;
+  isDarkMode: boolean;
+  username: string | null; 
+  setUsername: React.Dispatch<React.SetStateAction<string | null>>; 
+}
+
