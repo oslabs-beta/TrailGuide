@@ -17,16 +17,13 @@
     "@aws-sdk/client-cloudtrail": "^3.583.0",
     "@hello-pangea/dnd": "^17.0.0",
     "dotenv": "^16.4.5",
-    "eslint-import-resolver-node": "^0.3.9",
     "express": "^4.21.1",
-    "npm": "^10.9.0",
     "pg": "^8.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
     "react-simple-maps": "^3.0.0",
     "recharts": "^2.13.0",
-    "redux": "^5.0.1",
     "vite-express": "^0.19.0"
   },
   "devDependencies": {
