@@ -9,9 +9,12 @@ import 'dotenv/config';
 const pool = new pg.Pool({
   user: 'tgadmin',
   password: 'secret',
-  host: 'localhost',
+  host:
+    process.env.NODE_ENV === 'production'
+      ? 'trailguide-db-prod'
+      : 'trailguide-db-dev',
   port: 5432,
-  database: 'tgdb',
+  database: process.env.POSTGRES_DB || 'tgdb-dev',
 });
 
 // if an error is encountered by a client while it sits idle in the pool

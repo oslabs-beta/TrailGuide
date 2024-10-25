@@ -25,7 +25,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 ################################################################################
 # Create a stage for building the application.
-FROM deps AS build
+FROM deps AS dev-deps
 
 
 # Download additional development dependencies before building, as some projects require
@@ -36,6 +36,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm i
 
+FROM dev-deps AS build
 # Copy the rest of the source files into the image.
 COPY . .
 # Run the build script.
