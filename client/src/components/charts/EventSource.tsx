@@ -73,6 +73,7 @@ export default function EventSourceChart() {
             position="insideBottom"
             angle={90}
             fill="#000000"
+            dx={20}
           />
         </Bar>
       </BarChart>
