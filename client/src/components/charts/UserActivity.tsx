@@ -31,9 +31,9 @@ const UserActivityChart: React.FC = () => {
   //reversed the times to show the most recent first
   return (
     <AreaChart width={600} height={300} data={data} margin={{top: -100, left: -5, right:5, bottom:50}}>
-      <CartesianGrid strokeDasharray="3 3" />
+      <CartesianGrid strokeDasharray={"3 3"} />
       <XAxis dataKey="localTime" reversed angle={-45} textAnchor="end" />
-      <YAxis tickCount={10} interval={3}/>
+      <YAxis domain={[0, 'dataMax + 11']}/>
       <Tooltip />
       <Area
         type="monotone"
