@@ -57,7 +57,7 @@ try {
 } catch (error) {
   console.log(
     `Cannot create cloudtrail client with following credentials: Access Key: ${
-      process.env.VITE_AWS_ACCESS_KEY_ID
+      process.env.AWS_ACCESS_KEY_ID
     }, Region: ${
       process.env.AWS_REGION
     } Secret Access Key type: ${typeof process.env.AWS_SECRET_ACCESS_KEY}`
@@ -74,6 +74,7 @@ async function getLastEvent() {
       LIMIT 1;
     `
     );
+    if (result.rows.length === 0) return;
     return new Date(result.rows[0].time);
   } catch (error) {
     console.warn('Could not get last event!: ' + error);
@@ -85,11 +86,14 @@ async function updateEvents(next, config = {}) {
   //  continue receiving them
   //  otherwise, find the most recent event in the database,
   //  and get any events more recent than that
-  if (!next) config.StartTime = await getLastEvent();
+  if (!next) {
+    const startTime = await getLastEvent();
+    if (startTime) config.StartTime = startTime;
+  }
 
-  const command = new LookupEventsCommand(config);
-  const data = await cloudtrailClient.send(command);
-
+    const command = new LookupEventsCommand(config);
+    const data = await cloudtrailClient.send(command);
+  
   for (const event of data.Events) {
     const cloudtrailevent = JSON.parse(event.CloudTrailEvent);
     // console.log(cloudtrailevent);
@@ -137,8 +141,8 @@ async function updateEvents(next, config = {}) {
           cloudtrailevent.userIdentity.accountId,
           cloudtrailevent.userIdentity.arn,
           cloudtrailevent.awsRegion,
-          cloudtrailevent.tlsDetails?.cipherSuite || NULL,
-          cloudtrailevent.tlsDetails?.clientProvidedHostHeader || NULL,
+          cloudtrailevent.tlsDetails?.cipherSuite || 'NULL',
+          cloudtrailevent.tlsDetails?.clientProvidedHostHeader || 'NULL',
           cloudtrailevent.eventCategory,
           event.EventTime.toUTCString(),
           cloudtrailevent.eventType,
@@ -148,7 +152,7 @@ async function updateEvents(next, config = {}) {
           cloudtrailevent.recipientAccountId,
           cloudtrailevent.requestID,
           cloudtrailevent.sourceIPAddress,
-          cloudtrailevent.tlsDetails?.tlsVersion || NULL,
+          cloudtrailevent.tlsDetails?.tlsVersion || 'NULL',
           cloudtrailevent.userIdentity.type,
           cloudtrailevent.userAgent,
         ]
@@ -164,6 +168,6 @@ function repeatUpdate(next, config) {
   setTimeout(async () => {
     const { new_next, new_config } = updateEvents(next, config);
     repeatUpdate(new_next, new_config);
-  }, 1000 * 60);
+  }, 1000 * 10);
 }
 repeatUpdate();
