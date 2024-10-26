@@ -20,8 +20,8 @@ const TestPieChart: React.FC = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setData(prevData =>
-        prevData.map(point => ({
+      setData((prevData) =>
+        prevData.map((point) => ({
           ...point,
           value: Math.floor(Math.random() * 500),
         }))
@@ -54,4 +54,3 @@ const TestPieChart: React.FC = () => {
 };
 
 export default TestPieChart;
-

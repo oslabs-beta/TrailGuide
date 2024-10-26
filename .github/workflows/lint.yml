@@ -8,6 +8,9 @@ on:
     branches:
       - main
       - dev
+  push:
+    branches:
+      - aidanprior/CI
 
 jobs:
   lint-and-format:
