@@ -1,0 +1,47 @@
+# .github/workflows/lint-format.yml
+
+name: Lint and Format
+
+# Run this workflow on pull requests targeting 'main' or 'dev' branches
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js (specify the Node version if required)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Adjust the version if necessary
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run ESLint to check for linting issues
+      - name: Run ESLint
+        run: npm run lint -- --fix # Make sure you have a lint script in package.json
+
+      - name: List Changes
+        run: git status --porcelain
+
+      # Step 6: Check for changes after formatting
+      - name: Check for formatting changes
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            echo "There are formatting changes."
+            echo "Please commit the changes locally or configure auto-formatting in Prettier."
+            exit 1
+          else
+            echo "No formatting changes needed."
+          fi
