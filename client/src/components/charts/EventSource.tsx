@@ -69,10 +69,11 @@ export default function EventSourceChart() {
           ))}
           <LabelList
             className="chartlabel"
-            dataKey="EventSource"
+            dataKey="source"
             position="insideBottom"
             angle={90}
             fill="#000000"
+            dx={20}
           />
         </Bar>
       </BarChart>
