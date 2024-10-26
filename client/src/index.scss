@@ -53,6 +53,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  width: 100%;
   background: linear-gradient(to right,#245901, #24361a); // adjusted from rgba(25, 61, 1, 0.92)
   color: #ffffff; // adjusted from rgba(255, 255, 255, 0.879)
 
@@ -80,6 +81,7 @@ nav {
     display: flex;
     align-items: center;
     margin-left: auto;
+    margin-right: 2em;
 
     .nav-button {
       background-color: $primary-color;
@@ -107,7 +109,7 @@ nav {
   .dropdown {
     position: absolute;
     top: 100%;
-    right: 0;
+    right: 3.5%;
     background-color: $light-card;
     color: black;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -130,12 +132,13 @@ nav {
 
 //Homepage Styles
 .home-container {
-  padding: 1em;
+  padding-left: 1em;
+  padding-right: 3em;
 }
 
 .draggable-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr)); // Base columns setup
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); // Base columns setup
   gap: 40px; 
   width: 100%;
   padding-top: 10px;
@@ -146,7 +149,6 @@ nav {
   width: 100%;
   box-sizing: border-box;
   transition: all 0.3s ease;
-  display: flex;
   height: auto;
 
   
@@ -158,7 +160,7 @@ nav {
 
   
   &:hover {
-    transform: scale(1.02);
+    transform: scale(1.01);
   }
   
   .card {
@@ -167,22 +169,28 @@ nav {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: auto;
+    min-height: 400px;
     border-radius: $border-radius;
     box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
     background-color: $light-card;
     color: black;
     padding: 1rem;
     text-align: center;
-    overflow: hidden;
+    overflow: auto;
+
+    .card-header{
+      display: flex;
+      margin-top: -40px;
+
+    }
     
     // Card content styling
     .card-content {
-      display: flex;;
+      display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
-      height: auto;
+      height: 100%;
     }
   }
 }
@@ -214,14 +222,14 @@ nav {
   display: flex; 
   align-items: center;
   justify-content: center;
+  margin-top: -10px;
   width: 100%; 
-  height: 90%; 
-  margin-bottom: 2em;
+  height: auto; 
 }
 
 .map {
   width: 100%; 
-  height: auto; 
+  height: 100%; 
 }
 
 //Event Dashboard Styles
@@ -241,18 +249,26 @@ nav {
     padding: 16px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    font-size: .8em;
 
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
+    h3{
+      font-size: 1em;
+      font-weight: bold;
+    }
+
     button {
       background-color: $event-button-color;
       color: #ffffff; // white
       border: none;
+      margin-left: 20%;
+      margin-right: 20%;
       border-radius: 5px;
-      padding: 12px 20px;
+      padding: 10px 15px;
       cursor: pointer;
       transition: background-color 0.3s;
       font-family: $font-family;
@@ -409,6 +425,262 @@ nav {
   }
 }
 
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  min-height: 100vh;
+  padding: 40px;
+  background-color: $background-light;
+  gap: 20px;
+  justify-content: center;
+}
+
+.left-container,
+.right-container {
+  flex: 1 1 45%;
+  min-width: 300px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  background-color: $light-card;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.right-container {
+  align-items: flex-start;
+}
+
+.left-container:hover,
+.right-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.aws-login-button,
+.logout-button,
+.submit-button {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  margin-top: 20px;
+  border-radius: 8px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
+}
+
+.submit-button {
+  background: #ff9900;
+  color: white;
+  border: none;
+}
+
+.submit-button:hover {
+  background-color: #e68a00;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logout-button {
+  background: #d13212;
+  color: rgba(255, 255, 255, 0.917);
+  border: none;
+}
+
+.logout-button:hover {
+  background: #a4260b;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.aws-login-button {
+  background: #ff9900;
+  color: white;
+  border: none;
+  text-align: center;
+}
+
+.aws-login-button:hover {
+  background-color: #e68a00;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.aws-login-button a {
+  color: white;
+  text-decoration: none;
+}
+
+.profile-picture img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.profile-picture img:hover {
+  transform: scale(1.05);
+}
+
+.aws-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.profile-info {
+  width: 100%;
+}
+
+.profile-info p {
+  margin: 10px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.profile-info .info-container {
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: left;
+}
+
+.input-container {
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input-container label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+  font-size: 1rem;
+}
+
+.input-container input,
+.input-container select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.bordered {
+  border: 2px solid #0073bb;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.settings-section {
+  width: 100%;
+}
+
+.settings-section h3 {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  color: #232f3e;
+}
+
+.settings-section .info-container {
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: left;
+}
+
+// Dark mode styles for profile page
+.dark-mode .profile-container,
+.dark-mode .left-container,
+.dark-mode .right-container {
+  background-color: #232f3e;
+  border: 1px solid #444;
+  color: lightgray;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.dark-mode .left-container:hover,
+.dark-mode .right-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .aws-login-button {
+  background: #ff9900;
+}
+
+.dark-mode .aws-login-button:hover {
+  background-color: #e68a00;
+}
+
+.dark-mode .logout-button {
+  background: #a4260b;
+  color: white;
+}
+
+.dark-mode .logout-button:hover {
+  background: #7b1e06;
+}
+
+.dark-mode .profile-info p {
+  color: lightgray;
+}
+
+.dark-mode .profile-info .info-container {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: lightgray;
+}
+
+.dark-mode .settings-section h3 {
+  color: lightgray;
+}
+
+.dark-mode .settings-section .info-container {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: lightgray;
+}
+
+.dark-mode .input-container label {
+  color: lightgray;
+}
+
+.dark-mode .input-container input,
+.dark-mode .input-container select {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: lightgray;
+}
+
+.dark-mode .bordered {
+  border: 2px solid #ff9900;
+}
+
+
 // Dark mode styles
 .dark-mode {
   background-color: $background-dark;
@@ -545,6 +817,24 @@ nav {
 }
 
 // Media Queries
+@media (max-width: 1200px) {
+  .draggable-grid {
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); /* Slightly smaller columns */
+  }
+}
+
+@media (max-width: 900px) {
+  .draggable-grid {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); /* Even smaller for tablet sizes */
+  }
+}
+
+@media (max-width: 600px) {
+  .draggable-grid {
+    grid-template-columns: 1fr; /* Single column for small screens */
+  }
+}
+
 
 // For tablets and larger devices
 @media (max-width: 768px) {
@@ -558,6 +848,17 @@ nav {
       margin-top: 1rem; // Add space above buttons
     }
   }
+
+  .profile-container {
+    padding: 20px;
+    flex-direction: column; // Stack containers vertically on tablets
+  }
+
+  .left-container,
+  .right-container {
+    flex: 1 1 100%; // Make containers take full width on tablets
+  }
+
 
   .draggable-grid {
     grid-template-columns: 1fr; // Switch to single column
@@ -601,7 +902,7 @@ nav {
 
   .card {
     max-width: 250px;
-    margin-left: -2px; // Reduce margins for cards
+    margin-left: -5px; // Reduce margins for cards
   }
 
   .modal {
@@ -620,5 +921,24 @@ nav {
   .dropdown {
     right: auto; // Adjust dropdown position
     left: 0; // Align to the left
+  }
+
+  .profile-container {
+    padding: 10px;
+  }
+
+  .left-container,
+  .right-container {
+    flex: 1 1 100%; // Stack containers vertically on mobile
+    padding: 15px;
+  }
+
+  .profile-picture img {
+    width: 80px; // Reduce image size for mobile
+    height: 80px;
+  }
+
+  .aws-logo {
+    width: 100px; // Reduce logo size for mobile
   }
 }

@@ -14,7 +14,7 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   const [currentIp, setCurrentIp] = useState<string | undefined>();
 
   const [cards, setCards] = useState<CardState[]>([
-    { id: 'userActivity', title: 'User Activity', component: <UserActivityChart /> },
+    { id: 'userActivity', title: 'User Activity', component: <UserActivityChart  /> },
     { id: 'eventTypes', title: 'Event Types', component: <EventTypeChart /> },
     { id: 'eventSources', title: 'Event Sources', component: <EventSourceChart /> },
     { id: 'heatMap', title: 'IP Address Heat Map', component: <HeatMap /> },
