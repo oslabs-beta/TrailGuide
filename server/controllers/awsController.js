@@ -7,6 +7,7 @@ export default {
       const result = await query(
         `
         SELECT * FROM events
+        WHERE name != 'LookupEvents'
         ORDER BY time DESC
         LIMIT $1 
         `,
