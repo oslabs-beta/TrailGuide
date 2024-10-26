@@ -64,7 +64,7 @@ export default function EventTypeChart() {
           angle={-30}
           textAnchor="end"
         />
-        <Bar dataKey="count" maxBarSize={35} minPointSize={5}>
+        <Bar dataKey="count" maxBarSize={35} minPointSize={5} style={{ cursor: 'pointer' }}>
           {events.map((data, index) => (
             <Cell
               key={`cell-${index}`}
