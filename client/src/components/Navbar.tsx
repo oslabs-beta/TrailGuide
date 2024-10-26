@@ -15,7 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
 
   const handleLogout = () => {
     console.log('User logged out');
-    navigate('/'); 
+    navigate('/');
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
   return (
     <nav className={isDarkMode ? 'dark-mode' : ''}>
       <Link to="/" className="logo" title="Home">
-      <img src={LOGO} alt="Wood Plank T" className="logo-image" />
+        <img src={LOGO} alt="Wood Plank T" className="logo-image" />
       </Link>
       <div className="nav-buttons">
         <Link to="/events-dashboard" className="nav-button">
@@ -61,8 +61,8 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
             Profile
           </Link>
           <Link to="/login" className="dropdown-link">
-          Login
-        </Link>
+            Login
+          </Link>
           <div className="dropdown-link" onClick={handleLogout}>
             Logout
           </div>
