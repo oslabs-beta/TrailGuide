@@ -144,65 +144,53 @@ nav {
   padding-top: 10px;
   background-color: $background-light;
 }
-
 .draggable-card {
   width: 100%;
   box-sizing: border-box;
   transition: all 0.3s ease;
   height: auto;
 
-  
   &.expanded {
-    grid-column: span 2; 
-     
-    transition: all 0.3s ease; 
+    grid-column: span 2;
+    transition: all 0.3s ease;
   }
 
-  
   &:hover {
     transform: scale(1.01);
   }
-  
+
   .card {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
-    min-height: 400px;
+    min-height: 400px; // Adjusted for better spacing with charts
+    max-height: 450px; // To limit card expansion on larger screens
     border-radius: $border-radius;
     box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
     background-color: $light-card;
     color: black;
     padding: 1rem;
     text-align: center;
-    overflow: auto;
+    overflow: auto; // Ensure that overflowing content doesn’t break the layout
 
-    .card-header{
+    .card-header {
       display: flex;
-      margin-top: -40px;
-
+      margin-top: -20px; // Adjusted for better spacing
     }
-    
-    // Card content styling
+
     .card-content {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
       height: 100%;
+      padding-top: 0; 
     }
   }
 }
 
-.chartlabel {
-  text-anchor: end;
-  font-size: 1.1em;
-  font-weight: bold;
-  color: $light-mode-font-color; 
-  font-family: $font-family;
-  cursor: pointer;// adjusted from rgba(71, 90, 46, 1)
-}
 
 .underchart {
   font-size: 1.2rem;
@@ -222,7 +210,6 @@ nav {
   display: flex; 
   align-items: center;
   justify-content: center;
-  margin-top: -10px;
   width: 100%; 
   height: auto; 
 }
@@ -902,7 +889,8 @@ nav {
 
   .card {
     max-width: 250px;
-    margin-left: -5px; // Reduce margins for cards
+    margin-left: -10px;
+    margin-right: -10px;// Reduce margins for cards
   }
 
   .modal {

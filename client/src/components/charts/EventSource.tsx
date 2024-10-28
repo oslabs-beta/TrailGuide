@@ -74,6 +74,7 @@ export default function EventSourceChart() {
             angle={90}
             fill="#000000"
             dx={20}
+            dy={-110}
           />
         </Bar>
       </BarChart>
