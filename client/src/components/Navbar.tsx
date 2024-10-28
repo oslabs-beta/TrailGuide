@@ -15,7 +15,6 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, s
 
   const handleLogout = () => {
     console.log('User logged out');
-    localStorage.removeItem('username');
     setUsername(null);
     navigate('/');
   };
@@ -33,17 +32,6 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, s
     };
   }, []);
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername && storedUsername !== username) {
-      if (typeof setUsername === 'function') {
-        setUsername(storedUsername);
-      } else {
-        console.error('setUsername is not a function');
-      }
-    }
-  }, [username, setUsername]);
-
   return (
     <nav className={isDarkMode ? 'dark-mode' : ''}>
       <Link to="/" className="logo" title="Home">
@@ -56,25 +44,16 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, s
         <button onClick={toggleDarkMode} className="nav-button">
           {isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}
         </button>
-        {username ? (
+        
           <div
             className="nav-button"
             onClick={toggleDropdown}
             aria-haspopup="true"
             aria-expanded={dropdownOpen}
           >
-            {typeof username === 'string' ? username.toUpperCase() : 'USER'}
+            {username && typeof username === 'string' ? username.toUpperCase() : "USER"}
           </div>
-        ) : (
-          <div
-            className="nav-button"
-            onClick={toggleDropdown}
-            aria-haspopup="true"
-            aria-expanded={dropdownOpen}
-          >
-            USER
-          </div>
-        )}
+        
       </div>
       {dropdownOpen && (
         <div className="dropdown" ref={dropdownRef}>

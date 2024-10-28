@@ -42,8 +42,8 @@ const Login: React.FC<{
           password,
         }),
       });
-      const { dbUsername } = await response.json();
-
+      const { username: dbUsername } = await response.json() as {username: string};
+      console.log(dbUsername);
       if (response.ok) {
         setUsername(dbUsername);
         console.log("Sign-up successful!");
@@ -63,7 +63,7 @@ const Login: React.FC<{
           {error}
         </div>
       )}
-      <form onSubmit={handleLogin}>
+      <form onSubmit={(event) => void handleLogin(event)}>
         <div className="form-group">
           <label htmlFor="username">Username:</label>
           <input

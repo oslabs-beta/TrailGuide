@@ -65,7 +65,7 @@ const SignUp: React.FC = () => {
     <div className='signup-container'>
       <h2>Sign Up</h2>
       {error && <div className='error-message'>{error}</div>}
-      <form onSubmit={handleSignUp}>
+      <form onSubmit={(event) => void handleSignUp(event)}>
         <div className='form-group'>
           <label htmlFor='username'>Username:</label>
           <input

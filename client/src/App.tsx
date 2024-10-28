@@ -10,7 +10,7 @@ import SignUp from './pages/SignUp';
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode state
-  const [username, setUsername] = useState<string | null>(localStorage.getItem('username'));
+  const [username, setUsername] = useState<string | null>(null);
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
