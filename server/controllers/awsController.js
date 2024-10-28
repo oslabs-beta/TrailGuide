@@ -7,10 +7,11 @@ export default {
       const result = await query(
         `
         SELECT * FROM events
+        WHERE name != 'LookupEvents'
         ORDER BY time DESC
         LIMIT $1 
         `,
-        [req.query.amount || 50]
+        [req.query.amount || 100]
       );
       // console.log('awsController.getEvents: got rows from db:', result.rows);
       res.locals.events = result.rows;
@@ -52,7 +53,7 @@ export default {
       //  'groupByTime' function, or by minute as default
       if (req.query.countOn === 'time' && req.query.groupTimeBy) {
         const groupTimeBy =
-          timeBuckets[req.query.countOn] || timeBuckets.minute;
+          timeBuckets[req.query.groupTimeBy] || timeBuckets.minute;
         res.locals.events.forEach(
           (event) => (event.time = groupTimeBy(event.time))
         );

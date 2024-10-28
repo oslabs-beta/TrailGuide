@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProfileProps } from "../types";
-import "../profile.css";
+//import "../profile.css";
 
 interface User {
   username: string;

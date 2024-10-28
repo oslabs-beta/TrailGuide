@@ -1,6 +1,6 @@
+// import { deepStrictEqual } from 'assert';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-//import '../index.scss'; //TODO: do we need to import this here and main.tsx
 
 const SignUp: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -62,71 +62,73 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className='signup-container'>
+    <div className="signup-container">
       <h2>Sign Up</h2>
-      {error && <div className='error-message'>{error}</div>}
+      {error && <div className="error-message">{error}</div>}
       <form onSubmit={(event) => void handleSignUp(event)}>
-        <div className='form-group'>
-          <label htmlFor='username'>Username:</label>
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
           <input
-            type='text'
-            id='username'
+            type="text"
+            id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
-        <div className='form-group'>
-          <label htmlFor='displayName'>Display Name:</label>
+        <div className="form-group">
+          <label htmlFor="displayName">Display Name:</label>
           <input
-            type='text'
-            id='displayName'
+            type="text"
+            id="displayName"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
             required
           />
         </div>
-        <div className='form-group'>
-          <label htmlFor='work_email'>Work Email:</label>
+        <div className="form-group">
+          <label htmlFor="work_email">Work Email:</label>
           <input
-            type='email'
-            id='work_email'
+            type="email"
+            id="work_email"
             value={work_email}
             onChange={(e) => setWorkEmail(e.target.value)}
             required
           />
         </div>
-        <div className='form-group'>
-          <label htmlFor='workPhone'>Work Phone:</label>
+        <div className="form-group">
+          <label htmlFor="workPhone">Work Phone:</label>
           <input
-            type='text'
-            id='workPhone'
+            type="text"
+            id="workPhone"
             value={workPhone}
             onChange={(e) => setWorkPhone(e.target.value)}
             required
           />
         </div>
-        <div className='form-group'>
-          <label htmlFor='password'>Password:</label>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
           <input
-            type='password'
-            id='password'
+            type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <div className='form-group'>
-          <label htmlFor='confirmPassword'>Confirm Password:</label>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
           <input
-            type='password'
-            id='confirmPassword'
+            type="password"
+            id="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
-        <button className="signup-button" type="submit">Sign Up</button>
+        <button className="signup-button" type="submit">
+          Sign Up
+        </button>
       </form>
     </div>
   );

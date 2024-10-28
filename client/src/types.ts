@@ -118,6 +118,12 @@ export interface IPLocation {
   long: number;
 }
 
+export interface SimplifiedEvent {
+  localTime: string;
+  count: number;
+}
+
+
 export interface CountedEvent extends TGEvent {
   count: number;
 }
