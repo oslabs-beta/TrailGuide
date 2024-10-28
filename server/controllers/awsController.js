@@ -11,7 +11,7 @@ export default {
         ORDER BY time DESC
         LIMIT $1 
         `,
-        [req.query.amount || 200]
+        [req.query.amount || 100]
       );
       // console.log('awsController.getEvents: got rows from db:', result.rows);
       res.locals.events = result.rows;
