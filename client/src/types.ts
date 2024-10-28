@@ -10,6 +10,8 @@
 
 export interface ProfileProps {
   isDarkMode: boolean;
+  username: string | null
+
 }
 
 export interface CardProps {
@@ -36,6 +38,8 @@ export interface EventsDashboardProps {
 export interface NavbarProps {
   toggleDarkMode: () => void;
   isDarkMode: boolean;
+  username: string | null; 
+  setUsername: React.Dispatch<React.SetStateAction<string | null>>; 
 }
 
 export interface EventCardProps {

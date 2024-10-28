@@ -16,6 +16,7 @@ app.post('/api/signup', userController.createUser, (req, res) => {
   res.status(201).json(res.locals.createdUser);
 });
 
+
 //login router
 app.post('/api/login', userController.loginUser, (req, res) => {
   res.status(200).json(res.locals.loggedinuser);

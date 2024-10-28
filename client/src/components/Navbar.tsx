@@ -4,7 +4,7 @@ import { NavbarProps } from '../types';
 import LOGO from '../assets/RAILGUIDE.png';
 //import '../index.scss';
 
-const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
+const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, setUsername }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -15,15 +15,13 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
 
   const handleLogout = () => {
     console.log('User logged out');
-    navigate('/'); 
+    setUsername(null);
+    navigate('/');
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
       }
     };
@@ -37,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
   return (
     <nav className={isDarkMode ? 'dark-mode' : ''}>
       <Link to="/" className="logo" title="Home">
-      <img src={LOGO} alt="Wood Plank T" className="logo-image" />
+        <img src={LOGO} alt="Wood Plank T" className="logo-image" />
       </Link>
       <div className="nav-buttons">
         <Link to="/events-dashboard" className="nav-button">
@@ -46,26 +44,32 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode }) => {
         <button onClick={toggleDarkMode} className="nav-button">
           {isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}
         </button>
-        <div
-          className="nav-button"
-          onClick={toggleDropdown}
-          aria-haspopup="true"
-          aria-expanded={dropdownOpen}
-        >
-          USER
-        </div>
+        
+          <div
+            className="nav-button"
+            onClick={toggleDropdown}
+            aria-haspopup="true"
+            aria-expanded={dropdownOpen}
+          >
+            {username && typeof username === 'string' ? username.toUpperCase() : "USER"}
+          </div>
+        
       </div>
       {dropdownOpen && (
         <div className="dropdown" ref={dropdownRef}>
           <Link to="/profile" className="dropdown-link">
             Profile
           </Link>
-          <Link to="/login" className="dropdown-link">
-          Login
-        </Link>
-          <div className="dropdown-link" onClick={handleLogout}>
-            Logout
-          </div>
+          {!username && (
+            <Link to="/login" className="dropdown-link">
+              Login
+            </Link>
+          )}
+          {username && (
+            <div className="dropdown-link" onClick={handleLogout}>
+              Logout
+            </div>
+          )}
         </div>
       )}
     </nav>
