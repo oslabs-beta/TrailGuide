@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { lazy, useState } from 'react';
 import {
   DragDropContext,
   Droppable,
@@ -6,12 +6,16 @@ import {
   DropResult,
 } from '@hello-pangea/dnd';
 import { CardState } from '../types';
-import UserActivityChart from '../components/charts/UserActivity';
-import EventTypeChart from '../components/charts/EventType';
-import EventSourceChart from '../components/charts/EventSource';
-import HeatMap from '../components/charts/HeatMap';
-import IpAccessCombined from '../components/IpAccessCombined';
-import Card from '../components/Card';
+
+const Card = lazy(() => import('../components/Card'));
+const UserActivityChart = lazy(
+  () => import('../components/charts/UserActivity')
+);
+const HeatMap = lazy(() => import('../components/charts/HeatMap'));
+const IpAccessCombined = lazy(() => import('../components/IpAccessCombined'));
+const EventTypeChart = lazy(() => import('../components/charts/EventType'));
+const EventSourceChart = lazy(() => import('../components/charts/EventSource'));
+const AnomalyChart = lazy(() => import('../components/charts/AnomalyChart'));
 
 const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   // State to track the current IP (null means no IP selected)
@@ -39,6 +43,11 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
           setCurrentIp={setCurrentIp} // Pass the setter for updating the selected IP
         />
       ),
+    },
+    {
+      id: 'anomalyDetection',
+      title: 'Anomaly Detection',
+      component: <AnomalyChart />,
     },
   ]);
 
