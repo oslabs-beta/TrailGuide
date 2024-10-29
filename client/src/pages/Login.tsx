@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login: React.FC<{
   setUsername: React.Dispatch<React.SetStateAction<string | null>>;
 }> = ({ setUsername }) => {
-  const [username, setLocalUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setLocalUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const Login: React.FC<{
 
     // Basic form validation
     if ((!username && !email) || (username && email)) {
-      setError("Please provide either a username or an email, but not both");
+      setError('Please provide either a username or an email, but not both');
       return;
     }
 
@@ -24,17 +24,17 @@ const Login: React.FC<{
     if (email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        setError("Please enter a valid email address");
+        setError('Please enter a valid email address');
         return;
       }
     }
 
     try {
       //Send resgiter request to the backend
-      const response = await fetch("/api/login", {
-        method: "POST",
+      const response = await fetch('/api/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username: username || null,
@@ -42,16 +42,18 @@ const Login: React.FC<{
           password,
         }),
       });
-      const { username: dbUsername } = await response.json() as {username: string};
-      console.log(dbUsername);
+      const { username: dbUsername } = (await response.json()) as {
+        username: string;
+      };
+
       if (response.ok) {
         setUsername(dbUsername);
-        console.log("Sign-up successful!");
-        navigate("/profile");
+        console.log('Sign-up successful!');
+        navigate('/profile');
       }
     } catch (err) {
-      setError("Error logging in. Please try again.");
-      console.error(err, "Error in login at Login.tsx;");
+      setError('Error logging in. Please try again.');
+      console.error(err, 'Error in login at Login.tsx;');
     }
   };
 

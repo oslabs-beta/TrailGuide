@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { CartesianGrid, XAxis, YAxis, AreaChart, Area, Tooltip } from 'recharts';
+import {
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  AreaChart,
+  Area,
+  Tooltip,
+} from 'recharts';
 import { SimplifiedEvent } from '../../types';
 
 const UserActivityChart: React.FC = () => {
@@ -7,16 +14,21 @@ const UserActivityChart: React.FC = () => {
 
   useEffect(() => {
     fetch('/events?countOn=time&groupTimeBy=minute')
-      .then((response) => response.json())
-      .then((data: { time: string; count: number }[]) => {
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.status + ': ' + response.statusText);
+      })
+      .then((data: { time: string; count: number }[]) =>
         setData(
-          data.map((event) => ({
+          (data as { time: string; count: number }[]).map((event) => ({
             localTime: new Date(event.time).toLocaleString(),
             count: event.count,
           }))
-        );
-      })
-      .catch((error) => console.warn('Could not fetch event time counts: ', error));
+        )
+      )
+      .catch((error) =>
+        console.warn('Could not fetch event time counts: ', error)
+      );
   }, []);
 
   // Format for the X-axis to display Mon, Tue, etc.

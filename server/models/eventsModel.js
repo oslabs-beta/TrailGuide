@@ -3,7 +3,7 @@ import {
   LookupEventsCommand,
 } from '@aws-sdk/client-cloudtrail';
 import pg from 'pg';
-import 'dotenv/config';
+// import 'dotenv/config';
 
 // TODO: USE ENVIRONMENT VARIABLES
 const pool = new pg.Pool({
@@ -46,23 +46,28 @@ export async function connect() {
 }
 
 let cloudtrailClient;
-try {
-  cloudtrailClient = new CloudTrailClient({
-    region: process.env.AWS_REGION,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-  });
-} catch (error) {
-  console.log(
-    `Cannot create cloudtrail client with following credentials: Access Key: ${
-      process.env.AWS_ACCESS_KEY_ID
-    }, Region: ${
-      process.env.AWS_REGION
-    } Secret Access Key type: ${typeof process.env.AWS_SECRET_ACCESS_KEY}`
-  );
+
+export function configureCloudtrailClient() {
+  try {
+    cloudtrailClient = new CloudTrailClient({
+      region: process.env.AWS_REGION,
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      },
+    });
+  } catch (error) {
+    console.log(
+      `Cannot create cloudtrail client with following credentials: Access Key: ${
+        process.env.AWS_ACCESS_KEY_ID
+      }, Region: ${
+        process.env.AWS_REGION
+      } Secret Access Key type: ${typeof process.env.AWS_SECRET_ACCESS_KEY}`
+    );
+  }
 }
+
+configureCloudtrailClient();
 
 async function getLastEvent() {
   try {
@@ -86,14 +91,26 @@ async function updateEvents(next, config = {}) {
   //  continue receiving them
   //  otherwise, find the most recent event in the database,
   //  and get any events more recent than that
+
+  if (
+    !cloudtrailClient ||
+    !process.env.AWS_ACCESS_KEY_ID ||
+    process.env.AWS_ACCESS_KEY_ID === '' ||
+    !process.env.AWS_SECRET_ACCESS_KEY ||
+    process.env.AWS_SECRET_ACCESS_KEY === '' ||
+    !process.env.AWS_REGION ||
+    process.env.AWS_REGION === ''
+  )
+    return;
+
   if (!next) {
     const startTime = await getLastEvent();
     if (startTime) config.StartTime = startTime;
   }
 
-    const command = new LookupEventsCommand(config);
-    const data = await cloudtrailClient.send(command);
-  
+  const command = new LookupEventsCommand(config);
+  const data = await cloudtrailClient.send(command);
+
   for (const event of data.Events) {
     const cloudtrailevent = JSON.parse(event.CloudTrailEvent);
     // console.log(cloudtrailevent);

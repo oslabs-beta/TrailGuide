@@ -1,8 +1,54 @@
 import * as timeBuckets from '../utils/timeBuckets.js';
-import { query } from '../models/eventsModel.js';
+import { configureCloudtrailClient, query } from '../models/eventsModel.js';
 
 export default {
+  setCredentials: (req, res, next) => {
+    try {
+      const { accessKey, secretAccessKey, region } = req.body;
+      if (!accessKey || !secretAccessKey || !region)
+        return next({
+          log: `awsController.setCredentials: Malformed Request: accessKey= ${accessKey} typeof secretAccessKey= ${typeof secretAccessKey} region= ${region}`,
+          status: 400,
+          message: { err: 'Malformed Request' },
+        });
+      process.env.AWS_ACCESS_KEY_ID = accessKey;
+      process.env.AWS_SECRET_ACCESS_KEY = secretAccessKey;
+      process.env.AWS_REGION = region;
+      configureCloudtrailClient();
+      res.locals.awsCredentials = {
+        accessKey,
+        secretAccessKey,
+        region,
+      };
+      return next();
+    } catch (error) {
+      return next({
+        log: 'awsController.setCredentials: ' + error,
+        status: 500,
+        message: {
+          err: 'A server error occured',
+        },
+      });
+    }
+  },
+
   getEvents: async (req, res, next) => {
+    if (
+      !process.env.AWS_ACCESS_KEY_ID ||
+      process.env.AWS_ACCESS_KEY_ID === '' ||
+      !process.env.AWS_SECRET_ACCESS_KEY ||
+      process.env.AWS_SECRET_ACCESS_KEY_ID === '' ||
+      !process.env.AWS_REGION ||
+      process.env.AWS_REGION === ''
+    ) {
+      return next({
+        log: 'awsController.getEvents: trying to get events without an accesskey',
+        status: 403,
+        message: {
+          err: 'AWS Credentials not Authorized',
+        },
+      });
+    }
     try {
       const result = await query(
         `
