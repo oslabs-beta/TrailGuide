@@ -92,6 +92,8 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
         </a>
       </div>
 
+      
+      {/*}
       <div className="right-container">
         <div className="settings-section">
           <h3>Alert Settings</h3>
@@ -180,6 +182,7 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
           </div>
         </div>
       </div>
+      */}
     </div>
   );
 };
