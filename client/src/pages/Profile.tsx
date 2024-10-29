@@ -1,53 +1,7 @@
 import React from 'react';
 import { ProfileProps } from '../types';
-//import "../profile.css";
 
-interface User {
-  username: string;
-  displayName: string;
-  email: string;
-  phone: string;
-  company: string;
-  link: string;
-}
-
-const user: User = {
-  username: 'BobTest',
-  displayName: 'Bob Test',
-  email: 'BobTest@gmail.com',
-  phone: '+1 (234) 567-890',
-  company: 'Test Guys Inc.',
-  link: 'https://aws.amazon.com',
-};
-
-const Profile: React.FC<ProfileProps> = ({ isDarkMode }) => {
-  function handleCredentialSubmit() {
-    const accessKey: string =
-      (document.getElementById('accessKey') as HTMLInputElement | null)
-        ?.value ?? '';
-    const secretAccessKey: string =
-      (document.getElementById('secretAccessKey') as HTMLInputElement | null)
-        ?.value ?? '';
-    const region: string =
-      (document.getElementById('region') as HTMLInputElement | null)?.value ??
-      '';
-    fetch('/credentials', {
-      method: 'POST',
-      body: JSON.stringify({
-        accessKey,
-        secretAccessKey,
-        region,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (response.ok) window.alert('Credentials Saved');
-      })
-      .catch((error) => console.warn(error));
-  }
-
+const Profile: React.FC<ProfileProps> = ({ isDarkMode, user }) => {
   return (
     <div className={`profile-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="left-container">
@@ -60,20 +14,20 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode }) => {
           </div>
           <div className="profile-info">
             <div className="info-container">
-              <p>Username: {user.username}</p>
+              <p>Username: {user?.username ?? 'Not Logged In'}</p>
             </div>
             <div className="info-container">
-              <p>Display Name: {user.displayName}</p>
+              <p>Display Name: {user?.display_name ?? 'Not Logged In'}</p>
             </div>
             <div className="info-container">
-              <p>Work Email: {user.email}</p>
+              <p>Work Email: {user?.work_email ?? 'Not Logged In'}</p>
             </div>
             <div className="info-container">
-              <p>Work Phone: {user.phone}</p>
+              <p>Work Phone: {user?.work_phone ?? 'Not Logged In'}</p>
             </div>
-            <div className="info-container">
+            {/* <div className="info-container">
               <p>Company: {user.company}</p>
-            </div>
+            </div> */}
             <img
               className="aws-logo"
               src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
@@ -93,13 +47,11 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode }) => {
           <label htmlFor="region">Enter Region</label>
           <input type="text" id="region" name="region" />
         </div>
-        <button className="submit-button" onClick={handleCredentialSubmit}>
-          Submit
-        </button>
-        <button className="logout-button logout-button-styled">Logout</button>
+        <button className="submit-button">Submit</button>
+        {/* <button className="logout-button logout-button-styled" >Logout</button> */}
         <a
           className="aws-login-button submit-button"
-          href={user.link}
+          href="https://aws.amazon.com"
           target="_blank"
           rel="noopener noreferrer"
         >

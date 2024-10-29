@@ -10,7 +10,7 @@ import SignUp from './pages/SignUp';
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode state
-  const [username, setUsername] = useState<string | null>(null);
+  const [user, setUser] = useState<Record<string, string> | null>(null);
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
@@ -19,16 +19,18 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Navbar toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} username={username} setUsername={setUsername} />
+      <Navbar toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} username={user?.username ?? null} setUser={setUser} />
       <Routes>
-        <Route path="/login" element={<Login setUsername={setUsername} />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
-        <Route path="/profile" element={<Profile isDarkMode={isDarkMode} username={username} />} />
+        {user !== null && <>
+          <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
+        <Route path="/profile" element={<Profile isDarkMode={isDarkMode} user={user} />} />
         <Route
           path="/events-dashboard"
           element={<EventsDashboard isDarkMode={isDarkMode} />}
         />
+        </>}
       </Routes>
     </Router>
   );
