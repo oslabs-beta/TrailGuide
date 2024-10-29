@@ -23,14 +23,14 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
-        {user !== null && <>
+        {/* {user !== null && <> */}
           <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
         <Route path="/profile" element={<Profile isDarkMode={isDarkMode} user={user} />} />
         <Route
           path="/events-dashboard"
           element={<EventsDashboard isDarkMode={isDarkMode} />}
         />
-        </>}
+        {/* </>} */}
       </Routes>
     </Router>
   );
