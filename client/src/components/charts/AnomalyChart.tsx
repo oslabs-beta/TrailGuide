@@ -8,7 +8,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-  ScatterProps,
 } from 'recharts';
 
 interface DataPoint {
@@ -47,15 +46,19 @@ const AnomalyChart: React.FC = () => {
           fill="#8884d8"
           shape="circle"
         >
-          {dummyData.map((entry, index) => (
-            <circle
-              key={`dot-${index}`}
-              cx={entry.cx}
-              cy={entry.cy}
-              r={isAnomaly(entry.count) ? 8 : 4}
-              fill={isAnomaly(entry.count) ? '#FF0000' : '#0088FE'}
-            />
-          ))}
+          {dummyData.map((entry, index) => {
+            const x = new Date(entry.timestamp).getTime();
+            const y = entry.count;
+            return (
+              <circle
+                key={`dot-${index}`}
+                cx={x}
+                cy={y}
+                r={isAnomaly(entry.count) ? 8 : 4}
+                fill={isAnomaly(entry.count) ? '#FF0000' : '#0088FE'}
+              />
+            );
+          })}
         </Scatter>
       </ScatterChart>
     </ResponsiveContainer>
