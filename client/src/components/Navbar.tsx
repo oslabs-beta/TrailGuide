@@ -4,7 +4,7 @@ import { NavbarProps } from '../types';
 import LOGO from '../assets/RAILGUIDE.png';
 //import '../index.scss';
 
-const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, setUsername }) => {
+const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, setUser }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -15,8 +15,8 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, s
 
   const handleLogout = () => {
     console.log('User logged out');
-    setUsername(null);
-    navigate('/');
+    setUser(null);
+    navigate('/login');
   };
 
   useEffect(() => {

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const Login: React.FC<{
-  setUsername: React.Dispatch<React.SetStateAction<string | null>>;
-}> = ({ setUsername }) => {
-  const [username, setLocalUsername] = useState("");
+  setUser: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
+}> = ({ setUser }) => {
+  const [localUsername, setLocalUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ const Login: React.FC<{
     setError(null);
 
     // Basic form validation
-    if ((!username && !email) || (username && email)) {
+    if ((!localUsername && !email) || (localUsername && email)) {
       setError("Please provide either a username or an email, but not both");
       return;
     }
@@ -37,15 +37,15 @@ const Login: React.FC<{
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username || null,
+          username: localUsername || null,
           work_email: email || null,
           password,
         }),
       });
-      const { username: dbUsername } = await response.json() as {username: string};
-      console.log(dbUsername);
+      const user = await response.json() as {username: string};
+
       if (response.ok) {
-        setUsername(dbUsername);
+        setUser(user);
         console.log("Sign-up successful!");
         navigate("/profile");
       }
@@ -69,7 +69,7 @@ const Login: React.FC<{
           <input
             type="text"
             id="username"
-            value={username}
+            value={localUsername}
             onChange={(e) => setLocalUsername(e.target.value)}
             autoComplete="username"
           />
