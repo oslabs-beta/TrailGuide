@@ -48,6 +48,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
+<<<<<<< HEAD
 
         <Route
           path="/"
@@ -59,12 +60,21 @@ const App: React.FC = () => {
             <Profile isDarkMode={isDarkMode} user={user} setUser={setUser} />
           )}
         />
+=======
+        {/* {user !== null && <> */}
+          <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
+        <Route path="/profile" element={<Profile isDarkMode={isDarkMode} user={user} />} />
+>>>>>>> 184719a (fix: disable authentication protecting home, profile, event-dashboard routes)
         <Route
           path="/events-dashboard"
           element={checkAWSCreds(
             checkLogin(<EventsDashboard isDarkMode={isDarkMode} />)
           )}
         />
+<<<<<<< HEAD
+=======
+        {/* </>} */}
+>>>>>>> 184719a (fix: disable authentication protecting home, profile, event-dashboard routes)
       </Routes>
     </Router>
   );
