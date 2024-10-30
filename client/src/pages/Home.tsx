@@ -1,22 +1,34 @@
-import React, { lazy, useState } from 'react';
-import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+import React, { useState } from 'react';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from '@hello-pangea/dnd';
 import { CardState } from '../types';
-
-const Card = lazy(() => import('../components/Card'));
-const UserActivityChart = lazy(() => import('../components/charts/UserActivity'));
-const HeatMap = lazy(() => import('../components/charts/HeatMap'));
-const IpAccessCombined = lazy(() => import('../components/IpAccessCombined'));
-const EventTypeChart = lazy(() => import('../components/charts/EventType'));
-const EventSourceChart = lazy(() => import('../components/charts/EventSource'));
+import UserActivityChart from '../components/charts/UserActivity';
+import EventTypeChart from '../components/charts/EventType';
+import EventSourceChart from '../components/charts/EventSource';
+import HeatMap from '../components/charts/HeatMap';
+import IpAccessCombined from '../components/IpAccessCombined';
+import Card from '../components/Card';
 
 const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   // State to track the current IP (null means no IP selected)
   const [currentIp, setCurrentIp] = useState<string | undefined>();
 
   const [cards, setCards] = useState<CardState[]>([
-    { id: 'userActivity', title: 'User Activity', component: <UserActivityChart  /> },
+    {
+      id: 'userActivity',
+      title: 'User Activity',
+      component: <UserActivityChart />,
+    },
     { id: 'eventTypes', title: 'Event Types', component: <EventTypeChart /> },
-    { id: 'eventSources', title: 'Event Sources', component: <EventSourceChart /> },
+    {
+      id: 'eventSources',
+      title: 'Event Sources',
+      component: <EventSourceChart />,
+    },
     { id: 'heatMap', title: 'IP Address Heat Map', component: <HeatMap /> },
     {
       id: 'ipAccess',

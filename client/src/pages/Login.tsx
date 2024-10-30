@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login: React.FC<{
@@ -9,6 +9,17 @@ const Login: React.FC<{
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.localStorage.getItem('user')) {
+      console.log(
+        'using sessioned user: ',
+        window.localStorage.getItem('user')
+      );
+      setUser(JSON.parse(window.localStorage.getItem('user')!) as UserDetails);
+      navigate('/profile');
+    }
+  }, [navigate, setUser]);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -46,8 +57,10 @@ const Login: React.FC<{
 
       if (response.ok) {
         setUser(user);
-        console.log('Sign-up successful!');
+        window.localStorage.setItem('user', JSON.stringify(user));
         navigate('/profile');
+      } else {
+        setError('Could Not Log In. Please Try again');
       }
     } catch (err) {
       setError('Error logging in. Please try again.');

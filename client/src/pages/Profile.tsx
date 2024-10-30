@@ -1,7 +1,43 @@
 import React from 'react';
-import { ProfileProps } from '../types';
+import { AWSCredentials, ProfileProps, UserDetails } from '../types';
 
-const Profile: React.FC<ProfileProps> = ({ isDarkMode, user }) => {
+const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
+  function handleCredentialSubmit() {
+    const creds: AWSCredentials = {
+      aws_access_key:
+        (document.getElementById('accessKey') as HTMLInputElement | null)
+          ?.value ?? 'Could not find accessKey element',
+      aws_secret_access_key:
+        (document.getElementById('secretAccessKey') as HTMLInputElement | null)
+          ?.value ?? 'Could not find secretAccessKey element',
+      aws_region:
+        (document.getElementById('region') as HTMLInputElement | null)?.value ??
+        'Could not find region element',
+    };
+    fetch('/credentials', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...creds,
+        username: user?.username ?? 'Not Logged In',
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response.ok) window.alert('Credentials Saved');
+        else throw Error('Server Error while updating aws credentials');
+        return response.json();
+      })
+      .then((data: UserDetails) => {
+        setUser(data);
+        window.localStorage.setItem('user', JSON.stringify(data));
+      })
+      .catch((error: Error) => {
+        console.error(error);
+      });
+  }
+
   return (
     <div className={`profile-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="left-container">
@@ -25,9 +61,6 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode, user }) => {
             <div className="info-container">
               <p>Work Phone: {user?.work_phone ?? 'Not Logged In'}</p>
             </div>
-            {/* <div className="info-container">
-              <p>Company: {user.company}</p>
-            </div> */}
             <img
               className="aws-logo"
               src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"

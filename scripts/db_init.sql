@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS users(
       display_name VARCHAR(100),
       work_email VARCHAR(255) UNIQUE NOT NULL,
       work_phone VARCHAR(25),
-      created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-      aws_access_key VARCHAR;
-      aws_secret_access_key VARCHAR;
-      aws_region VARCHAR;
+      created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+      aws_access_key VARCHAR,
+      aws_secret_access_key VARCHAR,
+      aws_region VARCHAR
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -17,20 +17,54 @@ const App: React.FC = () => {
     document.body.classList.toggle('dark-mode', !isDarkMode); // Toggle class based on state
   };
 
+  function checkLogin(component: ReactNode): ReactNode {
+    return user ? component : <p>You must login to see this page</p>;
+  }
+
+  function checkAWSCreds(component: ReactNode): ReactNode {
+    if (
+      user?.aws_access_key?.length &&
+      user?.aws_region?.length > 0 &&
+      user?.aws_secret_access_key?.length > 0
+    ) {
+      return component;
+    }
+    return (
+      <p>
+        You must enter your AWS credentials in the profile page to see any data
+        here.
+      </p>
+    );
+  }
+
   return (
     <Router>
-      <Navbar toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} username={user?.username ?? null} setUser={setUser} />
+      <Navbar
+        toggleDarkMode={toggleDarkMode}
+        isDarkMode={isDarkMode}
+        username={user?.username ?? null}
+        setUser={setUser}
+      />
       <Routes>
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
-        {user !== null && <>
-          <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
-        <Route path="/profile" element={<Profile isDarkMode={isDarkMode} user={user} />} />
+
+        <Route
+          path="/"
+          element={checkAWSCreds(checkLogin(<Home isDarkMode={isDarkMode} />))}
+        />
+        <Route
+          path="/profile"
+          element={checkLogin(
+            <Profile isDarkMode={isDarkMode} user={user} setUser={setUser} />
+          )}
+        />
         <Route
           path="/events-dashboard"
-          element={<EventsDashboard isDarkMode={isDarkMode} />}
+          element={checkAWSCreds(
+            checkLogin(<EventsDashboard isDarkMode={isDarkMode} />)
+          )}
         />
-        </>}
       </Routes>
     </Router>
   );

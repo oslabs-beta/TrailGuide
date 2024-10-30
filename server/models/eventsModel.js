@@ -107,10 +107,17 @@ async function updateEvents(next, config = {}) {
     const startTime = await getLastEvent();
     if (startTime) config.StartTime = startTime;
   }
-
-  const command = new LookupEventsCommand(config);
-  const data = await cloudtrailClient.send(command);
-
+  let data;
+  try {
+    const command = new LookupEventsCommand(config);
+    data = await cloudtrailClient.send(command);
+  } catch (error) {
+    console.error(
+      'eventsModel.updateEvents: LookupEvents error:' + error.message
+    );
+    return;
+  }
+  if (!data) return;
   for (const event of data.Events) {
     const cloudtrailevent = JSON.parse(event.CloudTrailEvent);
     // console.log(cloudtrailevent);

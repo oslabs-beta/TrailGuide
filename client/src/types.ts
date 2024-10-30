@@ -4,13 +4,31 @@
  * =================================
  */
 
+export interface UserDetails extends AWSCredentials {
+  username: string;
+  display_name: string;
+  work_email: string;
+  work_phone: string;
+}
+
+export interface AWSCredentials {
+  aws_access_key: string;
+  aws_secret_access_key: string;
+  aws_region: string;
+}
+
 /**
  * REACT PROPS TYPES
  */
 
 export interface ProfileProps {
   isDarkMode: boolean;
+<<<<<<< HEAD
   user: Record<string, string> | null
+=======
+  user: UserDetails | null;
+  setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
+>>>>>>> 1899bed (feat: fix authentication routing and uses localstorage for session management on frontend)
 }
 
 export interface CardProps {

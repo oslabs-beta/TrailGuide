@@ -39,9 +39,9 @@ app.get(
 app.post(
   '/credentials',
   awsController.setCredentials,
-  userController.saveCredentials,
+  userController.saveUserAwsCredentials,
   (_req, res) => {
-    return res.status(201).send('Credentials Added');
+    return res.status(201).json(res.locals.updatedUser);
   }
 );
 

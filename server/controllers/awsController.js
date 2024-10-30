@@ -4,21 +4,23 @@ import { configureCloudtrailClient, query } from '../models/eventsModel.js';
 export default {
   setCredentials: (req, res, next) => {
     try {
-      const { accessKey, secretAccessKey, region } = req.body;
-      if (!accessKey || !secretAccessKey || !region)
+      const { aws_access_key, aws_secret_access_key, aws_region } = req.body;
+      if (!aws_access_key || !aws_secret_access_key || !aws_region) {
+        console.log(req.body);
         return next({
-          log: `awsController.setCredentials: Malformed Request: accessKey= ${accessKey} typeof secretAccessKey= ${typeof secretAccessKey} region= ${region}`,
+          log: `awsController.setCredentials: Malformed Request: aws_access_key= ${aws_access_key} typeof aws_secret_access_key= ${typeof aws_secret_access_key} aws_region= ${aws_region}`,
           status: 400,
           message: { err: 'Malformed Request' },
         });
-      process.env.AWS_ACCESS_KEY_ID = accessKey;
-      process.env.AWS_SECRET_ACCESS_KEY = secretAccessKey;
-      process.env.AWS_REGION = region;
+      }
+      process.env.AWS_ACCESS_KEY_ID = aws_access_key;
+      process.env.AWS_SECRET_ACCESS_KEY = aws_secret_access_key;
+      process.env.AWS_aws_region = aws_region;
       configureCloudtrailClient();
       res.locals.awsCredentials = {
-        accessKey,
-        secretAccessKey,
-        region,
+        aws_access_key,
+        aws_secret_access_key,
+        aws_region,
       };
       return next();
     } catch (error) {
@@ -38,8 +40,8 @@ export default {
       process.env.AWS_ACCESS_KEY_ID === '' ||
       !process.env.AWS_SECRET_ACCESS_KEY ||
       process.env.AWS_SECRET_ACCESS_KEY_ID === '' ||
-      !process.env.AWS_REGION ||
-      process.env.AWS_REGION === ''
+      !process.env.AWS_aws_region ||
+      process.env.AWS_aws_region === ''
     ) {
       return next({
         log: 'awsController.getEvents: trying to get events without an accesskey',
