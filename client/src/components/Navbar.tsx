@@ -4,7 +4,12 @@ import { NavbarProps } from '../types';
 import LOGO from '../assets/RAILGUIDE.png';
 //import '../index.scss';
 
-const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, setUser }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  toggleDarkMode,
+  isDarkMode,
+  username,
+  setUser,
+}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -16,12 +21,16 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, s
   const handleLogout = () => {
     console.log('User logged out');
     setUser(null);
+    window.localStorage.removeItem('user');
     navigate('/login');
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     };
@@ -44,16 +53,17 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode, isDarkMode, username, s
         <button onClick={toggleDarkMode} className="nav-button">
           {isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}
         </button>
-        
-          <div
-            className="nav-button"
-            onClick={toggleDropdown}
-            aria-haspopup="true"
-            aria-expanded={dropdownOpen}
-          >
-            {username && typeof username === 'string' ? username.toUpperCase() : "USER"}
-          </div>
-        
+
+        <div
+          className="nav-button"
+          onClick={toggleDropdown}
+          aria-haspopup="true"
+          aria-expanded={dropdownOpen}
+        >
+          {username && typeof username === 'string'
+            ? username.toUpperCase()
+            : 'USER'}
+        </div>
       </div>
       {dropdownOpen && (
         <div className="dropdown" ref={dropdownRef}>

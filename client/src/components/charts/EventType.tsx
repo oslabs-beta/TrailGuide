@@ -22,15 +22,17 @@ export default function EventTypeChart() {
   useEffect(() => {
     setLoading(true);
     fetch('/events?countOn=type')
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.status + ': ' + response.statusText);
+      })
       .then((data: CountedEvent[] | { err: string }) => {
-        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
-          setEvents(
-            (data as CountedEvent[]).map((event) => ({
-              ...event,
-              type: event.type.replace(/([A-Z])/g, ' $1'),
-            }))
-          );
+        setEvents(
+          (data as CountedEvent[]).map((event) => ({
+            ...event,
+            type: event.type.replace(/([A-Z])/g, ' $1'),
+          }))
+        );
         setLoading(false);
       })
       .catch((error) =>
@@ -64,7 +66,12 @@ export default function EventTypeChart() {
           angle={-30}
           textAnchor="end"
         />
-        <Bar dataKey="count" maxBarSize={35} minPointSize={5} style={{ cursor: 'pointer' }}>
+        <Bar
+          dataKey="count"
+          maxBarSize={35}
+          minPointSize={5}
+          style={{ cursor: 'pointer' }}
+        >
           {events.map((data, index) => (
             <Cell
               key={`cell-${index}`}

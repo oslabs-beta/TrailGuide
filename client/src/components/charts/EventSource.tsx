@@ -22,10 +22,12 @@ export default function EventSourceChart() {
   useEffect(() => {
     setLoading(true);
     fetch('/events?countOn=source')
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.status + ': ' + response.statusText);
+      })
       .then((data: CountedEvent[] | { err: string }) => {
-        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
-          setEvents(data as CountedEvent[]);
+        setEvents(data as CountedEvent[]);
         setLoading(false);
       })
       .catch((error) =>

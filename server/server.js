@@ -16,7 +16,6 @@ app.post('/api/signup', userController.createUser, (req, res) => {
   res.status(201).json(res.locals.createdUser);
 });
 
-
 //login router
 app.post('/api/login', userController.loginUser, (req, res) => {
   res.status(200).json(res.locals.loggedinuser);
@@ -34,6 +33,15 @@ app.get(
   ipLocController.injectLocs,
   (_req, res) => {
     return res.status(200).json(res.locals.events);
+  }
+);
+
+app.post(
+  '/credentials',
+  awsController.setCredentials,
+  userController.saveUserAwsCredentials,
+  (_req, res) => {
+    return res.status(201).json(res.locals.updatedUser);
   }
 );
 
