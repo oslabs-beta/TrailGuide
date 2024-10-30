@@ -53,7 +53,7 @@ const SignUp: React.FC = () => {
 
       if (response.ok) {
         console.log('Sign-up successful!');
-        navigate('/profile');
+        navigate('/login');
       }
     } catch (err) {
       setError('Error signing up. Please try again.');

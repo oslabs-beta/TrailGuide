@@ -24,7 +24,7 @@ export interface AWSCredentials {
 export interface ProfileProps {
   isDarkMode: boolean;
   user: UserDetails | null;
-  setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
+  updateCredentials: (credentials: AWSCredentials) => void;
 }
 
 export interface CardProps {

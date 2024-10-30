@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserDetails } from '../types';
 
@@ -10,17 +10,6 @@ const Login: React.FC<{
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (window.localStorage.getItem('user')) {
-      console.log(
-        'using sessioned user: ',
-        window.localStorage.getItem('user')
-      );
-      setUser(JSON.parse(window.localStorage.getItem('user')!) as UserDetails);
-      navigate('/profile');
-    }
-  }, [navigate, setUser]);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();

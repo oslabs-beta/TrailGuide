@@ -1,7 +1,11 @@
 import React from 'react';
-import { AWSCredentials, ProfileProps, UserDetails } from '../types';
+import { AWSCredentials, ProfileProps } from '../types';
 
-const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
+const Profile: React.FC<ProfileProps> = ({
+  isDarkMode,
+  user,
+  updateCredentials,
+}) => {
   function handleCredentialSubmit() {
     const creds: AWSCredentials = {
       aws_access_key:
@@ -14,28 +18,7 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
         (document.getElementById('region') as HTMLInputElement | null)?.value ??
         'Could not find region element',
     };
-    fetch('/credentials', {
-      method: 'POST',
-      body: JSON.stringify({
-        ...creds,
-        username: user?.username ?? 'Not Logged In',
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (response.ok) window.alert('Credentials Saved');
-        else throw Error('Server Error while updating aws credentials');
-        return response.json();
-      })
-      .then((data: UserDetails) => {
-        setUser(data);
-        window.localStorage.setItem('user', JSON.stringify(data));
-      })
-      .catch((error: Error) => {
-        console.error(error);
-      });
+    updateCredentials(creds);
   }
 
   return (

@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <nav className={isDarkMode ? 'dark-mode' : ''}>
-      <Link to="/" className="logo" title="Home">
+      <Link to="/home" className="logo" title="Home">
         <img src={LOGO} alt="Wood Plank T" className="logo-image" />
       </Link>
       <div className="nav-buttons">
