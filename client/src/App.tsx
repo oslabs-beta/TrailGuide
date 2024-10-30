@@ -11,7 +11,11 @@ import { UserDetails } from './types';
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode state
+<<<<<<< HEAD
   const [user, setUser] = useState<UserDetails | null>(null);
+=======
+  const [user, setUser] = useState<Record<string, string> | null>(null);
+>>>>>>> dev
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
@@ -66,6 +70,7 @@ const App: React.FC = () => {
             checkLogin(<EventsDashboard isDarkMode={isDarkMode} />)
           )}
         />
+        {/* </>} */}
       </Routes>
     </Router>
   );

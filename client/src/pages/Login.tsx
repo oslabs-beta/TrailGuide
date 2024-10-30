@@ -3,11 +3,19 @@ import { useNavigate, Link } from 'react-router-dom';
 import { UserDetails } from '../types';
 
 const Login: React.FC<{
+<<<<<<< HEAD
   setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
 }> = ({ setUser }) => {
   const [localUsername, setLocalUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+=======
+  setUser: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
+}> = ({ setUser }) => {
+  const [localUsername, setLocalUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+>>>>>>> dev
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
