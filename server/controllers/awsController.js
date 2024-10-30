@@ -15,7 +15,7 @@ export default {
       }
       process.env.AWS_ACCESS_KEY_ID = aws_access_key;
       process.env.AWS_SECRET_ACCESS_KEY = aws_secret_access_key;
-      process.env.AWS_aws_region = aws_region;
+      process.env.AWS_REGION = aws_region;
       configureCloudtrailClient();
       res.locals.awsCredentials = {
         aws_access_key,
@@ -40,8 +40,8 @@ export default {
       process.env.AWS_ACCESS_KEY_ID === '' ||
       !process.env.AWS_SECRET_ACCESS_KEY ||
       process.env.AWS_SECRET_ACCESS_KEY_ID === '' ||
-      !process.env.AWS_aws_region ||
-      process.env.AWS_aws_region === ''
+      !process.env.AWS_REGION ||
+      process.env.AWS_REGION === ''
     ) {
       return next({
         log: 'awsController.getEvents: trying to get events without an accesskey',
