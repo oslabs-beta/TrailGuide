@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { UserDetails } from '../types';
 
 const Login: React.FC<{
-  setUser: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
+  setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
 }> = ({ setUser }) => {
   const [localUsername, setLocalUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -53,7 +54,7 @@ const Login: React.FC<{
           password,
         }),
       });
-      const user = (await response.json()) as { username: string };
+      const user = (await response.json()) as UserDetails;
 
       if (response.ok) {
         setUser(user);

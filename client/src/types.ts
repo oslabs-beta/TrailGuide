@@ -23,12 +23,8 @@ export interface AWSCredentials {
 
 export interface ProfileProps {
   isDarkMode: boolean;
-<<<<<<< HEAD
-  user: Record<string, string> | null
-=======
   user: UserDetails | null;
   setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
->>>>>>> 1899bed (feat: fix authentication routing and uses localstorage for session management on frontend)
 }
 
 export interface CardProps {
@@ -55,8 +51,8 @@ export interface EventsDashboardProps {
 export interface NavbarProps {
   toggleDarkMode: () => void;
   isDarkMode: boolean;
-  username: string | null; 
-  setUser: React.Dispatch<React.SetStateAction<Record<string,string> | null>>; 
+  username: string | null;
+  setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
 }
 
 export interface EventCardProps {
@@ -139,7 +135,6 @@ export interface SimplifiedEvent {
   localTime: string;
   count: number;
 }
-
 
 export interface CountedEvent extends TGEvent {
   count: number;

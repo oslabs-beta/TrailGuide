@@ -80,8 +80,9 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
           <label htmlFor="region">Enter Region</label>
           <input type="text" id="region" name="region" />
         </div>
-        <button className="submit-button">Submit</button>
-        {/* <button className="logout-button logout-button-styled" >Logout</button> */}
+        <button className="submit-button" onClick={handleCredentialSubmit}>
+          Submit
+        </button>
         <a
           className="aws-login-button submit-button"
           href="https://aws.amazon.com"
@@ -92,7 +93,6 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
         </a>
       </div>
 
-      
       {/*}
       <div className="right-container">
         <div className="settings-section">

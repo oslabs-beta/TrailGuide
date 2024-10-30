@@ -7,10 +7,11 @@ import Home from './pages/Home';
 import EventsDashboard from './pages/EventsDashboard';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import { UserDetails } from './types';
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode state
-  const [user, setUser] = useState<Record<string, string> | null>(null);
+  const [user, setUser] = useState<UserDetails | null>(null);
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
@@ -48,7 +49,6 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
-<<<<<<< HEAD
 
         <Route
           path="/"
@@ -60,21 +60,12 @@ const App: React.FC = () => {
             <Profile isDarkMode={isDarkMode} user={user} setUser={setUser} />
           )}
         />
-=======
-        {/* {user !== null && <> */}
-          <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
-        <Route path="/profile" element={<Profile isDarkMode={isDarkMode} user={user} />} />
->>>>>>> 184719a (fix: disable authentication protecting home, profile, event-dashboard routes)
         <Route
           path="/events-dashboard"
           element={checkAWSCreds(
             checkLogin(<EventsDashboard isDarkMode={isDarkMode} />)
           )}
         />
-<<<<<<< HEAD
-=======
-        {/* </>} */}
->>>>>>> 184719a (fix: disable authentication protecting home, profile, event-dashboard routes)
       </Routes>
     </Router>
   );
