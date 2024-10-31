@@ -1,4 +1,4 @@
-import React, { lazy, useState } from 'react';
+import React, { useState } from 'react';
 import {
   DragDropContext,
   Droppable,
@@ -6,16 +6,13 @@ import {
   DropResult,
 } from '@hello-pangea/dnd';
 import { CardState } from '../types';
-
-const Card = lazy(() => import('../components/Card'));
-const UserActivityChart = lazy(
-  () => import('../components/charts/UserActivity')
-);
-const HeatMap = lazy(() => import('../components/charts/HeatMap'));
-const IpAccessCombined = lazy(() => import('../components/IpAccessCombined'));
-const EventTypeChart = lazy(() => import('../components/charts/EventType'));
-const EventSourceChart = lazy(() => import('../components/charts/EventSource'));
-const AnomalyChart = lazy(() => import('../components/charts/AnomalyChart'));
+import UserActivityChart from '../components/charts/UserActivity';
+import EventTypeChart from '../components/charts/EventType';
+import EventSourceChart from '../components/charts/EventSource';
+import HeatMap from '../components/charts/HeatMap';
+import IpAccessCombined from '../components/IpAccessCombined';
+import AnomalyChart from '../components/charts/AnomalyChart';
+import Card from '../components/Card';
 
 const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   // State to track the current IP (null means no IP selected)
@@ -27,7 +24,7 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
       title: 'User Activity',
       component: <UserActivityChart />,
     },
-    { id: 'eventTypes', title: 'Event Types', component: <EventTypeChart /> },
+    { id: 'eventTypes', title: 'Event Names', component: <EventTypeChart /> },
     {
       id: 'eventSources',
       title: 'Event Sources',

@@ -83,11 +83,50 @@ export default {
       res.locals.loggedinuser = user;
       return next();
     } catch (err) {
-      next({
+      return next({
         log: 'userController.loginUser: ' + err,
         status: 500,
         message: {
           err: 'Error during Login',
+        },
+      });
+    }
+  },
+
+  saveUserAwsCredentials: async (req, res, next) => {
+    if (!req.body.username)
+      return next({
+        log: 'userController.saveUserAWsCredentials: No username provided in request body',
+        status: 400,
+        message: {
+          err: 'Malformed Request: include a username',
+        },
+      });
+    try {
+      const result = await query(
+        `
+        UPDATE users
+        SET aws_access_key = $1,
+            aws_secret_access_key = $2,
+            aws_region = $3
+        WHERE username = $4
+        RETURNING *;
+      `,
+        [
+          res.locals.awsCredentials.aws_access_key,
+          res.locals.awsCredentials.aws_secret_access_key,
+          res.locals.awsCredentials.aws_region,
+          req.body.username,
+        ]
+      );
+      res.locals.updatedUser = result.rows[0];
+      return next();
+    } catch (error) {
+      return next({
+        log: 'userController.saveUserAwsCredentials: ' + error,
+        status: 500,
+        message: {
+          err: 'Error when saving credentials',
         },
       });
     }

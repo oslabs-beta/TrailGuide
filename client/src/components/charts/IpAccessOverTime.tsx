@@ -13,10 +13,12 @@ export default function IpAccessOverTimeChart({
   useEffect(() => {
     setLoading(true); // Set loading to true before fetching data
     fetch('/events?countOn=time&groupTimeBy=minute')
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.status + ': ' + response.statusText);
+      })
       .then((data: CountedEvent[] | { err: string }) => {
-        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
-          setIpTimes(() => data as CountedEvent[]);
+        setIpTimes(() => data as CountedEvent[]);
         setLoading(false); // Set loading to true before fetching data
       })
       .catch((error) =>

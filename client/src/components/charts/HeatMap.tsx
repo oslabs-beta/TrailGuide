@@ -25,11 +25,13 @@ const HeatMap: React.FC = () => {
       .catch((error) => console.error('Error fetching geoJSON:', error));
 
     fetch('/events?countOn=source_ip&includeLocation=true')
-      .then((response) => response.json())
-      .then((data: (IPLocation & CountedEvent)[] | { err: string }) => {
-        if (!Object.prototype.hasOwnProperty.call(Object, 'err'))
-          setIpData(() => data as (IPLocation & CountedEvent)[]);
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.status + ': ' + response.statusText);
       })
+      .then((data: (IPLocation & CountedEvent)[] | { err: string }) =>
+        setIpData(() => data as (IPLocation & CountedEvent)[])
+      )
       .catch((error) =>
         console.warn('Could not fetch event ip counts and locations: ', error)
       );

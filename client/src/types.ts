@@ -4,13 +4,27 @@
  * =================================
  */
 
+export interface UserDetails extends AWSCredentials {
+  username: string;
+  display_name: string;
+  work_email: string;
+  work_phone: string;
+}
+
+export interface AWSCredentials {
+  aws_access_key: string;
+  aws_secret_access_key: string;
+  aws_region: string;
+}
+
 /**
  * REACT PROPS TYPES
  */
 
 export interface ProfileProps {
   isDarkMode: boolean;
-  user: Record<string, string> | null
+  user: UserDetails | null;
+  updateCredentials: (credentials: AWSCredentials) => void;
 }
 
 export interface CardProps {
@@ -37,8 +51,8 @@ export interface EventsDashboardProps {
 export interface NavbarProps {
   toggleDarkMode: () => void;
   isDarkMode: boolean;
-  username: string | null; 
-  setUser: React.Dispatch<React.SetStateAction<Record<string,string> | null>>; 
+  username: string | null;
+  setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
 }
 
 export interface EventCardProps {
@@ -121,7 +135,6 @@ export interface SimplifiedEvent {
   localTime: string;
   count: number;
 }
-
 
 export interface CountedEvent extends TGEvent {
   count: number;

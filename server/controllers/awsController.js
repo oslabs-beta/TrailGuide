@@ -1,8 +1,55 @@
 import * as timeBuckets from '../utils/timeBuckets.js';
-import { query } from '../models/eventsModel.js';
+import { configureCloudtrailClient, query } from '../models/eventsModel.js';
 
 export default {
+  setCredentials: (req, res, next) => {
+    try {
+      const { aws_access_key, aws_secret_access_key, aws_region } = req.body;
+      if (!aws_access_key || !aws_secret_access_key || !aws_region) {
+        return next({
+          log: `awsController.setCredentials: Malformed Request: aws_access_key= ${aws_access_key} typeof aws_secret_access_key= ${typeof aws_secret_access_key} aws_region= ${aws_region}`,
+          status: 400,
+          message: { err: 'Malformed Request' },
+        });
+      }
+      process.env.AWS_ACCESS_KEY_ID = aws_access_key;
+      process.env.AWS_SECRET_ACCESS_KEY = aws_secret_access_key;
+      process.env.AWS_REGION = aws_region;
+      configureCloudtrailClient();
+      res.locals.awsCredentials = {
+        aws_access_key,
+        aws_secret_access_key,
+        aws_region,
+      };
+      return next();
+    } catch (error) {
+      return next({
+        log: 'awsController.setCredentials: ' + error,
+        status: 500,
+        message: {
+          err: 'A server error occured',
+        },
+      });
+    }
+  },
+
   getEvents: async (req, res, next) => {
+    if (
+      !process.env.AWS_ACCESS_KEY_ID ||
+      process.env.AWS_ACCESS_KEY_ID === '' ||
+      !process.env.AWS_SECRET_ACCESS_KEY ||
+      process.env.AWS_SECRET_ACCESS_KEY_ID === '' ||
+      !process.env.AWS_REGION ||
+      process.env.AWS_REGION === ''
+    ) {
+      return next({
+        log: 'awsController.getEvents: trying to get events without an accesskey',
+        status: 403,
+        message: {
+          err: 'AWS Credentials not Authorized',
+        },
+      });
+    }
     try {
       const result = await query(
         `
@@ -13,7 +60,6 @@ export default {
         `,
         [req.query.amount || 100]
       );
-      // console.log('awsController.getEvents: got rows from db:', result.rows);
       res.locals.events = result.rows;
       return next();
     } catch (err) {

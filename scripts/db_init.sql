@@ -28,10 +28,10 @@ CREATE TABLE IF NOT EXISTS events (
 );
 
 CREATE TABLE IF NOT EXISTS ips (
-  ip VARCHAR(15) PRIMARY KEY,
-  country VARCHAR(20),
-  region VARCHAR(20),
-  city VARCHAR(20),
+  ip VARCHAR(30) PRIMARY KEY,
+  country VARCHAR(50),
+  region VARCHAR(50),
+  city VARCHAR(50),
   lat NUMERIC(9, 6),
   long NUMERIC(9, 6)
 );
@@ -43,5 +43,8 @@ CREATE TABLE IF NOT EXISTS users(
       display_name VARCHAR(100),
       work_email VARCHAR(255) UNIQUE NOT NULL,
       work_phone VARCHAR(25),
-      created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+      aws_access_key VARCHAR,
+      aws_secret_access_key VARCHAR,
+      aws_region VARCHAR
   );

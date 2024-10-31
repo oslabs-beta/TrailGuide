@@ -11,13 +11,21 @@ const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
   const [selectedEvent, setSelectedEvent] = useState<TGEvent | null>(null);
   const [events, setEvents] = useState<TGEvent[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/events')
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.status + ': ' + response.statusText);
+      })
       .then((data: TGEvent[]) => setEvents(() => data))
-      .catch((error) => console.warn('Could not fetch events: ', error));
+      .catch((error) => {
+        if (error === '403: Forbidden')
+          setError('Please enter AWS Credentials to view events');
+        else console.warn('Could not fetch events: ', error);
+      });
+
     setLoading(false);
   }, []);
 

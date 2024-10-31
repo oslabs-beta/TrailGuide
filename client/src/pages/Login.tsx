@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { UserDetails } from '../types';
 
 const Login: React.FC<{
-  setUser: React.Dispatch<React.SetStateAction<Record<string, string> | null>>;
+  setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
 }> = ({ setUser }) => {
-  const [localUsername, setLocalUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [localUsername, setLocalUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -16,7 +17,7 @@ const Login: React.FC<{
 
     // Basic form validation
     if ((!localUsername && !email) || (localUsername && email)) {
-      setError("Please provide either a username or an email, but not both");
+      setError('Please provide either a username or an email, but not both');
       return;
     }
 
@@ -24,17 +25,17 @@ const Login: React.FC<{
     if (email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        setError("Please enter a valid email address");
+        setError('Please enter a valid email address');
         return;
       }
     }
 
     try {
       //Send resgiter request to the backend
-      const response = await fetch("/api/login", {
-        method: "POST",
+      const response = await fetch('/api/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username: localUsername || null,
@@ -42,16 +43,18 @@ const Login: React.FC<{
           password,
         }),
       });
-      const user = await response.json() as {username: string};
+      const user = (await response.json()) as UserDetails;
 
       if (response.ok) {
         setUser(user);
-        console.log("Sign-up successful!");
-        navigate("/profile");
+        window.localStorage.setItem('user', JSON.stringify(user));
+        navigate('/profile');
+      } else {
+        setError('Could Not Log In. Please Try again');
       }
     } catch (err) {
-      setError("Error logging in. Please try again.");
-      console.error(err, "Error in login at Login.tsx;");
+      setError('Error logging in. Please try again.');
+      console.error(err, 'Error in login at Login.tsx;');
     }
   };
 
