@@ -15,11 +15,15 @@ const App: React.FC = () => {
 
   const updateCredentials = useCallback(
     function (credentials: AWSCredentials): void {
+      const locallyStoredUser: UserDetails = JSON.parse(
+        window.localStorage.getItem('user')!
+      ) as UserDetails;
       fetch('/credentials', {
         method: 'POST',
         body: JSON.stringify({
           ...credentials,
-          username: user?.username ?? 'No Active User',
+          username:
+            user?.username ?? locallyStoredUser.username ?? 'No Active User',
         }),
         headers: {
           'Content-Type': 'application/json',

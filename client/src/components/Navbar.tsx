@@ -47,7 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({
       </Link>
       <div className="nav-buttons">
         <Link to="/events-dashboard" className="nav-button">
-          EVENTS DASHBOARD
+          RECENT EVENTS
         </Link>
         <button onClick={toggleDarkMode} className="nav-button">
           {isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}

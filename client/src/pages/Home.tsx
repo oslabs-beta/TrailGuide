@@ -24,7 +24,7 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
       title: 'User Activity',
       component: <UserActivityChart />,
     },
-    { id: 'eventTypes', title: 'Event Types', component: <EventTypeChart /> },
+    { id: 'eventTypes', title: 'Event Names', component: <EventTypeChart /> },
     {
       id: 'eventSources',
       title: 'Event Sources',

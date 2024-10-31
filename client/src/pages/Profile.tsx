@@ -1,5 +1,5 @@
 import React from 'react';
-import { AWSCredentials, ProfileProps } from '../types';
+import { AWSCredentials, ProfileProps, UserDetails } from '../types';
 
 const Profile: React.FC<ProfileProps> = ({
   isDarkMode,
@@ -7,7 +7,10 @@ const Profile: React.FC<ProfileProps> = ({
   updateCredentials,
 }) => {
   function handleCredentialSubmit() {
-    const creds: AWSCredentials = {
+    const locallyStoredUser: UserDetails = JSON.parse(
+      window.localStorage.getItem('user')!
+    ) as UserDetails;
+    const domCollectedCreds: AWSCredentials = {
       aws_access_key:
         (document.getElementById('accessKey') as HTMLInputElement | null)
           ?.value ?? 'Could not find accessKey element',
@@ -18,7 +21,23 @@ const Profile: React.FC<ProfileProps> = ({
         (document.getElementById('region') as HTMLInputElement | null)?.value ??
         'Could not find region element',
     };
-    updateCredentials(creds);
+    console.log(locallyStoredUser);
+    console.log(domCollectedCreds);
+    updateCredentials({
+      aws_access_key:
+        domCollectedCreds.aws_access_key !== ''
+          ? domCollectedCreds.aws_access_key
+          : locallyStoredUser.aws_access_key ?? 'No locally stored access key',
+      aws_secret_access_key:
+        domCollectedCreds.aws_secret_access_key !== ''
+          ? domCollectedCreds.aws_secret_access_key
+          : locallyStoredUser.aws_secret_access_key ??
+            'No locally stored secret access key',
+      aws_region:
+        domCollectedCreds.aws_region !== ''
+          ? domCollectedCreds.aws_region
+          : locallyStoredUser.aws_region ?? 'No locally stored region',
+    });
   }
 
   return (
