@@ -10,8 +10,7 @@ We built TrailGuide because we are passionate in solving the data overloading pr
 
 Every single part is fully open source! Fork it, extend it, or deploy it to your own server.
 
-<img src="./client/src/assets/trailguide-readme-main.webp" alt="List View Screenshot" width="500">
-
+<img src="./readmeAssets//trailguide-readme-main.webp" alt="List View Screenshot" width="500">
 
 # Installation and Spin-Up
 
@@ -24,15 +23,15 @@ Every single part is fully open source! Fork it, extend it, or deploy it to your
 
 1. Use the signup link to create user
 
-<img src="./client/src/assets/sign-up.png" alt="List View Screenshot" width="500">
+<img src="./readmeAssets/sign-up.png" alt="List View Screenshot" width="500">
 
 2. Login
 
-<img src="./client/src/assets/log-in.png" alt="List View Screenshot" width="500">
+<img src="./readmeAssets/log-in.png" alt="List View Screenshot" width="500">
 
 3. Copy paste the aws credentials in the fields in the profile
 
-<img src="./client/src/assets/aws-credential.png" alt="List View Screenshot" width="500">
+<img src="./readmeAssets/aws-credential.png" alt="List View Screenshot" width="500">
 
 ## Shoutouts :tada:
 
