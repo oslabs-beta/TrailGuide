@@ -49,9 +49,9 @@ const App: React.FC = () => {
       const locallyStoredUser: UserDetails = JSON.parse(
         window.localStorage.getItem('user')!
       ) as UserDetails;
-      updateCredentials(locallyStoredUser);
+      setUser(locallyStoredUser);
     }
-  }, [updateCredentials]);
+  }, []);
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);

@@ -19,7 +19,6 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleLogout = () => {
-    console.log('User logged out');
     setUser(null);
     window.localStorage.removeItem('user');
     navigate('/login');

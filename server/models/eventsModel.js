@@ -122,8 +122,6 @@ async function updateEvents(next, config = {}) {
   if (!data) return;
   for (const event of data.Events) {
     const cloudtrailevent = JSON.parse(event.CloudTrailEvent);
-    // console.log(cloudtrailevent);
-    // console.log(event);
     try {
       await query(
         `

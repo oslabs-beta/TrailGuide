@@ -6,7 +6,6 @@ export default {
     try {
       const { aws_access_key, aws_secret_access_key, aws_region } = req.body;
       if (!aws_access_key || !aws_secret_access_key || !aws_region) {
-        console.log(req.body);
         return next({
           log: `awsController.setCredentials: Malformed Request: aws_access_key= ${aws_access_key} typeof aws_secret_access_key= ${typeof aws_secret_access_key} aws_region= ${aws_region}`,
           status: 400,
@@ -61,7 +60,6 @@ export default {
         `,
         [req.query.amount || 100]
       );
-      // console.log('awsController.getEvents: got rows from db:', result.rows);
       res.locals.events = result.rows;
       return next();
     } catch (err) {

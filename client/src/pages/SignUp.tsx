@@ -52,7 +52,6 @@ const SignUp: React.FC = () => {
       });
 
       if (response.ok) {
-        console.log('Sign-up successful!');
         navigate('/login');
       }
     } catch (err) {
