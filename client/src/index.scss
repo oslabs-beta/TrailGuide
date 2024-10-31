@@ -1,0 +1,932 @@
+// Variables for colors and fonts
+$background-light: #f5e9c4;
+$background-dark: #2c2c2c;
+$primary-color: #eed074;
+$primary-hover: #bd9a33;
+$error-color: #ff0000; // red
+$border-radius: 15px;
+$font-family: 'Fredoka', sans-serif;
+$success-color: #28a745;
+$success-hover: #218838;
+$dark-button-color: #44619a;
+$dark-button-color-hover: #172e55;
+$dark-background: #2c2c2c;
+$dark-border: #444444;
+$dark-input-background: #3a3a3a;
+$dark-input-border: #555555;
+$light-text: #d3d3d3; // lightgray
+$event-button-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
+$event-button-hover: #4b603e;
+$light-card: #e9d9a8;
+$light-mode-font-color: #193d01; // adjusted from rgba(25, 61, 1, 0.92)
+$draggable-border-color: #cccccc; // Border color for draggable cards
+$draggable-hover-bg: #f5f5f5; // Background color when dragging
+
+// General Styles
+html, body {
+  height:100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: $background-light;
+
+  &.dark-mode {
+    background-color: $background-dark;
+  }
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: $font-family;
+}
+
+.error-message {
+  color: $error-color;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+// Navigation Styles
+nav {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  background: linear-gradient(to right,#245901, #24361a); // adjusted from rgba(25, 61, 1, 0.92)
+  color: #ffffff; // adjusted from rgba(255, 255, 255, 0.879)
+
+  tspan {
+    color: #f5f5f5; // whitesmoke
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+
+    .logo-image {
+      width: auto;
+      height: 250px;
+      margin-top: -50px;
+      margin-bottom: -140px; 
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .nav-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 2em;
+
+    .nav-button {
+      background-color: $primary-color;
+      border: none;
+      color: #475a2e; // adjusted from rgba(71, 90, 46, 1)
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      margin-left: 5px;
+      font-size: 1rem;
+      font-family: $font-family;
+      font-weight: 950;
+      text-align: center;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      border-radius: $border-radius;
+      text-decoration: none;
+
+      &:hover {
+        background-color: $primary-hover;
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    right: 3.5%;
+    background-color: $light-card;
+    color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1000;
+
+    .dropdown-link {
+      display: block;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      color: black;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: $primary-hover;
+      }
+    }
+  }
+}
+
+//Homepage Styles
+.home-container {
+  padding-left: 1em;
+  padding-right: 3em;
+}
+
+.draggable-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); // Base columns setup
+  gap: 40px; 
+  width: 100%;
+  padding-top: 10px;
+  background-color: $background-light;
+}
+.draggable-card {
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  height: auto;
+
+  &.expanded {
+    grid-column: span 2;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    min-height: 400px; // Adjusted for better spacing with charts
+    max-height: 450px; // To limit card expansion on larger screens
+    border-radius: $border-radius;
+    box-shadow: 0.2rem 0.2rem 1rem 0.01rem #282c34;
+    background-color: $light-card;
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    overflow: auto; // Ensure that overflowing content doesn’t break the layout
+
+    .card-header {
+      display: flex;
+      margin-top: -20px; // Adjusted for better spacing
+    }
+
+    .card-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      padding-top: 0; 
+    }
+  }
+}
+
+
+.underchart {
+  font-size: 1.2rem;
+  font-family: 'Fredoka';  
+  font-weight: bold; 
+  text-align: center; 
+  margin-top: 10px;
+}
+
+.pie-label {
+  font-size: 1em;
+  font-weight: bold;
+  color: #475a2e; // adjusted from rgba(71, 90, 46, 1)
+}
+
+.heatmap-container {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  width: 100%; 
+  height: auto; 
+}
+
+.map {
+  width: 100%; 
+  height: 100%; 
+}
+
+//Event Dashboard Styles
+.event-dashboard {
+  padding: 20px;
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .event-card {
+    background-color: $light-card;
+    border: 1px solid #cccccc; // adjusted from #ccc
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: .8em;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h3{
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    button {
+      background-color: $event-button-color;
+      color: #ffffff; // white
+      border: none;
+      margin-left: 20%;
+      margin-right: 20%;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-family: $font-family;
+
+      &:hover {
+        background-color: $event-button-hover;
+      }
+    }
+  }
+}
+
+// Modal Styles//Dashboard
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0000059d; // adjusted from rgba(0, 0, 0, 0.5)
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: $light-card;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px #000000; // adjusted from rgb(0, 0, 0)
+  width: 90%;
+  max-width: 600px;
+  overflow: hidden;
+
+  .modal-header {
+    padding: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-content {
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .raw-json-container {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #f9e9ba;
+    border: 1px solid #cccccc; // adjusted from #ccc
+    border-radius: 4px;
+    padding: 10px;
+    font-family: monospace;
+  }
+
+  .modal-footer {
+    padding: 16px;
+    border-top: 1px solid #e0e0e0;
+    text-align: right;
+  }
+
+  .close-button {
+    background: #be302e;
+    color: #ffffff; // adjusted from rgba(255, 255, 255, 0.917)
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &:hover {
+      background: #810404;
+    }
+  }
+}
+
+// Login and Signup Containers
+.login-container,
+.signup-container {
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #cccccc; // adjusted from #ccc
+  border-radius: 10px;
+  background-color: #efe3c6;
+  box-shadow: 0 0 10px #000000; // adjusted from rgba(0, 0, 0, 0.1)
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: calc(100% - 16px);
+      padding: 8px;
+      box-sizing: border-box;
+      background-color: #ffffff; // white
+      color: #000000; // black
+      border: 1px solid #cccccc; // adjusted from #ccc
+
+      &::placeholder {
+        color: #bbbbbb; // adjusted from #bbb
+      }
+    }
+  }
+
+  .error-message {
+    color: $error-color;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: $primary-color;
+    color: $light-mode-font-color;
+    font-size: medium;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $primary-hover;
+    }
+  }
+}
+
+.signup-link {
+  margin-top: 20px;
+  text-align: center;
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: orange;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  min-height: 100vh;
+  padding: 40px;
+  background-color: $background-light;
+  gap: 20px;
+  justify-content: center;
+}
+
+.left-container,
+.right-container {
+  flex: 1 1 45%;
+  min-width: 300px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  background-color: $light-card;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.right-container {
+  align-items: flex-start;
+}
+
+.left-container:hover,
+.right-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.aws-login-button,
+.logout-button,
+.submit-button {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  margin-top: 20px;
+  border-radius: 8px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
+}
+
+.submit-button {
+  background: #ff9900;
+  color: white;
+  border: none;
+}
+
+.submit-button:hover {
+  background-color: #e68a00;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logout-button {
+  background: #d13212;
+  color: rgba(255, 255, 255, 0.917);
+  border: none;
+}
+
+.logout-button:hover {
+  background: #a4260b;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.aws-login-button {
+  background: #ff9900;
+  color: white;
+  border: none;
+  text-align: center;
+}
+
+.aws-login-button:hover {
+  background-color: #e68a00;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.aws-login-button a {
+  color: white;
+  text-decoration: none;
+}
+
+.profile-picture img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.profile-picture img:hover {
+  transform: scale(1.05);
+}
+
+.aws-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.profile-info {
+  width: 100%;
+}
+
+.profile-info p {
+  margin: 10px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.profile-info .info-container {
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: left;
+}
+
+.input-container {
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input-container label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+  font-size: 1rem;
+}
+
+.input-container input,
+.input-container select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.bordered {
+  border: 2px solid #0073bb;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.settings-section {
+  width: 100%;
+}
+
+.settings-section h3 {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  color: #232f3e;
+}
+
+.settings-section .info-container {
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: left;
+}
+
+// Dark mode styles for profile page
+.dark-mode .profile-container,
+.dark-mode .left-container,
+.dark-mode .right-container {
+  background-color: #232f3e;
+  border: 1px solid #444;
+  color: lightgray;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.dark-mode .left-container:hover,
+.dark-mode .right-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .aws-login-button {
+  background: #ff9900;
+}
+
+.dark-mode .aws-login-button:hover {
+  background-color: #e68a00;
+}
+
+.dark-mode .logout-button {
+  background: #a4260b;
+  color: white;
+}
+
+.dark-mode .logout-button:hover {
+  background: #7b1e06;
+}
+
+.dark-mode .profile-info p {
+  color: lightgray;
+}
+
+.dark-mode .profile-info .info-container {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: lightgray;
+}
+
+.dark-mode .settings-section h3 {
+  color: lightgray;
+}
+
+.dark-mode .settings-section .info-container {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: lightgray;
+}
+
+.dark-mode .input-container label {
+  color: lightgray;
+}
+
+.dark-mode .input-container input,
+.dark-mode .input-container select {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: lightgray;
+}
+
+.dark-mode .bordered {
+  border: 2px solid #ff9900;
+}
+
+
+// Dark mode styles
+.dark-mode {
+  background-color: $background-dark;
+
+  // Login and Signup Containers
+  .login-container,
+  .signup-container {
+    background-color: $dark-background;
+    border: 1px solid $dark-border;
+    color: $light-text;
+
+    .form-group {
+      input {
+        background-color: $dark-input-background;
+        color: $light-text;
+        border: 1px solid $dark-input-border;
+
+        &::placeholder {
+          color: #bbbbbb; // adjusted from #bbb
+        }
+      }
+    }
+
+    button {
+      background-color: $dark-button-color;
+      color: #ffffff; // white
+
+      &:hover {
+        background-color: $dark-button-color-hover;
+      }
+    }
+
+    .error-message {
+      color: $light-text;
+    }
+  }
+
+  // Navigation
+  nav {
+    background:linear-gradient(to right,$dark-button-color,#0f1a2c);
+
+    .logo {
+      .logo-image {
+        filter: invert(100%) saturate(10%) brightness(85%);
+      }
+    }
+
+    .nav-button {
+      background-color: $dark-button-color;
+      color: #ffffff; // white
+
+      &:hover {
+        background-color: $dark-button-color-hover;
+      }
+    }
+  }
+
+  // Dropdown
+  .dropdown {
+    background-color: $dark-input-background;
+    color: #ffffff; // white
+
+    .dropdown-link {
+      color: #ffffff; // white
+
+      &:hover {
+        background-color: $dark-button-color-hover;
+      }
+    }
+  }
+
+  .draggable-grid {
+    background-color: $dark-background;
+  }
+
+  .home-container {
+    background-color: $dark-background;
+  }
+
+  // Card Styles
+  .card {
+    background-color: #474747;
+    color: #d3d3d3; // lightgray
+    box-shadow: 0.2rem 0.2rem 1rem 0.01rem #000000; // adjusted from #000
+
+    .card-title {
+      color: #e4e1e1; // adjusted from rgb(228, 225, 225)
+      background: none;
+    }
+  }
+
+  .event-dashboard h1 {
+    color: #e4e1e1; // adjusted from rgb(228, 225, 225)
+  }
+
+  // Event Card Styles
+  .event-card {
+    background-color: #4a4a4a;
+    border: 1px solid #444444; // adjusted from #444
+    color: #e5e3e3; // adjusted from rgb(229, 227, 227)
+
+    button {
+      background-color: $dark-button-color;
+
+      &:hover {
+        background-color: $dark-button-color-hover;
+      }
+    }
+  }
+
+  // Modal Styles
+  .modal-overlay {
+    background: #0000059d; // adjusted from rgba(0, 0, 0, 0.5)
+  }
+
+  .modal {
+    background: #2c2c2c;
+    color: #d3d3d3; // lightgray
+
+    .modal-header {
+      border-bottom: 1px solid #444444; // adjusted from #444
+    }
+
+    .raw-json-container {
+      background-color: #3a3a3a;
+      color: #d3d3d3; // lightgray
+    }
+  }
+
+  // Signup Link
+  .signup-link a {
+    color: orange;
+  }
+}
+
+// Media Queries
+@media (max-width: 1200px) {
+  .draggable-grid {
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); /* Slightly smaller columns */
+  }
+}
+
+@media (max-width: 900px) {
+  .draggable-grid {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); /* Even smaller for tablet sizes */
+  }
+}
+
+@media (max-width: 600px) {
+  .draggable-grid {
+    grid-template-columns: 1fr; /* Single column for small screens */
+  }
+}
+
+
+// For tablets and larger devices
+@media (max-width: 768px) {
+  nav {
+    width: 100%; // Full width for navigation
+    flex-direction: column; // Stack items vertically on smaller screens
+    align-items: flex-start; // Align items to the start
+
+    .nav-buttons {
+      margin-left: 0; // Reset margin for buttons
+      margin-top: 1rem; // Add space above buttons
+    }
+  }
+
+  .profile-container {
+    padding: 20px;
+    flex-direction: column; // Stack containers vertically on tablets
+  }
+
+  .left-container,
+  .right-container {
+    flex: 1 1 100%; // Make containers take full width on tablets
+  }
+
+
+  .draggable-grid {
+    grid-template-columns: 1fr; // Switch to single column
+    padding: 40px; // Adjust padding as needed
+    margin-left: 10px;
+  }
+
+  .card {
+    min-width: 70%; // Make cards full width
+    max-width: 225px;
+  }
+
+  .login-container,
+  .signup-container {
+    width: 90%; // Make forms more responsive
+  }
+
+  .event-dashboard {
+    padding: 10px; // Reduce padding for smaller screens
+  }
+}
+
+// For mobile devices
+@media (max-width: 480px) {
+  body {
+    font-size: 14px; // Adjust base font size for readability
+  }
+
+  h2 {
+    font-size: 1.5rem; // Adjust header size
+  }
+
+  nav {
+    width: 100%; // Full width for navigation
+  }
+
+  .nav-button {
+    padding: 0.5rem; // Adjust button padding
+    font-size: 0.9rem; // Smaller font size
+  }
+
+  .card {
+    max-width: 250px;
+    margin-left: -10px;
+    margin-right: -10px;// Reduce margins for cards
+  }
+
+  .modal {
+    width: 95%; // Make modals wider on smaller screens
+  }
+
+  .event-card {
+    padding: 12px; // Adjust padding
+  }
+
+  .login-container,
+  .signup-container {
+    width: 100%; // Full width for mobile
+  }
+
+  .dropdown {
+    right: auto; // Adjust dropdown position
+    left: 0; // Align to the left
+  }
+
+  .profile-container {
+    padding: 10px;
+  }
+
+  .left-container,
+  .right-container {
+    flex: 1 1 100%; // Stack containers vertically on mobile
+    padding: 15px;
+  }
+
+  .profile-picture img {
+    width: 80px; // Reduce image size for mobile
+    height: 80px;
+  }
+
+  .aws-logo {
+    width: 100px; // Reduce logo size for mobile
+  }
+}
