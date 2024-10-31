@@ -19,7 +19,6 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleLogout = () => {
-    console.log('User logged out');
     setUser(null);
     window.localStorage.removeItem('user');
     navigate('/login');
@@ -43,12 +42,12 @@ const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <nav className={isDarkMode ? 'dark-mode' : ''}>
-      <Link to="/" className="logo" title="Home">
+      <Link to="/home" className="logo" title="Home">
         <img src={LOGO} alt="Wood Plank T" className="logo-image" />
       </Link>
       <div className="nav-buttons">
         <Link to="/events-dashboard" className="nav-button">
-          EVENTS DASHBOARD
+          RECENT EVENTS
         </Link>
         <button onClick={toggleDarkMode} className="nav-button">
           {isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}

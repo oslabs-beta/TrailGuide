@@ -6,7 +6,6 @@ export default {
     try {
       const { aws_access_key, aws_secret_access_key, aws_region } = req.body;
       if (!aws_access_key || !aws_secret_access_key || !aws_region) {
-        console.log(req.body);
         return next({
           log: `awsController.setCredentials: Malformed Request: aws_access_key= ${aws_access_key} typeof aws_secret_access_key= ${typeof aws_secret_access_key} aws_region= ${aws_region}`,
           status: 400,
@@ -15,7 +14,7 @@ export default {
       }
       process.env.AWS_ACCESS_KEY_ID = aws_access_key;
       process.env.AWS_SECRET_ACCESS_KEY = aws_secret_access_key;
-      process.env.AWS_aws_region = aws_region;
+      process.env.AWS_REGION = aws_region;
       configureCloudtrailClient();
       res.locals.awsCredentials = {
         aws_access_key,
@@ -40,8 +39,8 @@ export default {
       process.env.AWS_ACCESS_KEY_ID === '' ||
       !process.env.AWS_SECRET_ACCESS_KEY ||
       process.env.AWS_SECRET_ACCESS_KEY_ID === '' ||
-      !process.env.AWS_aws_region ||
-      process.env.AWS_aws_region === ''
+      !process.env.AWS_REGION ||
+      process.env.AWS_REGION === ''
     ) {
       return next({
         log: 'awsController.getEvents: trying to get events without an accesskey',
@@ -61,7 +60,6 @@ export default {
         `,
         [req.query.amount || 100]
       );
-      // console.log('awsController.getEvents: got rows from db:', result.rows);
       res.locals.events = result.rows;
       return next();
     } catch (err) {

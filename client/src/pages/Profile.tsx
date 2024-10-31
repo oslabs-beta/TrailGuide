@@ -1,9 +1,16 @@
 import React from 'react';
 import { AWSCredentials, ProfileProps, UserDetails } from '../types';
 
-const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
+const Profile: React.FC<ProfileProps> = ({
+  isDarkMode,
+  user,
+  updateCredentials,
+}) => {
   function handleCredentialSubmit() {
-    const creds: AWSCredentials = {
+    const locallyStoredUser: UserDetails = JSON.parse(
+      window.localStorage.getItem('user')!
+    ) as UserDetails;
+    const domCollectedCreds: AWSCredentials = {
       aws_access_key:
         (document.getElementById('accessKey') as HTMLInputElement | null)
           ?.value ?? 'Could not find accessKey element',
@@ -14,28 +21,23 @@ const Profile: React.FC<ProfileProps> = ({ isDarkMode, user, setUser }) => {
         (document.getElementById('region') as HTMLInputElement | null)?.value ??
         'Could not find region element',
     };
-    fetch('/credentials', {
-      method: 'POST',
-      body: JSON.stringify({
-        ...creds,
-        username: user?.username ?? 'Not Logged In',
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (response.ok) window.alert('Credentials Saved');
-        else throw Error('Server Error while updating aws credentials');
-        return response.json();
-      })
-      .then((data: UserDetails) => {
-        setUser(data);
-        window.localStorage.setItem('user', JSON.stringify(data));
-      })
-      .catch((error: Error) => {
-        console.error(error);
-      });
+    console.log(locallyStoredUser);
+    console.log(domCollectedCreds);
+    updateCredentials({
+      aws_access_key:
+        domCollectedCreds.aws_access_key !== ''
+          ? domCollectedCreds.aws_access_key
+          : locallyStoredUser.aws_access_key ?? 'No locally stored access key',
+      aws_secret_access_key:
+        domCollectedCreds.aws_secret_access_key !== ''
+          ? domCollectedCreds.aws_secret_access_key
+          : locallyStoredUser.aws_secret_access_key ??
+            'No locally stored secret access key',
+      aws_region:
+        domCollectedCreds.aws_region !== ''
+          ? domCollectedCreds.aws_region
+          : locallyStoredUser.aws_region ?? 'No locally stored region',
+    });
   }
 
   return (

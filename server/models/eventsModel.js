@@ -100,8 +100,10 @@ async function updateEvents(next, config = {}) {
     process.env.AWS_SECRET_ACCESS_KEY === '' ||
     !process.env.AWS_REGION ||
     process.env.AWS_REGION === ''
-  )
+  ) {
+    console.log('skipping event fetching because the keys are not set');
     return;
+  }
 
   if (!next) {
     const startTime = await getLastEvent();
@@ -120,8 +122,6 @@ async function updateEvents(next, config = {}) {
   if (!data) return;
   for (const event of data.Events) {
     const cloudtrailevent = JSON.parse(event.CloudTrailEvent);
-    // console.log(cloudtrailevent);
-    // console.log(event);
     try {
       await query(
         `

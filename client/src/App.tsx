@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -7,11 +7,55 @@ import Home from './pages/Home';
 import EventsDashboard from './pages/EventsDashboard';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import { UserDetails } from './types';
+import { AWSCredentials, UserDetails } from './types';
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode state
   const [user, setUser] = useState<UserDetails | null>(null);
+
+  const updateCredentials = useCallback(
+    function (credentials: AWSCredentials): void {
+      const locallyStoredUser: UserDetails = JSON.parse(
+        window.localStorage.getItem('user')!
+      ) as UserDetails;
+      fetch('/credentials', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...credentials,
+          username:
+            user?.username ?? locallyStoredUser.username ?? 'No Active User',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          if (!response.ok)
+            throw Error('Server Error while updating aws credentials');
+          return response.json();
+        })
+        .then((data: UserDetails) => {
+          setUser(data);
+          window.localStorage.setItem('user', JSON.stringify(data));
+        })
+        .catch((error: Error) => {
+          console.error(error);
+        });
+    },
+    // we don't want to update on user update, because it would create an infinte loop, only on app reload
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  // check for a user session and update the user if found
+  useEffect(() => {
+    if (window.localStorage.getItem('user')) {
+      const locallyStoredUser: UserDetails = JSON.parse(
+        window.localStorage.getItem('user')!
+      ) as UserDetails;
+      setUser(locallyStoredUser);
+    }
+  }, []);
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
@@ -47,26 +91,30 @@ const App: React.FC = () => {
         setUser={setUser}
       />
       <Routes>
+        <Route path="/" element={<Login setUser={setUser} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
 
         <Route
-          path="/"
-          element={checkAWSCreds(checkLogin(<Home isDarkMode={isDarkMode} />))}
+          path="/home"
+          element={checkLogin(checkAWSCreds(<Home isDarkMode={isDarkMode} />))}
         />
         <Route
           path="/profile"
           element={checkLogin(
-            <Profile isDarkMode={isDarkMode} user={user} setUser={setUser} />
+            <Profile
+              isDarkMode={isDarkMode}
+              user={user}
+              updateCredentials={updateCredentials}
+            />
           )}
         />
         <Route
           path="/events-dashboard"
-          element={checkAWSCreds(
-            checkLogin(<EventsDashboard isDarkMode={isDarkMode} />)
+          element={checkLogin(
+            checkAWSCreds(<EventsDashboard isDarkMode={isDarkMode} />)
           )}
         />
-        {/* </>} */}
       </Routes>
     </Router>
   );
