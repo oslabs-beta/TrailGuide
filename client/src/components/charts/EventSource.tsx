@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Bar, BarChart, LabelList, XAxis, Cell } from 'recharts';
 import { CountedEvent } from '../../types';
 
+// Array of colors for the chart
 const COLORS = [
   '#0088FE',
   '#00C49F',
@@ -12,13 +13,46 @@ const COLORS = [
   '#FFCC99',
 ];
 
+/**
+ * EventSourceChart component renders a bar chart of event sources.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <EventSourceChart />
+ * )
+ * 
+ * @returns {JSX.Element} The rendered bar chart component.
+ * 
+ * @remarks
+ * This component fetches event data from the server and displays it in a bar chart.
+ * It also allows users to click on a bar to select an event source, which is displayed below the chart.
+ * 
+ * @typedef {Object} CountedEvent
+ * @property {string} source - The source of the event.
+ * @property {number} count - The count of events from this source.
+ * 
+ * @state {CountedEvent[]} events - The fetched events data.
+ * @state {boolean} loading - The loading status of the data fetch.
+ * @state {string | null} selectedEventSource - The selected event source when a bar is clicked.
+ * 
+ * @hook {useEffect} Fetches events data on component mount.
+ * 
+ * @function handleClick
+ * @description Handles click event on a bar to toggle the selected event source.
+ * @param {string} source - The source of the event that was clicked.
+ */
 export default function EventSourceChart() {
+  // State to store the fetched events data
   const [events, setEvents] = useState<CountedEvent[]>([]);
+  // State to manage loading status
   const [loading, setLoading] = useState(true);
+  // State to manage the selected event source when a bar is clicked
   const [selectedEventSource, setSelectedEventSource] = useState<string | null>(
     null
-  ); // State for clicked event source
+  );
 
+  // Fetch events data on component mount
   useEffect(() => {
     setLoading(true);
     fetch('/events?countOn=source')
@@ -35,8 +69,10 @@ export default function EventSourceChart() {
       );
   }, []);
 
+  // Display loading message while data is being fetched
   if (loading) return <p>Loading chart...</p>;
 
+  // Handle click event on a bar to toggle the selected event source
   const handleClick = (source: string) => {
     setSelectedEventSource((prevSelected) =>
       prevSelected === source ? null : source
@@ -46,7 +82,7 @@ export default function EventSourceChart() {
   return (
     <div style={{ width: '100%', overflowX: 'auto' }}>
       <BarChart
-        width={events.length * 120}
+        width={events.length * 120} // Dynamic width based on the number of events
         height={300}
         data={events}
         layout="horizontal"
@@ -64,7 +100,7 @@ export default function EventSourceChart() {
           {events.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={COLORS[index % COLORS.length]}
+              fill={COLORS[index % COLORS.length]} // Assign color from the COLORS array
               onClick={() => handleClick(entry.source)} // Attach the click handler to each Cell
               style={{ cursor: 'pointer' }} // Add a pointer cursor to indicate clickability
             />

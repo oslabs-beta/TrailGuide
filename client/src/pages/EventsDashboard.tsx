@@ -3,9 +3,25 @@ import Modal from '../components/Modal';
 import { EventsDashboardProps, TGEvent } from '../types';
 import EventCard from '../components/EventCard';
 
-// const EventCard = lazy(() => import('../components/EventCard'));
-// const Modal = lazy(() => import('../components/Modal'));
-
+/**
+ * EventsDashboard component displays a list of recent events on event-cards and allows users to view event details in a modal.
+ * 
+ * @param {EventsDashboardProps} props - The props for the EventsDashboard component.
+ * @param {boolean} props.isDarkMode - A boolean indicating if dark mode is enabled.
+ * 
+ * @returns {JSX.Element} The rendered EventsDashboard component.
+ * 
+ * @remarks
+ * - Fetches events data from the server when the component mounts.
+ * - Handles loading and error states during data fetching.
+ * - Maps the fetched events to EventCard components for display.
+ * - Allows users to open a modal to view details of a selected event.
+ * 
+ * @example
+ * ```tsx
+ * <EventsDashboard isDarkMode={true} />
+ * ```
+ */
 const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<TGEvent | null>(null);
@@ -13,6 +29,7 @@ const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch events data from the server when the component mounts
   useEffect(() => {
     fetch('/events')
       .then((response) => {
@@ -29,11 +46,13 @@ const EventsDashboard: React.FC<EventsDashboardProps> = ({ isDarkMode }) => {
     setLoading(false);
   }, []);
 
+  // Function to open the modal and set the selected event
   const handleOpenModal = (event: TGEvent): void => {
     setSelectedEvent(event);
     setModalOpen(true);
   };
 
+  // Function to close the modal and clear the selected event
   const handleCloseModal = (): void => {
     setModalOpen(false);
     setSelectedEvent(null);
