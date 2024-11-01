@@ -11,20 +11,21 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//signup router
+// Route for signing up a new user
+// Expects a request body with user details (e.g., username, password, email).
+// Calls `userController.createUser` middleware to create a new user in the database.
+// Responds with status 201 and the created user information in `res.locals.createdUser`.
 app.post('/api/signup', userController.createUser, (req, res) => {
   res.status(201).json(res.locals.createdUser);
 });
 
-//login router
+// Route for logging in an existing user
+// Expects a request body with user login details (e.g., username, password).
+// Calls `userController.loginUser` middleware to authenticate the user.
+// Responds with status 200 and the logged-in user information in `res.locals.loggedinuser`.
 app.post('/api/login', userController.loginUser, (req, res) => {
   res.status(200).json(res.locals.loggedinuser);
 });
-
-// route to get all users
-// app.get('/api/users', userController.getAllUsers);
-
-// app.get('/api/user', userController.getUserByField);
 
 app.get(
   '/events',
