@@ -2,8 +2,34 @@ import { useState, useEffect } from 'react';
 import { Cell, Legend, Pie, PieChart } from 'recharts';
 import { CountedEvent, IPLocation } from '../../types';
 
+// Define colors for the pie chart slices
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
+/**
+ * Component to render a pie chart displaying access counts per IP location.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} [props.currentIp] - The currently selected IP address.
+ * @param {React.Dispatch<React.SetStateAction<string | undefined>>} props.setCurrentIp - Function to set the currently selected IP address.
+ * @param {Array<IPLocation & CountedEvent>} props.ipLocCounts - Array of IP location counts.
+ * @returns {JSX.Element} The rendered pie chart component.
+ *
+ * @component
+ * @example
+ * const currentIp = "192.168.1.1";
+ * const setCurrentIp = (ip) => console.log(ip);
+ * const ipLocCounts = [
+ *   { source_ip: "192.168.1.1", count: 10, location: "Location A" },
+ *   { source_ip: "192.168.1.2", count: 5, location: "Location B" }
+ * ];
+ * return (
+ *   <AccessPerIpChart
+ *     currentIp={currentIp}
+ *     setCurrentIp={setCurrentIp}
+ *     ipLocCounts={ipLocCounts}
+ *   />
+ * );
+ */
 export default function AccessPerIpChart({
   currentIp,
   setCurrentIp,
@@ -13,7 +39,7 @@ export default function AccessPerIpChart({
   setCurrentIp: React.Dispatch<React.SetStateAction<string | undefined>>;
   ipLocCounts: (IPLocation & CountedEvent)[];
 }): JSX.Element {
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Simulate loading delay for data
@@ -24,6 +50,8 @@ export default function AccessPerIpChart({
   }, [ipLocCounts]);
 
   const RADIAN = Math.PI / 180;
+
+  // Function to render custom labels inside the pie chart slices
   const renderCustomizedLabel = ({
     cx,
     cy,

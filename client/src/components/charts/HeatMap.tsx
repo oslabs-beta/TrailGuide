@@ -12,11 +12,54 @@ import {
   IPLocation,
 } from '../../types';
 
+/**
+ * HeatMap component renders a heatmap using GeoJSON data and IP location data with event counts.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered heatmap component.
+ * 
+ * @remarks
+ * This component fetches GeoJSON data for the map and event data with IP locations and counts.
+ * It uses the `ComposableMap`, `ZoomableGroup`, `Geographies`, and `Marker` components from the `react-simple-maps` library.
+ * 
+ * @example
+ * ```tsx
+ * <HeatMap />
+ * ```
+ * 
+ * @typedef {Object} GeoJSONFeatureCollection
+ * @property {string} type - The type of the GeoJSON object.
+ * @property {Array<GeoJSON.Feature>} features - The array of GeoJSON features.
+ * 
+ * @typedef {Object} IPLocation
+ * @property {string} source_ip - The source IP address.
+ * @property {number} lat - The latitude of the IP location.
+ * @property {number} long - The longitude of the IP location.
+ * 
+ * @typedef {Object} CountedEvent 
+ * @property {number} count - The count of events for the IP location.
+ * 
+ * @typedef {IPLocation & CountedEvent} IPLocationWithCount
+ * 
+ * @state {GeoJSONFeatureCollection | null} geoJSON - The state to store the GeoJSON data.
+ * @state {IPLocationWithCount[]} ipData - The state to store the IP location data with event counts.
+ * 
+ * @function
+ * @name fetchGeoJSON
+ * @description Fetches the GeoJSON data for the map.
+ * 
+ * @function
+ * @name fetchEventData
+ * @description Fetches the event data with IP locations and counts.
+ */
 const HeatMap: React.FC = () => {
+  // State to store the GeoJSON data
   const [geoJSON, setGeoJSON] = useState<GeoJSONFeatureCollection | null>(null);
+  // State to store the IP location data with event counts
   const [ipData, setIpData] = useState<(IPLocation & CountedEvent)[]>([]);
 
   useEffect(() => {
+    // Fetch the GeoJSON data for the map
     fetch(
       'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson'
     )
@@ -24,6 +67,7 @@ const HeatMap: React.FC = () => {
       .then((data: GeoJSONFeatureCollection) => setGeoJSON(data))
       .catch((error) => console.error('Error fetching geoJSON:', error));
 
+    // Fetch the event data with IP locations and counts
     fetch('/events?countOn=source_ip&includeLocation=true')
       .then((response) => {
         if (response.ok) return response.json();
@@ -48,6 +92,7 @@ const HeatMap: React.FC = () => {
           <ZoomableGroup zoom={1} center={[0, 0]}>
             <Geographies geography={geoJSON}>
               {({ geographies }) =>
+                // Render each geography (country) on the map
                 geographies.map((geo) => (
                   <Geography
                     key={
@@ -63,6 +108,7 @@ const HeatMap: React.FC = () => {
               }
             </Geographies>
             {ipData.map(({ source_ip, lat, long, count }) => (
+              // Render a marker for each IP location with event count
               <Marker key={source_ip} coordinates={[long, lat]}>
                 <circle
                   r={Math.sqrt(count) * 2}
