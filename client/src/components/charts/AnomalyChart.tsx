@@ -1,3 +1,9 @@
+/**
+ * This file renders a scatter chart component that visualizes anomalies detected in AWS CloudTrail data.
+ * It uses components from the Recharts library to build an interactive and responsive chart.
+ */
+
+// Importing necessary components from Recharts for building the scatter chart
 import React from 'react';
 import {
   ScatterChart,
@@ -10,11 +16,21 @@ import {
   Legend,
 } from 'recharts';
 
+/**
+ * Represents a single data point for the scatter chart.
+ * - `timestamp`: The date and time of the event, formatted as a string.
+ * - `count`: The number of occurrences or events at the given timestamp.
+ */
+
 interface DataPoint {
   timestamp: string;
   count: number;
 }
 
+/**
+ * Sample data representing event counts over time.
+ * Used for testing and visualizing the scatter chart component before integrating real data.
+ */
 const dummyData: DataPoint[] = [
   { timestamp: '2024-10-29T09:00:00Z', count: 30 },
   { timestamp: '2024-10-29T09:10:00Z', count: 25 },
@@ -25,8 +41,22 @@ const dummyData: DataPoint[] = [
   { timestamp: '2024-10-29T10:00:00Z', count: 45 },
 ];
 
-const isAnomaly = (count: number): boolean => count > 70; // Define a threshold for anomalies
+/**
+ * Determines if a given count is considered an anomaly.
+ * @param count - The event count at a specific timestamp.
+ * @returns {boolean} - Returns `true` if the count exceeds the anomaly threshold (70), otherwise `false`.
+ */
 
+const isAnomaly = (count: number): boolean => count > 70;
+
+/**
+ * AnomalyChart Component
+ * @returns {JSX.Element} - A scatter chart displaying event counts over time, with anomalies highlighted.
+ *
+ * This component renders a responsive scatter chart using the Recharts library.
+ * It displays event counts on the Y-axis and timestamps on the X-axis.
+ * Anomalies, determined by the `isAnomaly` function, are highlighted in red with a larger radius.
+ */
 const AnomalyChart: React.FC = () => {
   return (
     <ResponsiveContainer width="100%" height={300}>
