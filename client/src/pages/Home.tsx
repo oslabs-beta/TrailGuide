@@ -5,7 +5,6 @@ import {
   Draggable,
   DropResult,
 } from '@hello-pangea/dnd';
-import { CardState } from '../types';
 import UserActivityChart from '../components/charts/UserActivity';
 import EventTypeChart from '../components/charts/EventType';
 import EventSourceChart from '../components/charts/EventSource';
@@ -18,35 +17,40 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   // State to track the current IP (null means no IP selected)
   const [currentIp, setCurrentIp] = useState<string | undefined>();
 
-  const [cards, setCards] = useState<CardState[]>([
-    {
-      id: 'userActivity',
-      title: 'User Activity',
-      component: <UserActivityChart />,
-    },
-    { id: 'eventTypes', title: 'Event Names', component: <EventTypeChart /> },
-    {
-      id: 'eventSources',
-      title: 'Event Sources',
-      component: <EventSourceChart />,
-    },
-    { id: 'heatMap', title: 'IP Address Heat Map', component: <HeatMap /> },
-    {
-      id: 'ipAccess',
-      title: 'Access by IP Address',
-      component: (
-        <IpAccessCombined
-          currentIp={currentIp}
-          setCurrentIp={setCurrentIp} // Pass the setter for updating the selected IP
-        />
-      ),
-    },
-    {
-      id: 'anomalyDetection',
-      title: 'Anomaly Detection',
-      component: <AnomalyChart />,
-    },
+  // Only ids and titles live in state. The element for each card is built
+  // on every render so it always sees the latest currentIp.
+  const [cards, setCards] = useState<{ id: string; title: string }[]>([
+    { id: 'userActivity', title: 'User Activity' },
+    { id: 'eventTypes', title: 'Event Names' },
+    { id: 'eventSources', title: 'Event Sources' },
+    { id: 'heatMap', title: 'IP Address Heat Map' },
+    { id: 'ipAccess', title: 'Access by IP Address' },
+    { id: 'anomalyDetection', title: 'Anomaly Detection' },
   ]);
+
+  const renderCard = (id: string): React.ReactNode => {
+    switch (id) {
+      case 'userActivity':
+        return <UserActivityChart />;
+      case 'eventTypes':
+        return <EventTypeChart />;
+      case 'eventSources':
+        return <EventSourceChart />;
+      case 'heatMap':
+        return <HeatMap />;
+      case 'ipAccess':
+        return (
+          <IpAccessCombined
+            currentIp={currentIp}
+            setCurrentIp={setCurrentIp}
+          />
+        );
+      case 'anomalyDetection':
+        return <AnomalyChart />;
+      default:
+        return null;
+    }
+  };
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -80,7 +84,7 @@ const Home: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
                         {...provided.dragHandleProps}
                       >
                         <Card title={card.title} isDarkMode={isDarkMode}>
-                          {card.component}
+                          {renderCard(card.id)}
                         </Card>
                       </div>
                     )}

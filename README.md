@@ -35,7 +35,7 @@ Every single part is fully open source! Fork it, extend it, or deploy it to your
 
 ## Shoutouts :tada:
 
-Omnivore takes advantage of some great open source software:
+TrailGuide takes advantage of some great open source software:
 
 - [TypeScript](https://www.typescriptlang.org/) - Most of our backend and frontend are written in TypeScript.
 - [PostgreSQL](https://www.postgresql.org/)- For managing complex queries and storing event data, PostgreSQL is our go-to. Its reliability and performance are key to managing and analyzing extensive data, enhancing the robustness of our monitoring and analytics features.

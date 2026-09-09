@@ -66,6 +66,7 @@ export default function AccessPerIpChart({
         data={ipLocCounts}
         label={renderCustomizedLabel}
         dataKey="count"
+        nameKey="source_ip"
         labelLine={false}
       >
         {ipLocCounts.map((_, index) => (

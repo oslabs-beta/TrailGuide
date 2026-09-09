@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { AreaChart, XAxis, YAxis, Area } from 'recharts';
-import { CountedEvent } from '../../types';
+import { SimplifiedEvent } from '../../types';
 
 export default function IpAccessOverTimeChart({
   currentIp,
 }: {
   currentIp?: string;
 }): JSX.Element | null {
-  const [ipTimes, setIpTimes] = useState<CountedEvent[]>([]);
+  const [ipTimes, setIpTimes] = useState<SimplifiedEvent[]>([]);
   const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
@@ -17,8 +17,13 @@ export default function IpAccessOverTimeChart({
         if (response.ok) return response.json();
         throw new Error(response.status + ': ' + response.statusText);
       })
-      .then((data: CountedEvent[] | { err: string }) => {
-        setIpTimes(() => data as CountedEvent[]);
+      .then((data: { time: string; count: number }[] | { err: string }) => {
+        setIpTimes(() =>
+          (data as { time: string; count: number }[]).map((e) => ({
+            localTime: new Date(e.time).toLocaleTimeString(),
+            count: e.count,
+          }))
+        );
         setLoading(false); // Set loading to true before fetching data
       })
       .catch((error) =>

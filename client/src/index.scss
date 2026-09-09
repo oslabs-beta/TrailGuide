@@ -153,6 +153,10 @@ nav {
   &.expanded {
     grid-column: span 2;
     transition: all 0.3s ease;
+
+    .card {
+      max-height: none;
+    }
   }
 
   &:hover {
